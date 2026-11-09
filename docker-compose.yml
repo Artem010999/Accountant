@@ -1,0 +1,24 @@
+name: passport-constructor
+
+# Бэкенд v1.0: pipeline-api (логика пайплайна) + parser-service (PDF/DOCX/PPTX/OCR).
+# Supabase (Postgres + pgvector + Auth + Storage) — отдельно: `supabase start` или хостед-проект.
+# n8n — опционально: может вызывать POST /pipeline через HTTP Request node.
+
+services:
+  parser:
+    build: ./backend/parser-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"   # внутренний сервис; в проде не публиковать наружу
+    env_file: .env
+
+  pipeline:
+    build: ./backend/pipeline-api
+    restart: unless-stopped
+    depends_on:
+      - parser
+    ports:
+      - "8080:8080"
+    env_file: .env
+    environment:
+      - PARSER_URL=http://parser:8000

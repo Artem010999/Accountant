@@ -1,0 +1,21 @@
+{
+  "name": "passport-constructor",
+  "private": true,
+  "description": "Конструктор Паспорта Проекта (MVP): monorepo frontend + backend",
+  "workspaces": [
+    "packages/*",
+    "backend/pipeline-api",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm run dev -w @passport/frontend",
+    "start:pipeline": "npm run start -w @passport/pipeline-api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "build": "npm run build -w @passport/frontend"
+  },
+  "devDependencies": {
+    "tsx": "4.19.2",
+    "vitest": "2.1.4"
+  }
+}
