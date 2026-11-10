@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — вход и регистрация</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh; display: flex; flex-wrap: wrap">
+
+  <div style="flex: 1 1 560px; min-width: 0; padding: 32px 48px 48px; display: flex; flex-direction: column; gap: 48px">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; align-self: flex-start" aria-label="Буха Паспорт — на главную">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+      <span style="font-weight: 800; font-size: 26px; letter-spacing: -0.02em; color: #17171C">Буха</span><span style="font-weight: 500; font-size: 26px; color: #E8590C; margin-left: -4px">Паспорт</span>
+    </a>
+
+    <div style="width: 100%; max-width: 460px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px">
+      <div role="tablist" aria-label="Вход или регистрация" style="display: flex; background: #F4F4F5; border-radius: 999px; padding: 6px; gap: 4px">
+        <button type="button" role="tab" onClick="{{ toSignup }}" style="{{ signupTab }}">Регистрация</button>
+        <button type="button" role="tab" onClick="{{ toLogin }}" style="{{ loginTab }}">Вход</button>
+      </div>
+
+      <sc-if value="{{ isSignup }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 22px">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em">Создайте аккаунт</h1>
+            <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">Один аккаунт — один проект. Начать можно бесплатно.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="su-email" style="font-size: 15px; font-weight: 600">Электронная почта</label>
+            <input id="su-email" type="email" placeholder="name@university.ru" style="min-height: 56px; padding: 0 18px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 17px Onest, system-ui, sans-serif">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="su-pass" style="font-size: 15px; font-weight: 600">Пароль</label>
+            <input id="su-pass" type="password" placeholder="Не меньше 8 символов" style="min-height: 56px; padding: 0 18px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 17px Onest, system-ui, sans-serif">
+          </div>
+          <label style="display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.5; color: #3F3F46">
+            <input type="checkbox" checked="" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: #FF6B1A">
+            <span>Согласен с <a href="#">условиями сервиса</a> и <a href="#">обработкой персональных данных</a>, в том числе с передачей текстов проекта языковой модели для разбора</span>
+          </label>
+          <a href="Onboarding.dc.html" style="display: inline-flex; justify-content: center; align-items: center; min-height: 60px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Зарегистрироваться</a>
+          <p style="margin: 0; font-size: 14px; color: #71717A; line-height: 1.5">Пришлём письмо для подтверждения почты.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 22px">
+          <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em">С возвращением</h1>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="li-email" style="font-size: 15px; font-weight: 600">Электронная почта</label>
+            <input id="li-email" type="email" value="ivan@university.ru" style="min-height: 56px; padding: 0 18px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 17px Onest, system-ui, sans-serif">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="display: flex; justify-content: space-between; align-items: baseline">
+              <label for="li-pass" style="font-size: 15px; font-weight: 600">Пароль</label>
+              <a href="#" style="font-size: 15px">Забыли пароль?</a>
+            </div>
+            <input id="li-pass" type="password" value="password123" style="min-height: 56px; padding: 0 18px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 17px Onest, system-ui, sans-serif">
+          </div>
+          <a href="Passport.dc.html" style="display: inline-flex; justify-content: center; align-items: center; min-height: 60px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Войти</a>
+          <div style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; background: #F4F4F5; border-radius: 16px">
+            <span style="font-size: 13px; font-weight: 600; color: #52525B; text-transform: uppercase; letter-spacing: 0.04em">Для прототипа</span>
+            <a href="AdminUsers.dc.html" style="font-size: 15px">Войти как администратор</a>
+            <a href="States.dc.html" style="font-size: 15px">Аккаунт заблокирован (экран 403)</a>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="flex: 1 1 480px; min-width: 0; background: #FF6B1A; padding: 64px; display: flex; flex-direction: column; justify-content: center; gap: 36px">
+    <svg width="148" height="148" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFF1E8"></circle><circle cx="26.5" cy="18" r="7" fill="#FFF1E8"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#FF6B1A"></path></svg>
+    <h2 style="margin: 0; font-size: 44px; line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; max-width: 520px">Через 10 минут у вас будет черновик паспорта</h2>
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; font-size: 19px; line-height: 1.4; max-width: 520px">
+      <li style="display: flex; gap: 14px; align-items: flex-start"><span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #17171C; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">1</span>Заполните профиль основателя</li>
+      <li style="display: flex; gap: 14px; align-items: flex-start"><span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #17171C; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">2</span>Расскажите об идее или загрузите презентацию</li>
+      <li style="display: flex; gap: 14px; align-items: flex-start"><span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #17171C; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700">3</span>Ответьте на вопросы по пробелам</li>
+    </ul>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { mode: 'signup' }; }
+  renderVals() {
+    const s = this.state.mode === 'signup';
+    const on = 'flex: 1; min-height: 48px; border: 0; border-radius: 999px; background: #FFFFFF; color: #17171C; font: 600 16px Onest, system-ui, sans-serif; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.12)';
+    const off = 'flex: 1; min-height: 48px; border: 0; border-radius: 999px; background: transparent; color: #52525B; font: 500 16px Onest, system-ui, sans-serif; cursor: pointer';
+    return {
+      isSignup: s, isLogin: !s,
+      signupTab: s ? on : off, loginTab: s ? off : on,
+      toSignup: () => this.setState({ mode: 'signup' }),
+      toLogin: () => this.setState({ mode: 'login' })
+    };
+  }
+}
+</script>
+</body>
+</html>

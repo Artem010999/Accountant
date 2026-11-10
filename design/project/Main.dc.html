@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — лендинг</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+details summary{cursor:pointer;list-style:none}
+details summary::-webkit-details-marker{display:none}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh">
+
+<header style="max-width: 1280px; margin: 0 auto; padding: 24px 32px; display: flex; align-items: center; gap: 48px; flex-wrap: wrap">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none" aria-label="Буха Паспорт — на главную">
+    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+    <span style="font-weight: 800; font-size: 26px; letter-spacing: -0.02em; color: #17171C">Буха</span><span style="font-weight: 500; font-size: 26px; color: #E8590C; margin-left: -4px">Паспорт</span>
+  </a>
+  <nav aria-label="Основная навигация" style="display: flex; gap: 32px; flex-wrap: wrap; font-size: 17px; font-weight: 500">
+    <a href="#how" style="color: #17171C; text-decoration: none">Как это работает</a>
+    <a href="#passport" style="color: #17171C; text-decoration: none">Паспорт</a>
+    <a href="Pricing.dc.html" style="color: #17171C; text-decoration: none">Тарифы</a>
+    <a href="#faq" style="color: #17171C; text-decoration: none">Вопросы</a>
+  </nav>
+  <div style="margin-left: auto; display: flex; align-items: center; gap: 24px">
+    <a href="Auth.dc.html" style="color: #17171C; text-decoration: none; font-size: 17px; font-weight: 500">Войти</a>
+    <a href="Auth.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border: 2px solid #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 600; font-size: 17px">Собрать паспорт</a>
+  </div>
+</header>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 72px 32px 96px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+  <div style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+    <p style="margin: 0; font-size: 19px; color: #71717A">Для команд, которые идут на «Студенческий стартап» ФСИ</p>
+    <h1 style="margin: 0; font-size: 68px; line-height: 1.05; font-weight: 800; letter-spacing: -0.03em">Соберите паспорт проекта для гранта. Без приукрашивания</h1>
+    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: #3F3F46; max-width: 620px">Расскажите идею или загрузите презентацию. Буха разложит всё по 10 блокам, отделит факты от планов, найдёт пробелы и покажет, что мешает допуску к конкурсу.</p>
+    <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 8px">
+      <a href="Auth.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 72px; padding: 0 40px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 22px">Собрать паспорт бесплатно
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#17171C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      <a href="Pricing.dc.html" style="font-size: 18px; font-weight: 600; color: #17171C">Посмотреть тарифы</a>
+    </div>
+    <p style="margin: 0; font-size: 15px; color: #71717A">Бесплатно: анкета и паспорт по 10 блокам. Карта не нужна.</p>
+  </div>
+
+  <div style="flex: 1 1 480px; min-width: 0; position: relative; height: 520px">
+    <div style="position: absolute; right: 0; top: 0; width: 82%; height: 440px; background: #FFF1E8; border-radius: 40px"></div>
+    <div style="position: absolute; left: 0; top: 24px; width: 132px; height: 132px; background: #FF6B1A; border-radius: 32px; display: flex; align-items: center; justify-content: center; border: 8px solid #FFFFFF">
+      <svg width="96" height="96" viewBox="0 0 40 40" aria-hidden="true"><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+    </div>
+    <div style="position: absolute; left: 12%; top: 150px; width: 80%; background: #FFFFFF; border-radius: 24px; box-shadow: 0 24px 60px rgba(23,23,28,0.12); padding: 28px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+        <span style="font-size: 14px; color: #71717A; font-weight: 500">Блок 7 · Рынок, продажи и пилоты</span>
+        <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #FEF3C7; color: #92400E">Нужна проверка</span>
+      </div>
+      <p style="margin: 0; font-size: 17px; line-height: 1.75; color: #27272A">Команда получила <span style="background: #DCFCE7; border-bottom: 2px solid #15803D; padding: 1px 2px">выручку 10 000 рублей</span> и провела <span style="background: #FEF3C7; border-bottom: 2px dashed #B45309; padding: 1px 2px">две фокус-группы по 25 участников</span>. В 2027 году <span style="background: #DBEAFE; border-bottom: 2px dotted #1D4ED8; padding: 1px 2px">планируются три платных пилота</span>.</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap">
+        <span style="font-size: 13px; padding: 6px 10px; border-radius: 10px; background: #F4F4F5; color: #3F3F46">Факт · презентация, стр. 10</span>
+        <span style="font-size: 13px; padding: 6px 10px; border-radius: 10px; background: #F4F4F5; color: #3F3F46">Факт без документа</span>
+        <span style="font-size: 13px; padding: 6px 10px; border-radius: 10px; background: #F4F4F5; color: #3F3F46">План</span>
+      </div>
+    </div>
+    <div style="position: absolute; right: 24px; bottom: 0; background: #7C2D12; color: #FFFFFF; border-radius: 20px; padding: 18px 22px; display: flex; gap: 12px; align-items: center; max-width: 320px">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFB38A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg>
+      <span style="font-size: 15px; line-height: 1.4">План продаж не попадёт в достижения</span>
+    </div>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 32px 32px 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px">
+  <div style="display: flex; flex-direction: column; gap: 16px">
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path><path d="M9 14l2 2 4-4"></path></svg>
+    <h3 style="margin: 0; font-size: 26px; line-height: 1.25; font-weight: 700">Факт, план или гипотеза</h3>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #52525B">Каждое утверждение помечено. План продаж не превратится в выручку.</p>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 16px">
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.4 11.1l-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"></path></svg>
+    <h3 style="margin: 0; font-size: 26px; line-height: 1.25; font-weight: 700">Источник у каждого факта</h3>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #52525B">Файл, страница и цитата: видно, откуда взялась каждая цифра.</p>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 16px">
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M12 8v5"></path><path d="M12 16h.01"></path></svg>
+    <h3 style="margin: 0; font-size: 26px; line-height: 1.25; font-weight: 700">Стоп-факторы до подачи</h3>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #52525B">Статус заявителя, права на РИД, аналоги: проверяем по правилам программы.</p>
+  </div>
+</section>
+
+<section id="how" style="max-width: 1280px; margin: 0 auto; padding: 48px 32px 96px; display: flex; flex-direction: column; gap: 48px">
+  <h2 style="margin: 0; font-size: 52px; font-weight: 800; letter-spacing: -0.02em">Как это работает</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+    <div style="background: #F4F4F5; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 14px; min-height: 260px">
+      <span style="font-size: 44px; font-weight: 800; color: #E8590C">01</span>
+      <h3 style="margin: 0; font-size: 23px; font-weight: 700">Расскажите о проекте</h3>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #52525B">Загрузите презентацию или описание в PDF, DOCX, PPTX. Файлов нет — ответьте на анкету.</p>
+    </div>
+    <div style="background: #F4F4F5; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 14px; min-height: 260px">
+      <span style="font-size: 44px; font-weight: 800; color: #E8590C">02</span>
+      <h3 style="margin: 0; font-size: 23px; font-weight: 700">Буха собирает паспорт</h3>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #52525B">Раскладывает сведения по 10 блокам и размечает каждое утверждение.</p>
+    </div>
+    <div style="background: #F4F4F5; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 14px; min-height: 260px">
+      <span style="font-size: 44px; font-weight: 800; color: #E8590C">03</span>
+      <h3 style="margin: 0; font-size: 23px; font-weight: 700">Закрываете пробелы</h3>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #52525B">Отвечаете на точные вопросы и видите пример, как обычно пишут в заявках.</p>
+    </div>
+    <div style="background: #FF6B1A; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 14px; min-height: 260px">
+      <span style="font-size: 44px; font-weight: 800; color: #17171C">04</span>
+      <h3 style="margin: 0; font-size: 23px; font-weight: 700">Получаете итог</h3>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #17171C">Статус допуска, стоп-факторы, чек-лист документов и паспорт в DOCX и PDF.</p>
+    </div>
+  </div>
+</section>
+
+<section id="passport" style="max-width: 1280px; margin: 0 auto; padding: 48px 32px 96px; display: flex; flex-direction: column; gap: 48px">
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 820px">
+    <h2 style="margin: 0; font-size: 52px; line-height: 1.1; font-weight: 800; letter-spacing: -0.02em">Эксперт фонда заметит приукрашивание. Буха — раньше</h2>
+    <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #52525B">ИИ работает только с тем, что вы дали. Всё, чего нет в материалах, превращается в вопрос, а не в красивую фразу.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px">
+    <div style="background: #F4F4F5; border-radius: 32px; padding: 48px; display: flex; flex-direction: column; gap: 24px; min-height: 400px">
+      <h3 style="margin: 0; font-size: 34px; font-weight: 700; line-height: 1.15">Видно, что доказано, а что — слова</h3>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3F3F46">Четыре типа сведений и статус проверки у каждого утверждения.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 14px; padding: 12px 16px; font-size: 16px; font-weight: 500"><span style="width: 14px; height: 14px; border-radius: 4px; background: #DCFCE7; border: 2px solid #15803D"></span>Факт с документом</span>
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 14px; padding: 12px 16px; font-size: 16px; font-weight: 500"><span style="width: 14px; height: 14px; border-radius: 4px; background: #FEF3C7; border: 2px dashed #B45309"></span>Факт без документа</span>
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 14px; padding: 12px 16px; font-size: 16px; font-weight: 500"><span style="width: 14px; height: 14px; border-radius: 4px; background: #DBEAFE; border: 2px dotted #1D4ED8"></span>План</span>
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 14px; padding: 12px 16px; font-size: 16px; font-weight: 500"><span style="width: 14px; height: 14px; border-radius: 4px; background: #EDE9FE; border: 2px solid #6D28D9"></span>Гипотеза</span>
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border-radius: 14px; padding: 12px 16px; font-size: 16px; font-weight: 500"><span style="width: 14px; height: 14px; border-radius: 4px; background: #F4F4F5; border: 2px dashed #52525B"></span>Со слов команды</span>
+      </div>
+    </div>
+    <div style="background: #7C2D12; color: #FFFFFF; border-radius: 32px; padding: 48px; display: flex; flex-direction: column; gap: 24px; min-height: 400px">
+      <h3 style="margin: 0; font-size: 34px; font-weight: 700; line-height: 1.15">ИИ не дописывает достижения</h3>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #FED7AA">Нет в материалах охвата, выручки или пилота — Буха не придумает их, а спросит.</p>
+      <div style="margin-top: auto; background: #9A3412; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 17px; color: #FED7AA; text-decoration: line-through">Сервисом воспользуются 10 000 человек</span>
+        <span style="display: inline-flex; align-items: center; gap: 10px; font-size: 16px; color: #FFFFFF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB38A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>Нет в материалах. Вопрос: сколько пользователей уже прошло пилот?</span>
+      </div>
+    </div>
+    <div style="background: #FFF1E8; border-radius: 32px; padding: 48px; display: flex; flex-direction: column; gap: 24px; min-height: 360px">
+      <h3 style="margin: 0; font-size: 34px; font-weight: 700; line-height: 1.15">Новизна — минимум два аналога</h3>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3F3F46">Сравнение по конкретным параметрам и способ измеримой проверки, как требует фонд.</p>
+      <div style="margin-top: auto; background: #FFFFFF; border-radius: 20px; padding: 20px 24px; display: flex; align-items: center; gap: 16px">
+        <span style="font-size: 32px; font-weight: 800; color: #17171C">1 / 2</span>
+        <span style="font-size: 16px; color: #3F3F46; line-height: 1.4">Указан один аналог. Добавьте ещё один и измеримое отличие.</span>
+      </div>
+    </div>
+    <div style="background: #F4F4F5; border-radius: 32px; padding: 48px; display: flex; flex-direction: column; gap: 24px; min-height: 360px">
+      <h3 style="margin: 0; font-size: 34px; font-weight: 700; line-height: 1.15">Поправили текст — связи пересчитаются</h3>
+      <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #3F3F46">Если после правки цифра потеряла источник, поле вернётся на проверку, а согласование снимется.</p>
+      <div style="margin-top: auto; background: #FFFFFF; border-radius: 20px; padding: 20px 24px; display: flex; align-items: center; gap: 14px">
+        <span style="width: 12px; height: 12px; border-radius: 999px; background: #B91C1C"></span>
+        <span style="font-size: 16px; color: #3F3F46">2 утверждения потеряли привязку к тексту</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 48px 32px 96px; display: flex; flex-direction: column; gap: 40px">
+  <h2 style="margin: 0; font-size: 52px; font-weight: 800; letter-spacing: -0.02em">10 блоков паспорта</h2>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">01</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Основатель и статус обучения</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">02</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Команда, роли и опыт</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">03</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Проблема и пользователи</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">04</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Продукт и технология</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">05</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Стадия и задел</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">06</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Аналоги и новизна</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">07</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Рынок, продажи и пилоты</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">08</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Юрлица и их роли</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">09</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Авторы, права и РИД</span></div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 15px; font-weight: 700; color: #C2410C">10</span><span style="font-size: 18px; font-weight: 600; line-height: 1.35">Поддержка и обязательства</span></div>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 48px 32px 96px; display: flex; flex-direction: column; gap: 40px">
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+    <h2 style="margin: 0; font-size: 52px; font-weight: 800; letter-spacing: -0.02em">Тарифы</h2>
+    <a href="Pricing.dc.html" style="font-size: 18px; font-weight: 600">Сравнить все возможности</a>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+    <div style="border: 1px solid #E4E4E7; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px; text-align: center">
+      <h3 style="margin: 0; font-size: 26px; font-weight: 700">Базовый</h3>
+      <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">Анкета и паспорт по 10 блокам</p>
+      <p style="margin: 16px 0 0; font-size: 26px; font-weight: 700">0 ₽</p>
+    </div>
+    <div style="border: 2px solid #FF6B1A; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px; text-align: center; position: relative">
+      <span style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #FF6B1A; color: #17171C; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 999px">Рекомендуем</span>
+      <h3 style="margin: 0; font-size: 26px; font-weight: 700">Профессиональный</h3>
+      <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">Разбор презентаций, до 10 файлов, проверка новизны</p>
+      <p style="margin: 16px 0 0; font-size: 26px; font-weight: 700">990 ₽ за 30 дней</p>
+    </div>
+    <div style="border: 1px solid #E4E4E7; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px; text-align: center">
+      <h3 style="margin: 0; font-size: 26px; font-weight: 700">Премиум</h3>
+      <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">До 50 файлов и консультант</p>
+      <p style="margin: 16px 0 0; font-size: 26px; font-weight: 700">4 990 ₽ за 30 дней</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="max-width: 1280px; margin: 0 auto; padding: 48px 32px 96px; display: flex; flex-direction: column; gap: 32px">
+  <h2 style="margin: 0; font-size: 52px; font-weight: 800; letter-spacing: -0.02em">Вопросы</h2>
+  <div style="display: flex; flex-direction: column; border-top: 1px solid #E4E4E7">
+    <details style="border-bottom: 1px solid #E4E4E7; padding: 28px 0">
+      <summary style="font-size: 22px; font-weight: 600">Буха гарантирует победу в конкурсе?</summary>
+      <p style="margin: 16px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; max-width: 860px">Нет. Буха помогает честно и полно описать проект и заранее увидеть формальные стоп-факторы. Решение принимает фонд.</p>
+    </details>
+    <details style="border-bottom: 1px solid #E4E4E7; padding: 28px 0">
+      <summary style="font-size: 22px; font-weight: 600">Почему один аккаунт — один проект?</summary>
+      <p style="margin: 16px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; max-width: 860px">Паспорт привязан к описанию вашего проекта. Если загрузить материалы другого проекта, система их не примет — так паспорт не смешивает чужие факты с вашими.</p>
+    </details>
+    <details style="border-bottom: 1px solid #E4E4E7; padding: 28px 0">
+      <summary style="font-size: 22px; font-weight: 600">Какие файлы можно загрузить?</summary>
+      <p style="margin: 16px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; max-width: 860px">PDF, DOCX и PPTX, включая сканы. Загрузка доступна на тарифах «Профессиональный» и «Премиум».</p>
+    </details>
+    <details style="border-bottom: 1px solid #E4E4E7; padding: 28px 0">
+      <summary style="font-size: 22px; font-weight: 600">Что будет с паспортом, когда закончится подписка?</summary>
+      <p style="margin: 16px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; max-width: 860px">Паспорт, файлы и экспорт останутся. Новые загрузки и проверка новизны станут доступны после продления.</p>
+    </details>
+    <details style="border-bottom: 1px solid #E4E4E7; padding: 28px 0">
+      <summary style="font-size: 22px; font-weight: 600">Это официальный сервис фонда?</summary>
+      <p style="margin: 16px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; max-width: 860px">Нет. Буха — независимый сервис подготовки. Заявка подаётся в официальной системе фонда.</p>
+    </details>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 32px 96px">
+  <div style="background: #FF6B1A; border-radius: 40px; padding: 64px; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
+    <div style="flex: 1 1 520px; display: flex; flex-direction: column; gap: 20px">
+      <h2 style="margin: 0; font-size: 52px; line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; color: #17171C">Начните с того, что уже есть</h2>
+      <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #17171C">Пара абзацев об идее — и через несколько минут у вас черновик паспорта и список вопросов.</p>
+      <a href="Auth.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 64px; padding: 0 36px; background: #17171C; color: #FFFFFF; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 20px; margin-top: 8px">Собрать паспорт бесплатно</a>
+    </div>
+    <svg width="200" height="200" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FFFFFF"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFF1E8"></circle><circle cx="26.5" cy="18" r="7" fill="#FFF1E8"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#FF6B1A"></path></svg>
+  </div>
+</section>
+
+<footer style="border-top: 1px solid #E4E4E7">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 40px 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between">
+    <span style="font-size: 15px; color: #52525B">© 2026 Буха. Независимый сервис, не связан с ФСИ.</span>
+    <nav aria-label="Документы" style="display: flex; gap: 24px; flex-wrap: wrap; font-size: 15px">
+      <a href="#" style="color: #52525B">Пользовательское соглашение</a>
+      <a href="#" style="color: #52525B">Обработка персональных данных</a>
+      <a href="#" style="color: #52525B">Поддержка</a>
+    </nav>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

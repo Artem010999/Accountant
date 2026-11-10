@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — дизайн-система</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh">
+<main style="max-width: 1280px; margin: 0 auto; padding: 56px 32px 80px; display: flex; flex-direction: column; gap: 64px">
+
+  <section style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+    <div style="display: flex; align-items: center; gap: 16px">
+      <svg width="88" height="88" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+      <span style="font-weight: 800; font-size: 56px; letter-spacing: -0.02em">Буха</span><span style="font-weight: 500; font-size: 56px; color: #E8590C; margin-left: -8px">Паспорт</span>
+    </div>
+    <div style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 10px">
+      <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em">Дизайн-система</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #52525B">Совёнок-бухгалтер: внимательный, дотошный, но дружелюбный. Много воздуха, крупные заголовки, скруглённые карточки, один яркий акцент.</p>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 28px; font-weight: 700">Цвета бренда</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; overflow: hidden"><div style="height: 110px; background: #FF6B1A"></div><div style="padding: 16px; display: flex; flex-direction: column; gap: 4px"><b style="font-size: 16px">Оранжевый</b><code style="font-size: 14px; color: #52525B">#FF6B1A</code><span style="font-size: 14px; color: #52525B">Главные кнопки, бренд. Текст на нём — только тёмный.</span></div></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; overflow: hidden"><div style="height: 110px; background: #7C2D12"></div><div style="padding: 16px; display: flex; flex-direction: column; gap: 4px"><b style="font-size: 16px">Терракота</b><code style="font-size: 14px; color: #52525B">#7C2D12 · вложенный #9A3412</code><span style="font-size: 14px; color: #52525B">Тёмные акцентные блоки вместо синих. Текст белый и #FED7AA.</span></div></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; overflow: hidden"><div style="height: 110px; background: #FFF1E8"></div><div style="padding: 16px; display: flex; flex-direction: column; gap: 4px"><b style="font-size: 16px">Персик</b><code style="font-size: 14px; color: #52525B">#FFF1E8 · #FFFAF6</code><span style="font-size: 14px; color: #52525B">Подложки, активный пункт меню, выбранная карточка.</span></div></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; overflow: hidden"><div style="height: 110px; background: #C2410C"></div><div style="padding: 16px; display: flex; flex-direction: column; gap: 4px"><b style="font-size: 16px">Оранжевый текст</b><code style="font-size: 14px; color: #52525B">#C2410C · крупный #E8590C</code><span style="font-size: 14px; color: #52525B">Ссылки и подписи на белом — проходит контраст 5:1.</span></div></div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px">
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #17171C"></div><code style="font-size: 13px">#17171C текст</code></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #3F3F46"></div><code style="font-size: 13px">#3F3F46</code></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #52525B"></div><code style="font-size: 13px">#52525B вторичный</code></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #71717A"></div><code style="font-size: 13px">#71717A подписи</code></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #E4E4E7"></div><code style="font-size: 13px">#E4E4E7 линии</code></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #F4F4F5"></div><code style="font-size: 13px">#F4F4F5 карточки</code></div>
+      <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; border-radius: 14px; background: #FAFAFA; border: 1px solid #E4E4E7"></div><code style="font-size: 13px">#FAFAFA фон меню</code></div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 28px; font-weight: 700">Язык утверждений</h2>
+    <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #52525B; max-width: 860px">Главное, что ищет эксперт фонда, — где доказательство. Поэтому самые заметные метки у рисков: факт без документа и слова команды. Тип различается и цветом, и стилем линии — чтобы читалось без цвета.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px">
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 17px; line-height: 1.7"><span style="background: #DCFCE7; border-bottom: 2px solid #15803D; padding: 1px 2px">выручка 10 000 ₽</span></span><b style="font-size: 15px">Факт с документом</b><span style="font-size: 14px; color: #52525B">Цитата найдена в файле. Сплошная зелёная.</span></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 17px; line-height: 1.7"><span style="background: #FEF3C7; border-bottom: 2px dashed #B45309; padding: 1px 2px">две фокус-группы</span></span><b style="font-size: 15px">Факт без документа</b><span style="font-size: 14px; color: #52525B">Риск. Пунктир янтарный. Попадает в предупреждения.</span></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 17px; line-height: 1.7"><span style="background: #DBEAFE; border-bottom: 2px dotted #1D4ED8; padding: 1px 2px">три пилота в 2027</span></span><b style="font-size: 15px">План</b><span style="font-size: 14px; color: #52525B">Будущее. Точки синие. Никогда не достижение.</span></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 17px; line-height: 1.7"><span style="background: #EDE9FE; border-bottom: 2px solid #8B5CF6; padding: 1px 2px">пользователю трудно</span></span><b style="font-size: 15px">Гипотеза</b><span style="font-size: 14px; color: #52525B">Предположение о проблеме или рынке.</span></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 17px; line-height: 1.7"><span style="background: #F4F4F5; border-bottom: 2px dashed #71717A; padding: 1px 2px">статус Сколково</span></span><b style="font-size: 15px">Со слов команды</b><span style="font-size: 14px; color: #52525B">Сообщение без документа. Серый пунктир.</span></div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 17px; line-height: 1.7; color: #B91C1C; text-decoration: line-through">по 25 участников</span><b style="font-size: 15px">Потеряна привязка</b><span style="font-size: 14px; color: #52525B">После правки текста. Красный, зачёркнуто, блок «Нужна проверка».</span></div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+      <span style="font-size: 15px; font-weight: 600; margin-right: 6px">Статус поля:</span>
+      <span style="font-size: 14px; color: #71717A">без метки — черновик ИИ</span>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #FEF3C7; color: #92400E">Нужна проверка</span>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DBEAFE; color: #1E40AF">Подтверждено</span>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DCFCE7; color: #166534">Согласовано</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+      <span style="font-size: 15px; font-weight: 600; margin-right: 6px">Допуск:</span>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DCFCE7; color: #166534">Можно готовить заявку</span>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #FEF3C7; color: #92400E">Нужно уточнить</span>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #FEE2E2; color: #991B1B">Есть стоп-факторы</span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 28px; font-weight: 700">Типографика · Onest</h2>
+    <div style="display: flex; flex-direction: column; gap: 14px; border: 1px solid #E4E4E7; border-radius: 22px; padding: 28px">
+      <div style="display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap"><code style="width: 120px; font-size: 13px; color: #71717A">68 / 800</code><span style="font-size: 68px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05">Паспорт</span></div>
+      <div style="display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap"><code style="width: 120px; font-size: 13px; color: #71717A">52 / 800</code><span style="font-size: 52px; font-weight: 800; letter-spacing: -0.02em">Как это работает</span></div>
+      <div style="display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap"><code style="width: 120px; font-size: 13px; color: #71717A">40 / 800</code><span style="font-size: 40px; font-weight: 800; letter-spacing: -0.02em">Заголовок экрана</span></div>
+      <div style="display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap"><code style="width: 120px; font-size: 13px; color: #71717A">26 / 700</code><span style="font-size: 26px; font-weight: 700">Заголовок карточки</span></div>
+      <div style="display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap"><code style="width: 120px; font-size: 13px; color: #71717A">17 / 400</code><span style="font-size: 17px; line-height: 1.6">Основной текст интерфейса и полей паспорта</span></div>
+      <div style="display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap"><code style="width: 120px; font-size: 13px; color: #71717A">14 / 500</code><span style="font-size: 14px; font-weight: 500; color: #52525B">Подписи, мета, статусы</span></div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 20px">
+    <h2 style="margin: 0; font-size: 28px; font-weight: 700">Кнопки и формы</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center">
+      <button type="button" style="min-height: 60px; padding: 0 32px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 18px Onest, system-ui, sans-serif; color: #17171C">Главное действие</button>
+      <button type="button" style="min-height: 60px; padding: 0 28px; border: 2px solid #17171C; background: #FFFFFF; border-radius: 999px; font: 600 17px Onest, system-ui, sans-serif; color: #17171C">Второстепенное</button>
+      <button type="button" style="min-height: 60px; padding: 0 28px; border: 0; background: #17171C; border-radius: 999px; font: 600 17px Onest, system-ui, sans-serif; color: #FFFFFF">На оранжевом фоне</button>
+      <button type="button" style="min-height: 48px; padding: 0 20px; border: 1px solid #D4D4D8; background: #FFFFFF; border-radius: 999px; font: 600 15px Onest, system-ui, sans-serif; color: #17171C">Малая</button>
+      <a href="#" style="font-size: 17px; font-weight: 600">Текстовая ссылка</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; max-width: 900px">
+      <label style="display: flex; flex-direction: column; gap: 8px; font-size: 15px; font-weight: 600">Поле ввода<input value="Иванов Иван Иванович" style="min-height: 56px; padding: 0 18px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 17px Onest, system-ui, sans-serif"></label>
+      <label style="display: flex; flex-direction: column; gap: 8px; font-size: 15px; font-weight: 600">В фокусе<input value="Фокус — персиковое кольцо" style="min-height: 56px; padding: 0 18px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 17px Onest, system-ui, sans-serif; outline: 3px solid #FFB38A; outline-offset: 1px"></label>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+    <div style="background: #F4F4F5; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+      <h3 style="margin: 0; font-size: 20px; font-weight: 700">Скругления</h3>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3F3F46">Кнопки и чипы — полные (999). Большие карточки — 28–40. Карточки в кабинете — 22–24. Поля ввода — 16. Мелкие элементы — 12.</p>
+    </div>
+    <div style="background: #F4F4F5; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+      <h3 style="margin: 0; font-size: 20px; font-weight: 700">Правила цвета</h3>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3F3F46">Оранжевый — только бренд и главное действие, не для предупреждений. Белый текст на оранжевом не используем: контраст 2,9:1. Предупреждения — янтарные, ошибки — красные. Тёмный блок — терракота.</p>
+    </div>
+    <div style="background: #7C2D12; color: #FFFFFF; border-radius: 28px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+      <h3 style="margin: 0; font-size: 20px; font-weight: 700">Тон текста</h3>
+      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #FED7AA">Коротко, на «вы», без канцелярита. Говорим, что случилось и что сделать дальше. Не обещаем победу и не пишем того, чего нет в материалах.</p>
+    </div>
+  </section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2300}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

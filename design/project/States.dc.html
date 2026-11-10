@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — блокировки и лимиты</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F4F5}
+a{color:#C2410C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #F4F4F5; min-height: 100vh">
+<main style="max-width: 1280px; margin: 0 auto; padding: 48px 32px 72px; display: flex; flex-direction: column; gap: 32px">
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em">Блокировки и лимиты</h1>
+    <p style="margin: 0; font-size: 17px; color: #52525B">Окна, которые видит пользователь, когда бэкенд возвращает отказ. Подпись над каждым — ответ сервера.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(520px, 1fr)); gap: 24px">
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">BLOCKED_PROJECT_SWAP · близость 0,38</code>
+      <div role="dialog" aria-labelledby="s1" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #FEE2E2; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path><path d="M9.5 12.5l5 5M14.5 12.5l-5 5"></path></svg></span>
+        <h2 id="s1" style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Похоже, это материалы другого проекта</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Файл «Startup_X_pitch.pdf» не совпадает по смыслу с описанием Monetrix. Один аккаунт — один проект, поэтому мы его не сохранили.</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #52525B">Если это ошибка и файл про ваш проект — напишите в поддержку, мы проверим вручную.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <a href="Files.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Загрузить другой файл</a>
+          <a href="#" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Написать в поддержку</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">403 USER_BANNED</code>
+      <div role="dialog" aria-labelledby="s2" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M5.6 5.6l12.8 12.8"></path></svg></span>
+        <h2 id="s2" style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Доступ к аккаунту ограничен</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Работа с проектом приостановлена администратором. Данные проекта сохранены.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <a href="#" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Связаться с поддержкой</a>
+          <a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">На главную</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">402 PLAN_UPGRADE_REQUIRED</code>
+      <div role="dialog" aria-labelledby="s3" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #FFF1E8; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></span>
+        <h2 id="s3" style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Загрузка документов — на платном тарифе</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">На Базовом тарифе паспорт собирается по анкете. Чтобы разобрать презентацию и привязать факты к страницам, подключите «Профессиональный».</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <a href="Billing.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 16px">Подключить за 990 ₽</a>
+          <a href="Brief.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Ответить на анкету</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">429 FILE_QUOTA_EXCEEDED</code>
+      <div role="dialog" aria-labelledby="s4" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #FEF3C7; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"></path></svg></span>
+        <h2 id="s4" style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Лимит файлов исчерпан: 10 из 10</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Вы пытаетесь добавить ещё 2 файла. На «Премиуме» — до 50 файлов в проекте. Повторно загруженные копии в лимит не считаются.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <a href="Billing.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 16px">Перейти на Премиум</a>
+          <a href="Files.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Выбрать меньше файлов</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; grid-column: 1 / -1">
+      <code style="font-size: 14px; color: #52525B">Подписка закончилась · баннер в кабинете</code>
+      <div role="status" style="background: #FFFFFF; border-radius: 22px; padding: 22px 28px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 12px; height: 12px; border-radius: 999px; background: #FF6B1A"></span>
+        <span style="flex: 1 1 400px; font-size: 16px; line-height: 1.5; color: #27272A"><b style="font-weight: 600">«Профессиональный» закончился 1 декабря.</b> Паспорт, файлы и экспорт на месте; загрузка новых файлов и проверка новизны отключены.</span>
+        <a href="Billing.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 15px">Продлить за 841 ₽</a>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

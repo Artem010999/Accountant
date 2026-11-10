@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — сборка паспорта</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+@keyframes buhaSpin{to{transform:rotate(360deg)}}
+@keyframes buhaBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(0.1)}}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh">
+
+<header style="border-bottom: 1px solid #E4E4E7">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none" aria-label="Буха Паспорт — на главную">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+      <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #17171C">Буха</span>
+    </a>
+    <ol aria-label="Шаги" style="margin: 0 auto; padding: 0; list-style: none; display: flex; gap: 12px; align-items: center; font-size: 15px; font-weight: 600">
+      <li style="display: flex; align-items: center; gap: 8px; color: #15803D"><span style="width: 28px; height: 28px; border-radius: 999px; background: #DCFCE7; display: inline-flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>Профиль</li>
+      <li aria-hidden="true" style="width: 40px; height: 2px; background: #FF6B1A"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #15803D"><span style="width: 28px; height: 28px; border-radius: 999px; background: #DCFCE7; display: inline-flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>О проекте</li>
+      <li aria-hidden="true" style="width: 40px; height: 2px; background: #FF6B1A"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #17171C"><span style="width: 28px; height: 28px; border-radius: 999px; background: #FF6B1A; display: inline-flex; align-items: center; justify-content: center">3</span>Сборка паспорта</li>
+    </ol>
+    <button type="button" onClick="{{ toggleError }}" style="min-height: 36px; padding: 0 14px; border: 1px dashed #D4D4D8; background: #FFFFFF; border-radius: 999px; font: 500 13px Onest, system-ui, sans-serif; color: #52525B; cursor: pointer">Прототип: {{ errorLabel }}</button>
+  </div>
+</header>
+
+<main style="max-width: 1180px; margin: 0 auto; padding: 56px 32px 80px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+  <section style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+    <div style="width: 120px; height: 120px; border-radius: 32px; background: #FF6B1A; display: flex; align-items: center; justify-content: center">
+      <svg width="88" height="88" viewBox="0 0 40 40" aria-hidden="true"><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><g style="transform-origin: 20px 18px; animation: buhaBlink 4s infinite"><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle></g><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+    </div>
+    <sc-if value="{{ notDone }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <h1 style="margin: 0; font-size: 48px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1">Буха читает материалы</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #52525B">Обычно это занимает 2–4 минуты. Можно закрыть страницу — прогресс сохранится, а мы пришлём письмо.</p>
+      </div>
+    </sc-if>
+    <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <h1 style="margin: 0; font-size: 48px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1">Черновик паспорта готов</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.5; color: #52525B">Заполнено 7 блоков из 9. Осталось ответить на 5 вопросов — без них паспорт не пройдёт проверку.</p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px">
+          <a href="Gaps.dc.html" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 32px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Ответить на вопросы</a>
+          <a href="Passport.dc.html" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 24px; border: 2px solid #17171C; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 600; font-size: 17px">Сначала посмотреть паспорт</a>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="background: #FEE2E2; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 700; color: #7F1D1D">Не получилось разобрать блоки</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #7F1D1D">Сервис ИИ не ответил. Загруженные файлы сохранены, повтор ничего не потеряет.</p>
+        <button type="button" onClick="{{ toggleError }}" style="align-self: flex-start; min-height: 48px; padding: 0 24px; border: 0; background: #17171C; color: #FFFFFF; border-radius: 999px; font: 600 16px Onest, system-ui, sans-serif; cursor: pointer">Повторить</button>
+      </div>
+    </sc-if>
+  </section>
+
+  <section style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+    <ol aria-label="Этапы сборки" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; background: #FAFAFA; border-radius: 28px; padding: 16px">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+        <li style="display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 18px; {{ st.rowBg }}">
+          <sc-if value="{{ st.isDone }}" hint-placeholder-val="{{ true }}"><span style="flex: none; width: 32px; height: 32px; border-radius: 999px; background: #DCFCE7; display: inline-flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span></sc-if>
+          <sc-if value="{{ st.isActive }}" hint-placeholder-val="{{ false }}"><span style="flex: none; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="animation: buhaSpin 1s linear infinite"><circle cx="12" cy="12" r="9" stroke="#FFE0CC" stroke-width="3"></circle><path d="M12 3a9 9 0 0 1 9 9" stroke="#FF6B1A" stroke-width="3" stroke-linecap="round"></path></svg></span></sc-if>
+          <sc-if value="{{ st.isPending }}" hint-placeholder-val="{{ false }}"><span style="flex: none; width: 32px; height: 32px; border-radius: 999px; border: 2px solid #E4E4E7; box-sizing: border-box"></span></sc-if>
+          <span style="display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 17px; font-weight: 600; {{ st.titleColor }}">{{ st.title }}</span>
+            <span style="font-size: 14px; color: #71717A">{{ st.sub }}</span>
+          </span>
+        </li>
+      </sc-for>
+    </ol>
+
+    <div style="border: 1px solid #E4E4E7; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 18px; font-weight: 700">Найдено утверждений</h2>
+        <span style="font-size: 28px; font-weight: 800">{{ total }}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+        <sc-for list="{{ counts }}" as="c" hint-placeholder-count="5">
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #FAFAFA; border-radius: 14px">
+            <span style="{{ c.sw }}"></span>
+            <span style="font-size: 14px; color: #3F3F46; flex: 1">{{ c.label }}</span>
+            <span style="font-size: 16px; font-weight: 700">{{ c.n }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { step: 2, error: false }; }
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      if (this.state.error) return;
+      if (this.state.step < 6) this.setState({ step: this.state.step + 1 });
+    }, 1800);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  renderVals() {
+    const { step, error } = this.state;
+    const defs = [
+      ['Проверяем тариф и лимиты', 'Профессиональный · 2 из 10 файлов'],
+      ['Фиксируем якорь проекта', 'Краткое описание сути для защиты от подмены'],
+      ['Распознаём документы', 'Monetrix_presentation_02.11.pdf · 15 страниц'],
+      ['Раскладываем по блокам 2–10', 'Каждое утверждение — с типом и источником'],
+      ['Сверяем цитаты и даты', 'Будущие даты не могут быть фактами'],
+      ['Ищем пробелы', 'Сверяем с обязательными полями программы']
+    ];
+    const done = step >= 6 && !error;
+    const scale = Math.min(step, 6) / 6;
+    const base = [['Факт с документом', 6, '#DCFCE7', '#15803D', 'solid'], ['Факт без документа', 3, '#FEF3C7', '#B45309', 'dashed'], ['План', 5, '#DBEAFE', '#1D4ED8', 'dotted'], ['Гипотеза', 2, '#EDE9FE', '#6D28D9', 'solid'], ['Со слов команды', 2, '#F4F4F5', '#52525B', 'dashed']];
+    const counts = base.map(([label, n, bg, bd, ls]) => ({ label, n: Math.round(n * scale), sw: 'flex: none; width: 14px; height: 14px; border-radius: 4px; background: ' + bg + '; border: 2px ' + ls + ' ' + bd }));
+    return {
+      done, notDone: !done, error,
+      errorLabel: error ? 'убрать ошибку' : 'показать ошибку',
+      toggleError: () => this.setState({ error: !error }),
+      total: counts.reduce((a, c) => a + c.n, 0),
+      counts,
+      steps: defs.map(([title, sub], i) => {
+        const isDone = i < step && !(error && i === step);
+        const isActive = i === step && !error;
+        return {
+          title, sub, isDone, isActive, isPending: !isDone && !isActive,
+          rowBg: isActive ? 'background: #FFFFFF; box-shadow: 0 4px 16px rgba(23,23,28,0.06)' : '',
+          titleColor: (!isDone && !isActive) ? 'color: #71717A' : 'color: #17171C'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

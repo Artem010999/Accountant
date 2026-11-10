@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — тарифы</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh">
+
+<header style="max-width: 1280px; margin: 0 auto; padding: 24px 32px; display: flex; align-items: center; gap: 48px; flex-wrap: wrap">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none" aria-label="Буха Паспорт — на главную">
+    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+    <span style="font-weight: 800; font-size: 26px; letter-spacing: -0.02em; color: #17171C">Буха</span><span style="font-weight: 500; font-size: 26px; color: #E8590C; margin-left: -4px">Паспорт</span>
+  </a>
+  <nav aria-label="Основная навигация" style="display: flex; gap: 32px; flex-wrap: wrap; font-size: 17px; font-weight: 500">
+    <a href="Main.dc.html#how" style="color: #17171C; text-decoration: none">Как это работает</a>
+    <a href="Main.dc.html#passport" style="color: #17171C; text-decoration: none">Паспорт</a>
+    <a href="Pricing.dc.html" style="color: #C2410C; text-decoration: none">Тарифы</a>
+    <a href="Main.dc.html#faq" style="color: #17171C; text-decoration: none">Вопросы</a>
+  </nav>
+  <div style="margin-left: auto; display: flex; align-items: center; gap: 24px">
+    <a href="Auth.dc.html" style="color: #17171C; text-decoration: none; font-size: 17px; font-weight: 500">Войти</a>
+    <a href="Auth.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border: 2px solid #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 600; font-size: 17px">Собрать паспорт</a>
+  </div>
+</header>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 56px 32px 40px; display: flex; flex-direction: column; gap: 20px">
+  <h1 style="margin: 0; font-size: 64px; font-weight: 800; letter-spacing: -0.03em">Тарифы и цены</h1>
+  <p style="margin: 0; font-size: 20px; color: #52525B; max-width: 720px; line-height: 1.5">Начните бесплатно. Платный доступ нужен, чтобы Буха разобрала ваши документы и проверила новизну.</p>
+  <div role="group" aria-label="Период оплаты" style="display: inline-flex; align-self: flex-start; background: #F4F4F5; border-radius: 999px; padding: 6px; gap: 4px; margin-top: 8px">
+    <button type="button" onClick="{{ setFirst }}" style="{{ firstStyle }}">Первая оплата</button>
+    <button type="button" onClick="{{ setRenew }}" style="{{ renewStyle }}">Продление</button>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 24px 32px 72px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: stretch">
+  <div style="border: 1px solid #E4E4E7; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 20px">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0; font-size: 30px; font-weight: 700">Базовый</h2>
+      <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">Чтобы описать идею и увидеть, чего не хватает</p>
+    </div>
+    <p style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.02em">0 ₽</p>
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 17px; line-height: 1.4">
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Паспорт по 10 блокам</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Анкета и вопросы по пробелам</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Проверка стоп-факторов и чек-лист</li>
+      <li style="display: flex; gap: 12px; color: #71717A"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A1A1AA" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>Загрузка документов</li>
+    </ul>
+    <a href="Auth.dc.html" style="margin-top: auto; display: inline-flex; justify-content: center; align-items: center; min-height: 56px; border: 2px solid #17171C; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Начать бесплатно</a>
+  </div>
+
+  <div style="border: 2px solid #FF6B1A; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 20px; position: relative; background: #FFFAF6">
+    <span style="position: absolute; top: -15px; left: 40px; background: #FF6B1A; color: #17171C; font-size: 14px; font-weight: 700; padding: 5px 14px; border-radius: 999px">Рекомендуем</span>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0; font-size: 30px; font-weight: 700">Профессиональный</h2>
+      <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">Когда уже есть презентация или описание проекта</p>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap">
+      <p style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.02em">{{ proPrice }}</p>
+      <span style="font-size: 17px; color: #52525B">за 30 дней</span>
+    </div>
+    <sc-if value="{{ renew }}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DCFCE7; color: #166534">Скидка 15% при продлении</span></sc-if>
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 17px; line-height: 1.4">
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Всё из Базового</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Разбор PDF, DOCX, PPTX и сканов</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>До 10 файлов</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Проверка новизны и аналогов</li>
+    </ul>
+    <a href="Auth.dc.html" style="margin-top: auto; display: inline-flex; justify-content: center; align-items: center; min-height: 56px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Выбрать Профессиональный</a>
+  </div>
+
+  <div style="border: 1px solid #E4E4E7; border-radius: 28px; padding: 40px; display: flex; flex-direction: column; gap: 20px">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0; font-size: 30px; font-weight: 700">Премиум</h2>
+      <p style="margin: 0; font-size: 17px; color: #52525B; line-height: 1.5">Много материалов и помощь консультанта</p>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap">
+      <p style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.02em">{{ premPrice }}</p>
+      <span style="font-size: 17px; color: #52525B">за 30 дней</span>
+    </div>
+    <sc-if value="{{ renew }}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DCFCE7; color: #166534">Скидка 10% при продлении</span></sc-if>
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 17px; line-height: 1.4">
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Всё из Профессионального</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>До 50 файлов</li>
+      <li style="display: flex; gap: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Консультант [ФОРМАТ КОНСУЛЬТАЦИИ]</li>
+    </ul>
+    <a href="Auth.dc.html" style="margin-top: auto; display: inline-flex; justify-content: center; align-items: center; min-height: 56px; border: 2px solid #17171C; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Выбрать Премиум</a>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 24px 32px 72px; display: flex; flex-direction: column; gap: 28px">
+  <h2 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em">Сравнение возможностей</h2>
+  <div style="overflow-x: auto; border: 1px solid #E4E4E7; border-radius: 24px">
+    <table style="width: 100%; border-collapse: collapse; font-size: 17px; min-width: 760px">
+      <thead>
+        <tr style="background: #F4F4F5; text-align: left">
+          <th scope="col" style="padding: 20px 28px; font-weight: 600">Возможность</th>
+          <th scope="col" style="padding: 20px 28px; font-weight: 600; text-align: center">Базовый</th>
+          <th scope="col" style="padding: 20px 28px; font-weight: 600; text-align: center; color: #C2410C">Профессиональный</th>
+          <th scope="col" style="padding: 20px 28px; font-weight: 600; text-align: center">Премиум</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Паспорт по 10 блокам и разметка утверждений</th><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Анкета и вопросы по пробелам с примерами</th><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Стоп-факторы, статус допуска и чек-лист</th><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Экспорт в DOCX и PDF</th><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Разбор документов ИИ (PDF, DOCX, PPTX, сканы)</th><td style="padding: 18px 28px; text-align: center; color: #71717A">Нет</td><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Файлов в проекте</th><td style="padding: 18px 28px; text-align: center">0</td><td style="padding: 18px 28px; text-align: center">10</td><td style="padding: 18px 28px; text-align: center">50</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Проверка научно-технической новизны</th><td style="padding: 18px 28px; text-align: center; color: #71717A">Нет</td><td style="padding: 18px 28px; text-align: center">Да</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Консультант</th><td style="padding: 18px 28px; text-align: center; color: #71717A">Нет</td><td style="padding: 18px 28px; text-align: center; color: #71717A">Нет</td><td style="padding: 18px 28px; text-align: center">Да</td></tr>
+        <tr style="border-top: 1px solid #E4E4E7"><th scope="row" style="padding: 18px 28px; font-weight: 400; text-align: left">Скидка при продлении</th><td style="padding: 18px 28px; text-align: center; color: #71717A">—</td><td style="padding: 18px 28px; text-align: center">15%</td><td style="padding: 18px 28px; text-align: center">10%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 32px 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+  <div style="background: #F4F4F5; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 12px">
+    <h3 style="margin: 0; font-size: 22px; font-weight: 700">Оплата через ЮKassa</h3>
+    <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #52525B">Картой или через СБП. Доступ открывается сразу после подтверждения платежа.</p>
+  </div>
+  <div style="background: #F4F4F5; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 12px">
+    <h3 style="margin: 0; font-size: 22px; font-weight: 700">30 дней доступа</h3>
+    <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #52525B">По окончании вы вернётесь на Базовый. Паспорт, файлы и экспорт сохранятся.</p>
+  </div>
+  <div style="background: #7C2D12; color: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 12px">
+    <h3 style="margin: 0; font-size: 22px; font-weight: 700">Один аккаунт — один проект</h3>
+    <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #FED7AA">Тариф действует для вашего проекта. Материалы другого проекта система не примет.</p>
+  </div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2100}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { renew: false }; }
+  renderVals() {
+    const renew = this.state.renew;
+    const on = 'min-height: 44px; padding: 0 22px; border: 0; border-radius: 999px; background: #FFFFFF; color: #17171C; font: 600 16px Onest, system-ui, sans-serif; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.12)';
+    const off = 'min-height: 44px; padding: 0 22px; border: 0; border-radius: 999px; background: transparent; color: #52525B; font: 500 16px Onest, system-ui, sans-serif; cursor: pointer';
+    return {
+      renew,
+      proPrice: renew ? '841 ₽' : '990 ₽',
+      premPrice: renew ? '4 491 ₽' : '4 990 ₽',
+      firstStyle: renew ? off : on,
+      renewStyle: renew ? on : off,
+      setFirst: () => this.setState({ renew: false }),
+      setRenew: () => this.setState({ renew: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — стартовый бриф</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh">
+
+<header style="border-bottom: 1px solid #E4E4E7">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none" aria-label="Буха Паспорт — на главную">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+      <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #17171C">Буха</span>
+    </a>
+    <ol aria-label="Шаги" style="margin: 0 auto; padding: 0; list-style: none; display: flex; gap: 12px; align-items: center; font-size: 15px; font-weight: 600">
+      <li style="display: flex; align-items: center; gap: 8px; color: #15803D"><span style="width: 28px; height: 28px; border-radius: 999px; background: #DCFCE7; display: inline-flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><a href="Onboarding.dc.html" style="color: #15803D; text-decoration: none">Профиль</a></li>
+      <li aria-hidden="true" style="width: 40px; height: 2px; background: #FF6B1A"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #17171C"><span style="width: 28px; height: 28px; border-radius: 999px; background: #FF6B1A; display: inline-flex; align-items: center; justify-content: center">2</span>О проекте</li>
+      <li aria-hidden="true" style="width: 40px; height: 2px; background: #E4E4E7"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center">3</span>Сборка паспорта</li>
+    </ol>
+    <div role="group" aria-label="Тариф для прототипа" style="display: flex; align-items: center; gap: 6px; background: #F4F4F5; border-radius: 999px; padding: 4px; font-size: 13px">
+      <span style="padding: 0 8px; color: #52525B">Прототип:</span>
+      <button type="button" onClick="{{ setFree }}" style="{{ freeBtn }}">Базовый</button>
+      <button type="button" onClick="{{ setPro }}" style="{{ proBtn }}">Профи</button>
+    </div>
+  </div>
+</header>
+
+<main style="max-width: 1180px; margin: 0 auto; padding: 44px 32px 80px; display: flex; flex-direction: column; gap: 32px">
+
+  <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <h1 style="margin: 0; font-size: 48px; font-weight: 800; letter-spacing: -0.02em">Есть материалы о проекте?</h1>
+      <p style="margin: 0; font-size: 18px; color: #52525B; line-height: 1.5; max-width: 760px">Презентация, описание, бизнес-план, свидетельство на РИД — загрузите всё, что есть. Буха сама найдёт факты и внесёт их в паспорт, а чего не хватит, спросит потом.</p>
+    </div>
+
+    <section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+      <sc-if value="{{ canUpload }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ upload }}" style="flex: 999 1 560px; min-width: 0; border: 2px dashed #FDBA8C; background: #FFFAF6; border-radius: 28px; padding: 56px 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; font-family: inherit; color: #17171C; cursor: pointer">
+          <span style="width: 88px; height: 88px; border-radius: 999px; background: #FFF1E8; display: inline-flex; align-items: center; justify-content: center"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"></path></svg></span>
+          <span style="font-size: 24px; font-weight: 700">Перетащите файлы сюда</span>
+          <span style="font-size: 17px; color: #52525B">или <span style="color: #C2410C; text-decoration: underline; font-weight: 600">загрузите с устройства</span></span>
+          <span style="font-size: 15px; color: #71717A">PDF, DOCX, PPTX, сканы — до 10 файлов</span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ isLocked }}" hint-placeholder-val="{{ false }}">
+        <div style="flex: 999 1 560px; min-width: 0; background: #FFF1E8; border-radius: 28px; padding: 44px; display: flex; flex-direction: column; justify-content: center; gap: 16px">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+          <h2 style="margin: 0; font-size: 26px; font-weight: 700">Разбор документов — на тарифе «Профессиональный»</h2>
+          <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #3F3F46">Буха прочитает презентацию, найдёт факты и привяжет каждый к странице. На Базовом тарифе паспорт собирается по анкете.</p>
+          <a href="Billing.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 56px; padding: 0 28px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 17px">Подключить за 990 ₽</a>
+        </div>
+      </sc-if>
+
+      <aside style="flex: 1 1 340px; min-width: 0; background: #F4F4F5; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+        <svg width="48" height="48" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.2">Файлов пока нет?</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #3F3F46">Это нормально. Ответьте на несколько вопросов о проекте — займёт минут 10.</p>
+        <button type="button" onClick="{{ toForm }}" style="margin-top: 8px; min-height: 60px; padding: 0 28px; border: 0; border-radius: 999px; background: #17171C; color: #FFFFFF; font: 700 18px Onest, system-ui, sans-serif; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px">У меня нет файлов<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+      </aside>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isFiles }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <h1 style="margin: 0; font-size: 48px; font-weight: 800; letter-spacing: -0.02em">Материалы загружены</h1>
+      <p style="margin: 0; font-size: 18px; color: #52525B; line-height: 1.5; max-width: 760px">Этого достаточно, чтобы собрать паспорт. Анкету заполнять не нужно: если в документах чего-то не хватит, Буха соберёт вопросы в разделе «Пробелы».</p>
+    </div>
+    <section style="display: flex; flex-direction: column; gap: 16px">
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+        <li style="display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid #E4E4E7; border-radius: 18px; flex-wrap: wrap">
+          <span style="width: 44px; height: 44px; border-radius: 12px; background: #FEE2E2; color: #B91C1C; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">PDF</span>
+          <span style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">Monetrix_presentation_02.11.pdf</span><span style="font-size: 14px; color: #71717A">15 страниц · 4,2 МБ</span></span>
+          <span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #DCFCE7; color: #166534">Текст распознан</span>
+          <button type="button" aria-label="Удалить файл" style="width: 44px; height: 44px; border: 0; background: transparent; border-radius: 12px; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        </li>
+        <li style="display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid #E4E4E7; border-radius: 18px; flex-wrap: wrap">
+          <span style="width: 44px; height: 44px; border-radius: 12px; background: #DBEAFE; color: #1D4ED8; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">PDF</span>
+          <span style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">Svidetelstvo_RID_scan.pdf</span><span style="font-size: 14px; color: #71717A">Скан · 2 страницы</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #F4F4F5; color: #3F3F46"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"></path></svg>Распознаём скан</span>
+          <button type="button" aria-label="Удалить файл" style="width: 44px; height: 44px; border: 0; background: transparent; border-radius: 12px; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71717A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        </li>
+        <li style="display: flex; align-items: center; gap: 16px; padding: 18px 22px; border: 1px solid #FCD34D; background: #FFFBEB; border-radius: 18px; flex-wrap: wrap">
+          <span style="width: 44px; height: 44px; border-radius: 12px; background: #FEF3C7; color: #92400E; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">PDF</span>
+          <span style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">Monetrix_presentation_02.11 (1).pdf</span><span style="font-size: 14px; color: #92400E">Этот файл уже загружен — повторно не разбираем и в лимит не считаем</span></span>
+          <button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #D4D4D8; background: #FFFFFF; border-radius: 999px; font: 600 14px Onest, system-ui, sans-serif; cursor: pointer">Убрать</button>
+        </li>
+      </ul>
+      <button type="button" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px; border: 2px dashed #FDBA8C; background: #FFFAF6; border-radius: 999px; font: 600 16px Onest, system-ui, sans-serif; color: #9A3412; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Добавить ещё файл <span style="font-weight: 400; color: #71717A">· использовано 2 из 10</span></button>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isForm }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <h1 style="margin: 0; font-size: 48px; font-weight: 800; letter-spacing: -0.02em">Расскажите о проекте</h1>
+      <p style="margin: 0; font-size: 18px; color: #52525B; line-height: 1.5; max-width: 760px">Отвечайте как получится, коротко — тоже хорошо. <sc-if value="{{ canUpload }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ toAsk }}" style="border: 0; background: none; padding: 0; font: inherit; color: #C2410C; text-decoration: underline; cursor: pointer">Нашлись файлы? Загрузить</button></sc-if></p>
+    </div>
+    <section style="display: flex; flex-direction: column; gap: 18px">
+      <sc-for list="{{ questions }}" as="q" hint-placeholder-count="4">
+        <div style="border: 1px solid #E4E4E7; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+          <label style="font-size: 18px; font-weight: 600" for="{{ q.id }}">{{ q.n }}. {{ q.q }}<span aria-hidden="true" style="color: #B91C1C; font-weight: 700"> *</span></label>
+          <textarea id="{{ q.id }}" required="" aria-required="true" rows="3" style="padding: 14px 16px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 16px/1.5 Onest, system-ui, sans-serif; resize: vertical"></textarea>
+          <details>
+            <summary style="font-size: 15px; font-weight: 600; color: #C2410C; cursor: pointer">Как обычно отвечают</summary>
+            <p style="margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: #52525B">{{ q.ex }}</p>
+          </details>
+        </div>
+      </sc-for>
+      <div style="background: #FFFAF6; border: 1px solid #FED7AA; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+        <label style="font-size: 18px; font-weight: 600" for="extra">Что ещё важно знать о проекте?</label>
+        <span style="font-size: 15px; color: #52525B; line-height: 1.45">Всё, что не поместилось в вопросы выше: пилоты, партнёры, награды, планы, сомнения.</span>
+        <textarea id="extra" rows="5" placeholder="Например: в октябре договорились о пилоте с центром соцподдержки, письмо пока не подписано" style="padding: 14px 16px; border: 1px solid #D4D4D8; border-radius: 14px; background: #FFFFFF; font: 400 16px/1.5 Onest, system-ui, sans-serif; resize: vertical"></textarea>
+      </div>
+    </section>
+  </sc-if>
+
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid #E4E4E7">
+    <sc-if value="{{ isForm }}" hint-placeholder-val="{{ false }}"><p style="margin: 16px auto 0 0; font-size: 14px; color: #71717A"><span style="color: #B91C1C; font-weight: 700">*</span> — обязательные вопросы</p></sc-if>
+    <div style="display: flex; gap: 16px; align-items: center; margin-top: 16px">
+      <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ true }}"><a href="Onboarding.dc.html" style="font-size: 17px; font-weight: 600; color: #17171C">Назад</a></sc-if>
+      <sc-if value="{{ canSubmit }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toAsk }}" style="border: 0; background: none; padding: 0; font: 600 17px Onest, system-ui, sans-serif; color: #17171C; text-decoration: underline; cursor: pointer">Назад</button></sc-if>
+      <sc-if value="{{ canSubmit }}" hint-placeholder-val="{{ false }}">
+        <a href="Generating.dc.html" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 36px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">{{ submitLabel }}</a>
+      </sc-if>
+    </div>
+  </div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { step: 'ask', plan: 'pro' }; }
+  renderVals() {
+    const { step, plan } = this.state;
+    const free = plan === 'free';
+    const s = free && step === 'files' ? 'ask' : step;
+    const tOn = 'min-height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: #FFFFFF; font: 600 13px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer';
+    const tOff = 'min-height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; font: 500 13px Onest, system-ui, sans-serif; color: #52525B; cursor: pointer';
+    return {
+      isAsk: s === 'ask',
+      isFiles: s === 'files',
+      isForm: s === 'form',
+      canUpload: !free,
+      isLocked: free,
+      canSubmit: s !== 'ask',
+      submitLabel: s === 'files' ? 'Собрать паспорт по файлам' : 'Собрать паспорт',
+      upload: () => this.setState({ step: 'files' }),
+      toForm: () => this.setState({ step: 'form' }),
+      toAsk: () => this.setState({ step: 'ask' }),
+      setFree: () => this.setState({ plan: 'free' }),
+      setPro: () => this.setState({ plan: 'pro' }),
+      freeBtn: free ? tOn : tOff,
+      proBtn: free ? tOff : tOn,
+      questions: [
+        { id: 'q1', n: 1, q: 'Какую проблему решает проект и для кого?', ex: 'Сведения о мерах поддержки распределены между разными источниками; пользователю трудно собрать последовательность действий.' },
+        { id: 'q2', n: 2, q: 'Что делает продукт?', ex: 'Единый профиль потребности, проверяемый справочник, подготовка черновика обращения и передача сложного вопроса координатору.' },
+        { id: 'q3', n: 3, q: 'Что уже сделано, а что в планах?', ex: 'Есть макеты интерфейса; рабочий прототип планируется к концу первого этапа.' },
+        { id: 'q4', n: 4, q: 'Кто в команде и чем занимается?', ex: 'Иван Иванов — руководитель проекта и продуктовая аналитика; разработчик — бэкенд и ИИ-модуль.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

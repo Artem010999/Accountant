@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — админка, база знаний</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh; display: flex; flex-wrap: wrap">
+
+<aside style="flex: 1 1 240px; max-width: 240px; box-sizing: border-box; background: #17171C; color: #FFFFFF; padding: 24px 14px; display: flex; flex-direction: column; gap: 28px">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; padding: 0 8px" aria-label="Буха — на главную">
+    <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+    <span style="font-weight: 800; font-size: 20px; color: #FFFFFF">Буха</span><span style="font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #3F3F46; color: #FFFFFF">админ</span>
+  </a>
+  <nav aria-label="Разделы админки" style="display: flex; flex-direction: column; gap: 4px">
+    <a href="AdminUsers.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #D4D4D8; font-size: 15px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><circle cx="17" cy="9" r="2.5"></circle><path d="M17 14a5 5 0 0 1 4.5 5"></path></svg>Пользователи</a>
+    <a href="AdminBilling.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #D4D4D8; font-size: 15px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path></svg>Платежи и тарифы</a>
+    <a href="AdminGuard.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #D4D4D8; font-size: 15px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path></svg>Страж</a>
+    <a href="AdminKB.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #17171C; background: #FF6B1A; font-size: 15px; font-weight: 600"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"></path><path d="M4 21V5"></path><path d="M8 7h7"></path></svg>База знаний</a>
+  </nav>
+  <div style="margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding: 0 8px">
+    <span style="font-size: 14px; font-weight: 600">Админ</span>
+    <a href="Auth.dc.html" style="font-size: 14px; color: #FDBA8C">Выйти</a>
+  </div>
+</aside>
+
+<main style="flex: 999 1 640px; min-width: 0; padding: 32px 40px 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+  <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <h1 style="margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em">База знаний</h1>
+      <p style="margin: 0; font-size: 16px; color: #52525B">Правила программ, анкеты, вопросы и эталонные примеры. Из них Буха берёт вопросы и стоп-факторы.</p>
+    </div>
+    <button type="button" onClick="{{ toggleForm }}" style="min-height: 48px; padding: 0 22px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 15px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">{{ formBtn }}</button>
+  </div>
+
+  <div role="tablist" aria-label="Программа" style="display: flex; gap: 8px; flex-wrap: wrap">
+    <button type="button" role="tab" aria-selected="true" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 2px solid #17171C; background: #FFFFFF; font: 600 14px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Студенческий стартап</button>
+    <button type="button" role="tab" aria-selected="false" disabled="" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #E4E4E7; background: #FAFAFA; font: 500 14px Onest, system-ui, sans-serif; color: #71717A">Старт-1 · скоро</button>
+    <button type="button" role="tab" aria-selected="false" disabled="" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #E4E4E7; background: #FAFAFA; font: 500 14px Onest, system-ui, sans-serif; color: #71717A">Сколково · скоро</button>
+  </div>
+
+  <sc-if value="{{ showForm }}" hint-placeholder-val="{{ false }}">
+    <section style="background: #FFF1E8; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+      <h2 style="margin: 0; font-size: 20px; font-weight: 700">Новый документ</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Тип
+          <select style="min-height: 48px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 15px Onest, system-ui, sans-serif; background: #FFFFFF"><option>Положение о программе</option><option>Анкета и вопросы</option><option>Эталонные примеры</option><option>Правила стоп-факторов</option><option>Критерии оценки</option></select>
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Версия
+          <input value="1.1" style="min-height: 48px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 15px Onest, system-ui, sans-serif">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Действует с
+          <input type="date" value="2026-12-01" style="min-height: 48px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 15px Onest, system-ui, sans-serif">
+        </label>
+      </div>
+      <div style="border: 2px dashed #FDBA8C; background: #FFFFFF; border-radius: 18px; padding: 24px; text-align: center; font-size: 15px; color: #3F3F46">Перетащите PDF или JSON-файл сюда или <button type="button" style="border: 0; background: none; padding: 0; font: inherit; color: #C2410C; text-decoration: underline; cursor: pointer">выберите</button></div>
+      <p style="margin: 0; font-size: 14px; color: #52525B; line-height: 1.5">Формат анкет и правил (JSON рядом с PDF или отдельные поля в базе) выбирает разработчик — развилка №1 ТЗ.</p>
+      <div style="display: flex; gap: 12px">
+        <button type="button" onClick="{{ publish }}" style="min-height: 48px; padding: 0 24px; border: 0; background: #17171C; border-radius: 999px; font: 600 15px Onest, system-ui, sans-serif; color: #FFFFFF; cursor: pointer">Опубликовать</button>
+      </div>
+    </section>
+  </sc-if>
+  <sc-if value="{{ published }}" hint-placeholder-val="{{ false }}">
+    <p role="status" style="margin: 0; padding: 14px 18px; background: #F0FDF4; border-radius: 14px; font-size: 15px; color: #166534">Документ опубликован. Паспорта, проверенные по прежней версии, не меняются — новая версия применится при следующей проверке.</p>
+  </sc-if>
+
+  <div style="overflow-x: auto; border: 1px solid #E4E4E7; border-radius: 20px">
+    <table style="width: 100%; border-collapse: collapse; font-size: 15px; min-width: 860px">
+      <thead><tr style="background: #FAFAFA; text-align: left">
+        <th scope="col" style="padding: 14px 18px; font-weight: 600">Документ</th>
+        <th scope="col" style="padding: 14px 18px; font-weight: 600">Тип</th>
+        <th scope="col" style="padding: 14px 18px; font-weight: 600">Версия</th>
+        <th scope="col" style="padding: 14px 18px; font-weight: 600">Действует с</th>
+        <th scope="col" style="padding: 14px 18px; font-weight: 600">Хеш</th>
+        <th scope="col" style="padding: 14px 18px; font-weight: 600">Статус</th>
+      </tr></thead>
+      <tbody>
+        <sc-for list="{{ docs }}" as="d" hint-placeholder-count="5">
+          <tr style="border-top: 1px solid #E4E4E7">
+            <td style="padding: 14px 18px"><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600">{{ d.title }}</span><code style="font-size: 12px; color: #71717A">{{ d.key }}</code></span></td>
+            <td style="padding: 14px 18px">{{ d.type }}</td>
+            <td style="padding: 14px 18px">{{ d.version }}</td>
+            <td style="padding: 14px 18px">{{ d.from }}</td>
+            <td style="padding: 14px 18px; font-family: ui-monospace, monospace; font-size: 13px; color: #52525B">{{ d.hash }}</td>
+            <td style="padding: 14px 18px"><span style="{{ d.chip }}">{{ d.status }}</span></td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+  </div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { form: false, published: false }; }
+  renderVals() {
+    const { form, published } = this.state;
+    const chip = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; ';
+    const on = chip + 'background: #DCFCE7; color: #166534';
+    const off = chip + 'background: #F4F4F5; color: #52525B';
+    const soon = chip + 'background: #DBEAFE; color: #1E40AF';
+    const docs = [
+      ['Положение о программе', 'kb/fasie/studstartup/reg_v1.pdf', 'Положение', '1.0', '01.01.2026', 'xyz7…9hash', 'Действует', on],
+      ['Анкета и вопросы по полям', 'kb/fasie/studstartup/questions_v1.json', 'Анкета и вопросы', '1.0', '01.01.2026', 'a41c…02fe', 'Действует', on],
+      ['Эталонные примеры ответов', 'kb/fasie/studstartup/examples_v1.json', 'Примеры', '1.0', '01.01.2026', '9be0…77d1', 'Действует', on],
+      ['Правила стоп-факторов', 'kb/fasie/studstartup/rules_v1.json', 'Правила', '1.0', '01.01.2026', 'c3d2…1a90', 'Действует', on],
+      ['Положение о программе (прошлая очередь)', 'kb/fasie/studstartup/reg_v0.pdf', 'Положение', '0.9', '01.03.2025', '55aa…e310', 'Архив', off]
+    ];
+    if (published) docs.unshift(['Положение о программе', 'kb/fasie/studstartup/reg_v1.1.pdf', 'Положение', '1.1', '01.12.2026', 'f0e1…6b2c', 'С 1 декабря', soon]);
+    return {
+      showForm: form && !published, published,
+      formBtn: form && !published ? 'Отмена' : 'Добавить документ',
+      toggleForm: () => this.setState({ form: !(form && !published), published: false }),
+      publish: () => this.setState({ published: true }),
+      docs: docs.map(d => ({ title: d[0], key: d[1], type: d[2], version: d[3], from: d[4], hash: d[5], status: d[6], chip: d[7] }))
+    };
+  }
+}
+</script>
+</body>
+</html>

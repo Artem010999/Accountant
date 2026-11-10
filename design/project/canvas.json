@@ -1,0 +1,244 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "AdminBilling.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "Админ · Платежи и тарифы",
+      "w": 1440,
+      "x": 1520,
+      "y": 7000
+    },
+    "AdminGuard.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "Админ · Страж",
+      "w": 1440,
+      "x": 3040,
+      "y": 7000
+    },
+    "AdminKB.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "Админ · База знаний",
+      "w": 1440,
+      "x": 4560,
+      "y": 7000
+    },
+    "AdminUsers.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "Админ · Пользователи",
+      "w": 1440,
+      "x": 0,
+      "y": 7000
+    },
+    "Auth.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "Вход и регистрация",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Billing.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "is_interactive": true,
+      "title": "7. Тариф и оплата",
+      "w": 1440,
+      "x": 9120,
+      "y": 5400
+    },
+    "Brief.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "title": "2. Стартовый бриф",
+      "w": 1440,
+      "x": 1520,
+      "y": 5400
+    },
+    "DesignSystem.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "title": "Дизайн-система Бухи",
+      "w": 1440,
+      "x": 0,
+      "y": 8420
+    },
+    "Files.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "title": "8. Материалы проекта",
+      "w": 1440,
+      "x": 10640,
+      "y": 5400
+    },
+    "Gaps.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "title": "4. Пробелы и новизна",
+      "w": 1440,
+      "x": 4560,
+      "y": 5400
+    },
+    "Generating.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "title": "3. Сборка паспорта",
+      "w": 1440,
+      "x": 3040,
+      "y": 5400
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 4700,
+      "is_interactive": true,
+      "title": "Лендинг",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Onboarding.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "title": "1. Профиль основателя",
+      "w": 1440,
+      "x": 0,
+      "y": 5400
+    },
+    "Passport.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "is_interactive": true,
+      "title": "6. Паспорт",
+      "w": 1440,
+      "x": 7600,
+      "y": 5400
+    },
+    "Pricing.dc.html": {
+      "expand": "fill",
+      "h": 2100,
+      "is_interactive": true,
+      "title": "Тарифы",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Profile.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "title": "9. Профиль в кабинете",
+      "w": 1440,
+      "x": 13680,
+      "y": 5400
+    },
+    "Result.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "is_interactive": true,
+      "title": "5. Итог и чек-лист",
+      "w": 1440,
+      "x": 6080,
+      "y": 5400
+    },
+    "States.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "title": "10. Блокировки и лимиты",
+      "w": 1440,
+      "x": 15200,
+      "y": 5400
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-08T12:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "noteOrder": [
+    "t_site",
+    "t_app1",
+    "t_admin",
+    "t_ds",
+    "n_flow"
+  ],
+  "notes": {
+    "n_flow": {
+      "fill": "orange",
+      "text": "Путь пользователя идёт слева направо. Материалы, Тариф и Профиль — из бокового меню. Нажмите Play на любом экране, чтобы пройти по ссылкам.",
+      "w": 420,
+      "x": 16720,
+      "y": 5400
+    },
+    "t_admin": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "Админка",
+      "w": 240,
+      "x": 0,
+      "y": 6680
+    },
+    "t_app1": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "Кабинет: профиль → бриф → сборка → пробелы → итог → паспорт",
+      "w": 240,
+      "x": 0,
+      "y": 5080
+    },
+    "t_ds": {
+      "kind": "title1",
+      "maxW": 1440,
+      "text": "Дизайн-система",
+      "w": 240,
+      "x": 0,
+      "y": 8100
+    },
+    "t_site": {
+      "kind": "title1",
+      "maxW": 4480,
+      "text": "Сайт: лендинг → тарифы → вход",
+      "w": 240,
+      "x": 0,
+      "y": -320
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Pricing.dc.html",
+    "Auth.dc.html",
+    "Onboarding.dc.html",
+    "Brief.dc.html",
+    "Generating.dc.html",
+    "Gaps.dc.html",
+    "Result.dc.html",
+    "Passport.dc.html",
+    "Billing.dc.html",
+    "Files.dc.html",
+    "Profile.dc.html",
+    "States.dc.html",
+    "AdminUsers.dc.html",
+    "AdminBilling.dc.html",
+    "AdminGuard.dc.html",
+    "AdminKB.dc.html",
+    "DesignSystem.dc.html"
+  ],
+  "pages": [],
+  "title": "Буха — прототип паспорта проекта"
+}

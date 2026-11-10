@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Буха — тариф и оплата</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Onest, Inter, system-ui, sans-serif; color: #17171C; background: #FFFFFF; min-height: 100vh; display: flex; flex-wrap: wrap; position: relative">
+
+<aside style="flex: 1 1 272px; max-width: 272px; box-sizing: border-box; background: #FAFAFA; border-right: 1px solid #E4E4E7; padding: 24px 16px; display: flex; flex-direction: column; gap: 24px">
+  <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; padding: 0 8px" aria-label="Буха — на главную">
+    <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#FF6B1A"></rect><path d="M7 7 L12 11 M33 7 L28 11" stroke="#17171C" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="26.5" cy="18" r="7" fill="#FFFFFF"></circle><circle cx="15" cy="17" r="3" fill="#17171C"></circle><circle cx="28" cy="17" r="3" fill="#17171C"></circle><path d="M17.5 27 L20 31 L22.5 27 Z" fill="#17171C"></path></svg>
+    <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #17171C">Буха</span>
+  </a>
+  <div style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 13px; color: #71717A">Проект</span>
+    <span style="font-size: 18px; font-weight: 700">Monetrix</span>
+    <span style="font-size: 13px; color: #52525B">Студенческий стартап</span>
+  </div>
+  <nav aria-label="Разделы кабинета" style="display: flex; flex-direction: column; gap: 4px">
+    <a href="Passport.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg>Паспорт</a>
+    <a href="Gaps.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"></path></svg>Пробелы<span style="margin-left: auto; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FF6B1A; color: #17171C">1</span></a>
+    <a href="Result.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg>Итог</a>
+    <a href="Files.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.4 11.1l-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"></path></svg>Материалы</a>
+    <a href="Billing.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #17171C; background: #FFF1E8; font-size: 16px; font-weight: 600"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path></svg>Тариф</a>
+    <a href="Profile.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Профиль</a>
+  </nav>
+  <div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 0 8px">
+    <span style="width: 36px; height: 36px; border-radius: 999px; background: #FFE0CC; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">ИИ</span>
+    <span style="font-size: 15px; font-weight: 500; flex: 1">Иван Иванов</span>
+    <a href="Main.dc.html" style="font-size: 14px; color: #52525B">Выйти</a>
+  </div>
+</aside>
+
+<main style="flex: 999 1 640px; min-width: 0; padding: 36px 48px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+  <h1 style="margin: 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em">Тариф и оплата</h1>
+
+  <sc-if value="{{ resultOk }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px; background: #F0FDF4; border-radius: 20px; flex-wrap: wrap">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+      <span style="flex: 1; font-size: 16px; color: #166534"><b style="font-weight: 600">Оплата прошла.</b> {{ chosenName }} действует до 31 декабря 2026.</span>
+      <button type="button" onClick="{{ closeResult }}" style="min-height: 40px; padding: 0 16px; border: 0; background: transparent; font: 600 15px Onest, system-ui, sans-serif; color: #166534; cursor: pointer">Закрыть</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ resultFail }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px; background: #FEF2F2; border-radius: 20px; flex-wrap: wrap">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"></path></svg>
+      <span style="flex: 1; font-size: 16px; color: #7F1D1D"><b style="font-weight: 600">Платёж не прошёл.</b> Деньги не списаны. Попробуйте другую карту или СБП.</span>
+      <button type="button" onClick="{{ retry }}" style="min-height: 44px; padding: 0 18px; border: 0; background: #17171C; border-radius: 999px; font: 600 15px Onest, system-ui, sans-serif; color: #FFFFFF; cursor: pointer">Повторить</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ resultPending }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="display: flex; gap: 16px; align-items: center; padding: 20px 24px; background: #FFFBEB; border-radius: 20px; flex-wrap: wrap">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+      <span style="flex: 1; font-size: 16px; color: #78350F"><b style="font-weight: 600">Ждём подтверждение от банка.</b> Обычно это пара минут — доступ откроется сам, страницу можно закрыть.</span>
+      <button type="button" onClick="{{ closeResult }}" style="min-height: 40px; padding: 0 16px; border: 0; background: transparent; font: 600 15px Onest, system-ui, sans-serif; color: #78350F; cursor: pointer">Скрыть</button>
+    </div>
+  </sc-if>
+
+  <section style="background: #FFF1E8; border-radius: 28px; padding: 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+    <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 8px">
+      <span style="font-size: 14px; font-weight: 600; color: #9A3412">Текущий тариф</span>
+      <h2 style="margin: 0; font-size: 32px; font-weight: 800">Профессиональный</h2>
+      <span style="font-size: 16px; color: #3F3F46">Действует до 1 декабря 2026 · осталось 23 дня</span>
+    </div>
+    <div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 15px; color: #3F3F46">Файлы: 3 из 10</span>
+      <span aria-hidden="true" style="height: 10px; border-radius: 999px; background: #FFFFFF; overflow: hidden; display: block"><span style="display: block; width: 30%; height: 100%; background: #FF6B1A"></span></span>
+      <span style="font-size: 14px; color: #52525B">Проверка новизны: включена</span>
+    </div>
+    <button type="button" onClick="{{ buyPro }}" style="min-height: 56px; padding: 0 28px; border: 0; background: #17171C; border-radius: 999px; font: 700 16px Onest, system-ui, sans-serif; color: #FFFFFF; cursor: pointer">Продлить за 841 ₽</button>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 24px; font-weight: 700">Другие тарифы</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+      <div style="border: 1px solid #E4E4E7; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+        <h3 style="margin: 0; font-size: 22px; font-weight: 700">Базовый</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #52525B">Паспорт, анкета, стоп-факторы и экспорт. Без загрузки файлов и проверки новизны.</p>
+        <p style="margin: auto 0 0; font-size: 22px; font-weight: 700">0 ₽</p>
+        <span style="font-size: 14px; color: #71717A">Включится автоматически после окончания платного тарифа</span>
+      </div>
+      <div style="border: 1px solid #E4E4E7; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+        <h3 style="margin: 0; font-size: 22px; font-weight: 700">Премиум</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #52525B">До 50 файлов и консультант. Остаток текущего периода [ПРАВИЛО ЗАЧЁТА ОСТАТКА].</p>
+        <p style="margin: auto 0 0; font-size: 22px; font-weight: 700">4 990 ₽ <span style="font-size: 15px; font-weight: 500; color: #52525B">за 30 дней</span></p>
+        <button type="button" onClick="{{ buyPremium }}" style="min-height: 52px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 16px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Перейти на Премиум</button>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16px">
+    <h2 style="margin: 0; font-size: 24px; font-weight: 700">История платежей</h2>
+    <div style="overflow-x: auto; border: 1px solid #E4E4E7; border-radius: 20px">
+      <table style="width: 100%; border-collapse: collapse; font-size: 15px; min-width: 720px">
+        <thead><tr style="background: #FAFAFA; text-align: left">
+          <th scope="col" style="padding: 14px 20px; font-weight: 600">Дата</th>
+          <th scope="col" style="padding: 14px 20px; font-weight: 600">Тариф</th>
+          <th scope="col" style="padding: 14px 20px; font-weight: 600">Сумма</th>
+          <th scope="col" style="padding: 14px 20px; font-weight: 600">Скидка</th>
+          <th scope="col" style="padding: 14px 20px; font-weight: 600">Статус</th>
+          <th scope="col" style="padding: 14px 20px; font-weight: 600">Чек</th>
+        </tr></thead>
+        <tbody>
+          <sc-if value="{{ hasNewPayment }}" hint-placeholder-val="{{ false }}">
+            <tr style="border-top: 1px solid #E4E4E7">
+              <td style="padding: 16px 20px">8 ноября 2026</td><td style="padding: 16px 20px">{{ chosenName }}</td><td style="padding: 16px 20px">{{ chosenPrice }}</td><td style="padding: 16px 20px">{{ chosenDiscount }}</td>
+              <td style="padding: 16px 20px"><span style="{{ payChip }}">{{ payLabel }}</span></td><td style="padding: 16px 20px; color: #71717A">—</td>
+            </tr>
+          </sc-if>
+          <tr style="border-top: 1px solid #E4E4E7">
+            <td style="padding: 16px 20px">1 ноября 2026</td><td style="padding: 16px 20px">Профессиональный</td><td style="padding: 16px 20px">841 ₽</td><td style="padding: 16px 20px">15%</td>
+            <td style="padding: 16px 20px"><span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DCFCE7; color: #166534">Оплачен</span></td><td style="padding: 16px 20px"><a href="#">Открыть</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; background: rgba(23,23,28,0.45); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 10">
+      <div role="dialog" aria-modal="true" aria-labelledby="co-title" style="width: 100%; max-width: 520px; background: #FFFFFF; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 30px 80px rgba(0,0,0,0.25)">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <h2 id="co-title" style="margin: 0; font-size: 26px; font-weight: 800">Оплата тарифа</h2>
+          <button type="button" aria-label="Закрыть" onClick="{{ closeCheckout }}" style="width: 44px; height: 44px; border: 0; background: #F4F4F5; border-radius: 999px; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#17171C" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        </div>
+        <dl style="margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 12px; font-size: 16px">
+          <dt style="color: #52525B">Тариф</dt><dd style="margin: 0; font-weight: 600">{{ chosenName }}</dd>
+          <dt style="color: #52525B">Период</dt><dd style="margin: 0">30 дней</dd>
+          <dt style="color: #52525B">Цена</dt><dd style="margin: 0">{{ chosenBase }}</dd>
+          <dt style="color: #52525B">Скидка за продление</dt><dd style="margin: 0">{{ chosenDiscount }}</dd>
+          <dt style="font-weight: 700; font-size: 18px; padding-top: 12px; border-top: 1px solid #E4E4E7">К оплате</dt><dd style="margin: 0; font-weight: 800; font-size: 22px; padding-top: 12px; border-top: 1px solid #E4E4E7">{{ chosenPrice }}</dd>
+        </dl>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #52525B">Вы перейдёте на защищённую страницу ЮKassa. Автопродления нет. Чек придёт на ivan@university.ru.</p>
+        <button type="button" onClick="{{ payOk }}" style="min-height: 56px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 17px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Перейти к оплате</button>
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center; font-size: 13px; color: #71717A; flex-wrap: wrap">
+          <span>Прототип — исход оплаты:</span>
+          <button type="button" onClick="{{ payFail }}" style="min-height: 32px; padding: 0 10px; border: 1px dashed #D4D4D8; background: #FFFFFF; border-radius: 999px; font: 500 13px Onest, system-ui, sans-serif; color: #52525B; cursor: pointer">ошибка</button>
+          <button type="button" onClick="{{ payPending }}" style="min-height: 32px; padding: 0 10px; border: 1px dashed #D4D4D8; background: #FFFFFF; border-radius: 999px; font: 500 13px Onest, system-ui, sans-serif; color: #52525B; cursor: pointer">ожидание</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { checkout: false, plan: 'pro', result: null }; }
+  renderVals() {
+    const { checkout, plan, result } = this.state;
+    const p = plan === 'pro'
+      ? { name: 'Профессиональный', base: '990 ₽', disc: '15%', price: '841 ₽' }
+      : { name: 'Премиум', base: '4 990 ₽', disc: '—', price: '4 990 ₽' };
+    const chip = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; ';
+    const pay = { ok: ['Оплачен', 'background: #DCFCE7; color: #166534'], fail: ['Не прошёл', 'background: #FEE2E2; color: #991B1B'], pending: ['Ожидает', 'background: #FEF3C7; color: #92400E'] }[result] || ['', ''];
+    return {
+      isCheckout: checkout,
+      chosenName: p.name, chosenBase: p.base, chosenDiscount: p.disc, chosenPrice: p.price,
+      resultOk: result === 'ok', resultFail: result === 'fail', resultPending: result === 'pending',
+      hasNewPayment: !!result, payLabel: pay[0], payChip: chip + pay[1],
+      buyPro: () => this.setState({ checkout: true, plan: 'pro' }),
+      buyPremium: () => this.setState({ checkout: true, plan: 'premium' }),
+      closeCheckout: () => this.setState({ checkout: false }),
+      payOk: () => this.setState({ checkout: false, result: 'ok' }),
+      payFail: () => this.setState({ checkout: false, result: 'fail' }),
+      payPending: () => this.setState({ checkout: false, result: 'pending' }),
+      retry: () => this.setState({ checkout: true, result: null }),
+      closeResult: () => this.setState({ result: null })
+    };
+  }
+}
+</script>
+</body>
+</html>
