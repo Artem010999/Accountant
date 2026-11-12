@@ -10,6 +10,8 @@
   "scripts": {
     "dev:frontend": "npm run dev -w @passport/frontend",
     "start:pipeline": "npm run start -w @passport/pipeline-api",
+    "seed:rag": "npm run seed:rag -w @passport/pipeline-api",
+    "verify:rag": "npm run verify:rag -w @passport/pipeline-api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "vitest run",
     "build": "npm run build -w @passport/frontend"

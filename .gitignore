@@ -30,3 +30,7 @@ frontend/.visual/
 
 # Письма поддержки в режиме OutboxMail (без SMTP)
 backend/pipeline-api/outbox/
+
+# Локальная база PGlite (pgdata)
+backend/pipeline-api/data/pgdata/
+

@@ -37,5 +37,28 @@ export {
   type LLMCallOptions,
 } from './llm';
 
-export { getEmbedding, createEmbedding, embeddingClient } from './embeddings';
+export { getEmbedding, createEmbedding, getEmbeddingsBatch, embeddingClient } from './embeddings';
 export { wrapUntrustedData, withSecurityGuardrail, SECURITY_GUARDRAIL } from './promptGuard';
+
+export {
+  retrieveRagContext,
+  getPinnedCards,
+  searchHybridCards,
+  formatRagCardsForPrompt,
+  extractExactCardId,
+  extractImportantTokens,
+} from './rag/retriever';
+export { getRagDb } from './rag/db';
+export { STATIC_KNOWLEDGE_CARDS, staticKnowledgeCards } from './rag/staticCards';
+export { parseTechLeadExcel } from './rag/techLeadParser';
+export type {
+  RagPipelineStep,
+  AuthorityStatus,
+  RetrievalMode,
+  DirectionCode,
+  RawKnowledgeCard,
+  RagCard,
+  RetrieveRagOptions,
+  RetrieveRagResult,
+} from './rag/types';
+
