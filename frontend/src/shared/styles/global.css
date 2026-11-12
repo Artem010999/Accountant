@@ -1,0 +1,69 @@
+/* Глобальные стили. Цвета и шрифты — только через токены из tokens.css. */
+
+body {
+  margin: 0;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+a {
+  color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* Типографика эталона (DesignSystem: «Типографика · Onest»). Значения — как в inline-стилях. */
+
+.t-display {
+  font-size: var(--fs-68);
+  font-weight: var(--font-extrabold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.t-title {
+  font-size: var(--fs-52);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.t-screen-title {
+  font-size: var(--fs-40);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.t-section-title {
+  font-size: var(--fs-28);
+  font-weight: var(--font-bold);
+}
+
+.t-card-title {
+  font-size: var(--fs-26);
+  font-weight: var(--font-bold);
+}
+
+.t-h3 {
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+.t-body {
+  font-size: var(--fs-17);
+  font-weight: var(--font-regular);
+  line-height: var(--lh-body);
+}
+
+.t-lead {
+  font-size: var(--fs-17);
+  line-height: var(--lh-lead);
+  color: var(--color-gray-600);
+}
+
+.t-label {
+  font-size: var(--fs-14);
+  font-weight: var(--font-medium);
+}

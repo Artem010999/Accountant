@@ -24,3 +24,9 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+
+# Визуальная сверка с дизайном (скриншоты эталона и реализации)
+frontend/.visual/
+
+# Письма поддержки в режиме OutboxMail (без SMTP)
+backend/pipeline-api/outbox/

@@ -1,0 +1,77 @@
+/* Пилюля-ссылка. Цвет текста задаётся переменной варианта; a:hover из global.css не должен его менять
+   (в эталоне инлайновый color побеждает :hover), поэтому правило продублировано для a.pill-link:hover. */
+.pill-link {
+  --pill-fg: var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-weight: var(--font-bold);
+  text-decoration: none;
+  color: var(--pill-fg);
+}
+
+a.pill-link:hover,
+a.pill-link:visited {
+  color: var(--pill-fg);
+}
+
+.pill-link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.pill-link--brand {
+  --pill-fg: var(--color-ink);
+  border: 0;
+  background: var(--color-brand);
+}
+
+.pill-link--ink {
+  --pill-fg: var(--color-white);
+  border: 0;
+  background: var(--color-ink);
+}
+
+.pill-link--outline {
+  --pill-fg: var(--color-ink);
+  border: 2px solid var(--color-ink);
+  background: transparent;
+}
+
+.pill-link--brand-outline {
+  --pill-fg: var(--color-ink);
+  border: 2px solid var(--color-brand);
+  background: transparent;
+}
+
+.pill-link--nav {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-24);
+  font-size: var(--fs-17);
+  font-weight: var(--font-semibold);
+}
+
+.pill-link--sm {
+  min-height: 56px;
+  font-size: var(--fs-18);
+}
+
+.pill-link--md {
+  min-height: var(--control-h-lg);
+  font-size: var(--fs-18);
+}
+
+.pill-link--lg {
+  min-height: 64px;
+  padding: 0 var(--space-36);
+  font-size: var(--fs-20);
+}
+
+.pill-link--xl {
+  min-height: 72px;
+  padding: 0 var(--space-40);
+  font-size: var(--fs-22);
+}

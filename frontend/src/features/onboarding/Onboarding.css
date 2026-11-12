@@ -1,0 +1,242 @@
+/* Стили экрана «Профиль основателя». Значения — из inline-стилей design/project/Onboarding.dc.html. */
+
+.onb-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--space-48) var(--space-32) var(--space-80);
+}
+
+.onb-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-40);
+  min-width: 0;
+}
+
+.onb-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.onb-eyebrow {
+  margin: 0;
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-link);
+}
+
+.onb-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-22);
+}
+
+/* ФИО: три поля в ряд, подсказка под ними, на всю ширину сетки. */
+.onb-name {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.onb-name__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.onb-hint {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+/* Обучение: legend, переключатель и панель с вузом. */
+.onb-study {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.onb-study__legend {
+  margin: 0 0 var(--space-10);
+  padding: 0;
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.onb-study__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 140px;
+  gap: var(--space-16);
+  padding: var(--space-20);
+  background: var(--color-gray-50);
+  border-radius: 20px; /* локальное значение: скругление панели вуза из эталона */
+}
+
+.onb-study__uni {
+  min-width: 0;
+}
+
+.onb-warning {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-14) var(--space-18);
+  background: var(--color-warning-bg);
+  border-radius: var(--radius-s);
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-warning-deep);
+}
+
+.onb-warning__icon {
+  flex: none;
+}
+
+/* Программы поддержки. */
+.onb-programs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.onb-programs__title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-bold);
+}
+
+.onb-programs__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-16);
+}
+
+.onb-program {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-24);
+  border-radius: var(--radius-card);
+  text-align: left;
+  font-family: inherit;
+  color: var(--color-ink);
+}
+
+.onb-program--active {
+  border: 2px solid var(--color-brand);
+  background: var(--color-peach-soft);
+  cursor: pointer;
+}
+
+.onb-program--disabled {
+  border: 1px solid var(--color-gray-200);
+  color: var(--color-gray-500);
+}
+
+.onb-program__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.onb-program__name {
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+.onb-program__sub {
+  font-size: var(--fs-15);
+  color: var(--color-gray-600);
+}
+
+.onb-program__sub-plain {
+  font-size: var(--fs-15);
+}
+
+.onb-badge {
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+}
+
+/* Блок «Один аккаунт — один проект». */
+.onb-owner {
+  display: flex;
+  gap: var(--space-20);
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: var(--space-28) var(--space-32);
+  background: var(--color-peach);
+  border-radius: var(--radius-panel);
+}
+
+.onb-owner__icon {
+  flex: none;
+}
+
+.onb-owner__body {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.onb-owner__title {
+  margin: 0;
+  font-size: var(--fs-21);
+  font-weight: var(--font-bold);
+}
+
+.onb-owner__text {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-lead);
+  color: var(--color-gray-800);
+}
+
+.onb-owner__ack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  margin-top: 6px;
+  font-size: var(--fs-16);
+  font-weight: var(--font-medium);
+}
+
+.onb-owner__checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--color-brand);
+}
+
+/* Низ экрана: легенда обязательных полей и кнопка «Продолжить». */
+.onb-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.onb-legend {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}

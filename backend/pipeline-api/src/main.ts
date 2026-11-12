@@ -6,6 +6,7 @@ import { loadKbManifest } from './kb/manifest';
 import { OpenAiClient } from './llm/openai';
 import { HttpDocumentParser } from './parser/client';
 import { createPipelineServer } from './server';
+import { supportOptionsFromConfig } from './support/options';
 
 const { Pool } = pg;
 
@@ -29,7 +30,7 @@ async function main() {
     logger: console,
   };
 
-  const server = createPipelineServer(deps, { sharedSecret: cfg.sharedSecret });
+  const server = createPipelineServer(deps, { sharedSecret: cfg.sharedSecret, support: supportOptionsFromConfig(cfg) });
   server.listen(cfg.port, () => console.log(`pipeline-api listening on :${cfg.port}`));
 }
 

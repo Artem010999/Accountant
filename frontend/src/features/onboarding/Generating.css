@@ -1,0 +1,316 @@
+/* Стили экрана «Сборка паспорта». Значения — из inline-стилей design/project/Generating.dc.html. */
+
+@keyframes buhaSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes buhaBlink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+.gen-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-56) var(--space-32) var(--space-80);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-48);
+  align-items: flex-start;
+}
+
+.gen-left {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+}
+
+.gen-tile {
+  width: 120px; /* локальное значение: плитка совёнка из эталона, один размер */
+  height: 120px; /* локальное значение: плитка совёнка из эталона, один размер */
+  border-radius: 32px; /* локальное значение: скругление плитки совёнка из эталона */
+  background: var(--color-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Моргание совёнка: как в эталоне, точка вращения — 20px 18px. */
+.gen-mark__eyes {
+  transform-origin: 20px 18px;
+  animation: buhaBlink 4s infinite;
+}
+
+.gen-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.gen-heading--done {
+  gap: var(--space-16);
+}
+
+.gen-actions {
+  display: flex;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.gen-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-lg);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+}
+
+.gen-cta--primary {
+  padding: 0 var(--space-32);
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font-size: var(--fs-18);
+  font-weight: var(--font-bold);
+}
+
+.gen-cta--outline {
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-ink);
+  color: var(--color-ink);
+  font-size: var(--fs-17);
+  font-weight: var(--font-semibold);
+}
+
+/* Ошибка сборки: цвет текста — --color-danger-deep (глубокий красный из эталона). */
+.gen-error {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-24);
+  background: var(--color-danger-bg);
+  border-radius: var(--radius-card);
+}
+
+.gen-error__title {
+  margin: 0;
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+  color: var(--color-danger-deep);
+}
+
+.gen-error__text {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-text);
+  color: var(--color-danger-deep);
+}
+
+.gen-error__retry {
+  align-self: flex-start;
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-24);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-white);
+  font: var(--font-semibold) var(--fs-16) var(--font-sans);
+  cursor: pointer;
+}
+
+.gen-right {
+  flex: 1 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+/* Список этапов. */
+.gen-steps {
+  margin: 0;
+  padding: var(--space-16);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-xl);
+}
+
+.gen-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-14) var(--space-16);
+  border-radius: var(--radius-shell);
+}
+
+.gen-step--active {
+  background: var(--color-white);
+  box-shadow: 0 4px 16px rgba(23, 23, 28, 0.06); /* локальное значение: тень активного шага из эталона, больше нигде не повторяется */
+}
+
+.gen-step__icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gen-step__icon--done {
+  border-radius: var(--radius-pill);
+  background: var(--color-fact-doc-bg);
+}
+
+.gen-step__icon--pending {
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-gray-200);
+  box-sizing: border-box;
+}
+
+.gen-spinner {
+  animation: buhaSpin 1s linear infinite;
+}
+
+.gen-spinner__track {
+  stroke: var(--color-avatar-bg);
+}
+
+.gen-step__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.gen-step__title {
+  font-size: var(--fs-17);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.gen-step__title--pending {
+  color: var(--color-gray-500);
+}
+
+.gen-step__sub {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+/* Карточка «Найдено утверждений». */
+.gen-claims {
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+}
+
+.gen-claims__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.gen-claims__title {
+  margin: 0;
+  font-size: var(--fs-18);
+  font-weight: var(--font-bold);
+}
+
+.gen-claims__total {
+  font-size: var(--fs-28);
+  font-weight: var(--font-extrabold);
+}
+
+.gen-claims__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-10);
+}
+
+.gen-claim {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  padding: var(--space-12) var(--space-14);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-s);
+}
+
+.gen-claim__label {
+  flex: 1;
+  font-size: var(--fs-14);
+  color: var(--color-gray-800);
+}
+
+.gen-claim__n {
+  font-size: var(--fs-16);
+  font-weight: var(--font-bold);
+}
+
+/* Образцы типов утверждений: цвета — из языка утверждений (tokens.css), рамка гипотезы — --color-hypothesis-strong. */
+.gen-swatch {
+  flex: none;
+  width: var(--size-swatch);
+  height: var(--size-swatch);
+  border-radius: var(--radius-2xs);
+  border: 2px solid;
+}
+
+.gen-swatch--doc {
+  background: var(--color-fact-doc-bg);
+  border-color: var(--color-fact-doc-line);
+  border-style: solid;
+}
+
+.gen-swatch--nodoc {
+  background: var(--color-fact-nodoc-bg);
+  border-color: var(--color-fact-nodoc-line);
+  border-style: dashed;
+}
+
+.gen-swatch--plan {
+  background: var(--color-plan-bg);
+  border-color: var(--color-plan-line);
+  border-style: dotted;
+}
+
+.gen-swatch--hypothesis {
+  background: var(--color-hypothesis-bg);
+  border-color: var(--color-hypothesis-strong);
+  border-style: solid;
+}
+
+.gen-swatch--hearsay {
+  background: var(--color-hearsay-bg);
+  border-color: var(--color-gray-600);
+  border-style: dashed;
+}
+
+/* Кнопка прототипа в шапке: показать / убрать ошибку. */
+.gen-proto {
+  min-height: var(--control-h-sm);
+  padding: 0 var(--space-14);
+  border: 1px dashed var(--color-gray-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-gray-600);
+  font: var(--font-medium) var(--fs-13) var(--font-sans);
+  cursor: pointer;
+}

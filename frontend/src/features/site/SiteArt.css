@@ -1,0 +1,28 @@
+.mascot__tile {
+  fill: var(--color-white);
+}
+
+.mascot__brow {
+  stroke: var(--color-ink);
+}
+
+.mascot__eye {
+  fill: var(--color-white);
+}
+
+.mascot__pupil {
+  fill: var(--color-ink);
+}
+
+.mascot__beak {
+  fill: var(--color-ink);
+}
+
+/* Вариант на белой плашке: глаза персиковые, клюв оранжевый (как в эталонах Auth и Main, блок призыва). */
+.mascot--tile .mascot__eye {
+  fill: var(--color-peach);
+}
+
+.mascot--tile .mascot__beak {
+  fill: var(--color-brand);
+}

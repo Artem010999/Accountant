@@ -1,0 +1,83 @@
+/* Инлайн-уведомление. Значения — токены tokens.css; значения без токена помечены «локальное значение». */
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  padding: var(--space-20) var(--space-24);
+  border-radius: var(--radius-card);
+  flex-wrap: wrap;
+}
+
+.notice--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.notice--info {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+.notice--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.notice__icon {
+  flex: none;
+  margin-top: var(--space-2);
+}
+
+.notice__body {
+  flex: 1 1 320px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.notice__title {
+  margin: 0;
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+  line-height: var(--lh-heading);
+  color: var(--color-ink);
+}
+
+.notice__text {
+  margin: 0;
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-800);
+}
+
+.notice__action {
+  flex: none;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-22);
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  text-decoration: none;
+  font-size: var(--fs-15);
+  font-weight: var(--font-bold);
+}
+
+.notice__close {
+  /* локальное значение: кнопка закрытия 40×40 с радиусом 10px, токена нет (как у тоста в Files) */
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h-toggle);
+  height: var(--control-h-toggle);
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-gray-600);
+  cursor: pointer;
+}

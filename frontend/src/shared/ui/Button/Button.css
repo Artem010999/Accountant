@@ -1,0 +1,68 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+.btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Главное действие: оранжевый фон, текст только тёмный (белый на оранжевом не используем). */
+.btn--primary {
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-32);
+  border: 0;
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font-weight: var(--font-bold);
+  font-size: var(--fs-18);
+}
+
+.btn--primary.btn--sm {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-20);
+  font-size: var(--fs-15);
+}
+
+/* Второстепенное: контурная рамка 2 px. */
+.btn--secondary {
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-28);
+  border: 2px solid var(--color-ink);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-weight: var(--font-semibold);
+  font-size: var(--fs-17);
+}
+
+/* Тёмная кнопка для оранжевого фона. */
+.btn--inverse {
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-28);
+  border: 0;
+  background: var(--color-ink);
+  color: var(--color-white);
+  font-weight: var(--font-semibold);
+  font-size: var(--fs-17);
+}
+
+/* Малая кнопка: тонкая серая рамка. */
+.btn--outline {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-20);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-weight: var(--font-semibold);
+  font-size: var(--fs-15);
+}
+
+.btn--outline.btn--sm {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-18);
+}

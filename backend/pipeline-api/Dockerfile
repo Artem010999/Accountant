@@ -1,13 +1,19 @@
 FROM node:22-slim
 
 WORKDIR /srv
-# Монорепо: нужны корневые манифесты и workspaces для резолва @passport/*
+
+# Манифесты всех workspace нужны для npm ci (lock-файл охватывает всё монорепо).
 COPY package.json package-lock.json ./
 COPY packages ./packages
+COPY backend/pipeline-api/package.json ./backend/pipeline-api/
+COPY frontend/package.json ./frontend/
+RUN npm ci
+
+# Исходники пайплайна и данные, которые он читает с диска:
+# supabase/ — миграции и seed, kb/ — манифест программы.
 COPY backend/pipeline-api ./backend/pipeline-api
 COPY backend/supabase ./backend/supabase
 COPY backend/kb ./backend/kb
-RUN npm ci --workspace @passport/pipeline-api --include-workspace-root=false
 
 WORKDIR /srv/backend/pipeline-api
 EXPOSE 8080

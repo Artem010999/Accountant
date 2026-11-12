@@ -1,0 +1,187 @@
+/*
+ * Токены дизайна «Буха». Единственный источник цветов, радиусов, шрифтов, размеров и отступов фронтенда.
+ * Значения взяты из inline-стилей design/project/DesignSystem.dc.html (точно, без округления).
+ * Блок «Shell» — значения из оболочек кабинета (Passport.dc.html) и админки (AdminUsers.dc.html),
+ * которые нужны для каркаса G0. Теней в дизайне нет, поэтому токенов теней не заводим.
+ */
+:root {
+  /* Бренд и базовые цвета (DesignSystem: «Цвета бренда») */
+  --color-brand: #FF6B1A;            /* Оранжевый: бренд, главное действие. Текст на нём — только тёмный */
+  --color-ink: #17171C;              /* Основной текст */
+  --color-white: #FFFFFF;
+  --color-terracotta: #7C2D12;       /* Тёмные акцентные блоки */
+  --color-terracotta-deep: #9A3412;  /* Вложенный терракотовый, hover ссылок */
+  --color-peach: #FFF1E8;            /* Подложки, активный пункт меню, выбранная карточка */
+  --color-peach-soft: #FFFAF6;
+  --color-link: #C2410C;             /* Ссылки и подписи на белом (контраст 5:1) */
+  --color-link-hover: #9A3412;
+  --color-accent-text: #E8590C;      /* Крупный оранжевый текст, слово «Паспорт» в логотипе */
+  --color-peach-300: #FED7AA;        /* Текст на терракоте */
+  --color-focus: #FFB38A;            /* Кольцо фокуса */
+
+  /* Нейтральные (DesignSystem: серая шкала) */
+  --color-gray-800: #3F3F46;
+  --color-gray-600: #52525B;         /* Вторичный текст */
+  --color-gray-500: #71717A;         /* Подписи */
+  --color-gray-300: #D4D4D8;         /* Рамки кнопок и полей */
+  --color-gray-200: #E4E4E7;         /* Линии */
+  --color-gray-100: #F4F4F5;         /* Карточки, подложки */
+  --color-gray-50: #FAFAFA;          /* Фон меню */
+
+  /* Язык утверждений (DesignSystem: «Язык утверждений») */
+  --color-fact-doc-bg: #DCFCE7;      /* Факт с документом */
+  --color-fact-doc-line: #15803D;
+  --color-fact-nodoc-bg: #FEF3C7;    /* Факт без документа (риск) */
+  --color-fact-nodoc-line: #B45309;
+  --color-plan-bg: #DBEAFE;          /* План */
+  --color-plan-line: #1D4ED8;
+  --color-hypothesis-bg: #EDE9FE;    /* Гипотеза */
+  --color-hypothesis-line: #8B5CF6;
+  --color-hearsay-bg: #F4F4F5;       /* Со слов команды */
+  --color-hearsay-line: #71717A;
+  --color-lost-text: #B91C1C;        /* Потеряна привязка */
+
+  /* Статусы и допуск (DesignSystem: статусы поля и допуск) */
+  --color-warning-bg: #FEF3C7;
+  --color-warning-text: #92400E;
+  --color-info-bg: #DBEAFE;
+  --color-info-text: #1E40AF;
+  --color-success-bg: #DCFCE7;
+  --color-success-text: #166534;
+  --color-danger-bg: #FEE2E2;
+  --color-danger-text: #991B1B;
+
+  /* Shell: кабинет и админка (Passport.dc.html, AdminUsers.dc.html) */
+  --color-avatar-bg: #FFE0CC;
+  --color-admin-nav-text: #D4D4D8;
+  --color-admin-logout: #FDBA8C;
+  --color-admin-bg: #17171C;
+
+  /* Радиусы */
+  --radius-xs: 12px;                 /* Мелкие элементы, пункты меню */
+  --radius-s: 14px;                  /* Мелкие плашки DS */
+  --radius-input: 16px;              /* Поля ввода */
+  --radius-shell: 18px;              /* Shell: карточки проекта и тарифа */
+  --radius-card: 22px;               /* Карточки в кабинете */
+  --radius-panel: 24px;              /* Shell: панели */
+  --radius-xl: 28px;                 /* Большие карточки */
+  --radius-2xl: 40px;                /* Верхняя граница больших карточек (правило DS) */
+  --radius-pill: 999px;              /* Кнопки, чипы, бейджи */
+
+  /* Шрифт */
+  --font-sans: Onest, Inter, system-ui, sans-serif;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /* Размеры шрифта (px, как в эталоне) */
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+  --fs-16: 16px;
+  --fs-17: 17px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-22: 22px;
+  --fs-26: 26px;
+  --fs-28: 28px;
+  --fs-40: 40px;
+  --fs-52: 52px;
+  --fs-56: 56px;
+  --fs-68: 68px;
+
+  /* Межстрочный интервал и трекинг */
+  --lh-display: 1.05;
+  --lh-lead: 1.55;
+  --lh-body: 1.6;
+  --lh-claim: 1.7;
+  --tracking-display: -0.03em;
+  --tracking-title: -0.02em;
+
+  /* Высоты контролов */
+  --control-h-lg: 60px;              /* Главные и второстепенные кнопки */
+  --control-h-md: 48px;              /* Малая кнопка */
+  --control-h-field: 56px;           /* Поле ввода */
+  --control-h-nav: 44px;             /* Пункт меню, кнопки оболочки */
+  --control-h-toggle: 40px;
+
+  /* Логотип (высота совёнка) */
+  --logo-hero: 88px;
+  --logo-cabinet: 34px;
+  --logo-admin: 32px;
+
+  /* Отступы (px, значения из эталона) */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-80: 80px;
+
+  /* Сетка и оболочка */
+  --page-max-width: 1280px;          /* Ширина контента DesignSystem */
+  --shell-sidebar-cabinet: 272px;
+  --shell-sidebar-admin: 240px;
+  --focus-ring: 3px solid var(--color-focus);
+  --focus-ring-offset: 1px;
+
+  /* G2.5: значения, которые были захардкожены в CSS-модулях (значения 1-в-1, без округления) */
+
+  /* Цвета: нейтральные и состояния (кабинет, онбординг, сайт) */
+  --color-gray-400: #A1A1AA;          /* Отключённый текст и обводки, точка «только чтение» */
+  --color-gray-900: #27272A;          /* Текст поля паспорта, чек-листа, блока новизны */
+  --color-danger-deep: #7F1D1D;       /* Текст блока «потеряно», ошибки сборки, кнопки «вернуть» */
+  --color-danger-soft: #FEF2F2;       /* Подложка блока «потеряно», пункта и вердикта «Стоп» */
+  --color-danger-line: #FCA5A5;       /* Обводка кнопки «вернуть» */
+  --color-warning-deep: #78350F;      /* Текст предупреждений на тёплой подложке */
+  --color-warning-soft: #FFFBEB;      /* Подложка пункта и вердикта «Уточнить», дубликата файла */
+  --color-warning-border: #FCD34D;    /* Обводка дубликата файла */
+  --color-success-soft: #F0FDF4;      /* Подложка «Записано в паспорт», вердикта «Допуск» */
+  --color-amber-500: #F59E0B;         /* Сегмент и образец «нет документа», иконка вердикта «Уточнить» */
+  --color-amber-600: #D97706;         /* Точка «нужна проверка» */
+  --color-blue-500: #3B82F6;          /* Сегмент и образец «план» в итоге */
+  --color-hypothesis-strong: #6D28D9; /* Рамка образца «Гипотеза» (Generating, Main) */
+  --color-hypothesis-text: #5B21B6;   /* Текст чипа «Гипотеза» */
+
+  /* Типографика: размеры шрифта, межстрочный интервал */
+  --fs-12: 12px;
+  --fs-21: 21px;
+  --fs-24: 24px;
+  --fs-32: 32px;
+  --fs-34: 34px;
+  --fs-48: 48px;
+  --lh-text: 1.5;                     /* Основной текст подписей и пояснений */
+  --lh-compact: 1.45;                 /* Плотные пояснения в чек-листе и брифе */
+  --lh-heading: 1.25;                 /* Заголовки разделов паспорта и вопросов */
+
+  /* Радиусы и отступы */
+  --radius-2xs: 4px;                  /* Подсветка утверждения, образцы легенды */
+  --space-22: 22px;
+  --space-36: 36px;
+  --space-44: 44px;
+  --space-48: 48px;
+
+  /* Высоты контролов */
+  --control-h-xs: 32px;               /* Переключатель варианта статуса, прототипа */
+  --control-h-sm: 36px;               /* Малые кнопки поля паспорта, пункт чекбокса */
+  --control-h-action: 52px;           /* Кнопки действий: загрузка файлов, согласование */
+  --control-h-cta: 56px;              /* Кнопки призыва к действию в брифе, пробелах */
+
+  /* Маркеры: точки статуса, полосы, образцы */
+  --size-mark: 10px;                  /* Точка статуса, полоса прогресса, образец легенды */
+  --size-swatch: 14px;                /* Образец типа утверждения */
+  --size-checkbox-sm: 22px;           /* Малый чекбокс */
+}

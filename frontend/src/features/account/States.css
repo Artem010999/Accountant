@@ -1,0 +1,207 @@
+/* Экран «Блокировки и лимиты». Значения из inline-стилей design/project/States.dc.html; цвета и размеры — через токены.
+   Значения без токена помечены «локальное значение: …». */
+
+.states {
+  min-height: 100vh;
+  background: var(--color-gray-100);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.states__main {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  /* локальное значение: нижний отступ страницы 72px из эталона, токена нет */
+  padding: var(--space-48) var(--space-32) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+}
+
+.states__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.states__title {
+  margin: 0;
+  font-size: var(--fs-40);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.states__lead {
+  margin: 0;
+  font-size: var(--fs-17);
+  color: var(--color-gray-600);
+}
+
+.states__grid {
+  display: grid;
+  /* локальное значение: минимальная ширина окна 520px из эталона, токена нет */
+  grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+  gap: var(--space-24);
+}
+
+.states__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.states__block--wide {
+  grid-column: 1 / -1;
+}
+
+.states__code {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.states__dialog {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+  /* локальное значение: тень окон из эталона (0 12px 40px), токена нет */
+  box-shadow: 0 12px 40px rgba(23, 23, 28, 0.08);
+}
+
+.states__icon {
+  /* локальное значение: иконка окна 64×64 с радиусом 20px из эталона, токенов нет */
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.states__icon--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-lost-text);
+}
+
+.states__icon--neutral {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.states__icon--brand {
+  background: var(--color-peach);
+  color: var(--color-link);
+}
+
+.states__icon--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-fact-nodoc-line);
+}
+
+.states__dialog-title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-bold);
+  line-height: var(--lh-heading);
+}
+
+.states__text {
+  margin: 0;
+  line-height: var(--lh-lead);
+}
+
+.states__text--body {
+  font-size: var(--fs-16);
+  color: var(--color-gray-800);
+}
+
+.states__text--note {
+  font-size: var(--fs-15);
+  color: var(--color-gray-600);
+}
+
+.states__actions {
+  display: flex;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.states__btn-dark,
+.states__btn-brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-24);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-16);
+  text-decoration: none;
+}
+
+.states__btn-dark {
+  background: var(--color-ink);
+  color: var(--color-white);
+  font-weight: var(--font-semibold);
+}
+
+.states__btn-brand {
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font-weight: var(--font-bold);
+}
+
+/* Вторичные ссылки в эталоне без text-decoration: подчёркивание браузера сохраняем. */
+.states__btn-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-20);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+.states__banner {
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  padding: var(--space-22) var(--space-28);
+  display: flex;
+  gap: var(--space-18);
+  align-items: center;
+  flex-wrap: wrap;
+  /* локальное значение: тень баннера из эталона (та же, что у окон), токена нет */
+  box-shadow: 0 12px 40px rgba(23, 23, 28, 0.08);
+}
+
+.states__banner-dot {
+  /* локальное значение: точка баннера 12px из эталона, токена нет */
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+}
+
+.states__banner-text {
+  /* локальное значение: базовый размер текста баннера 400px из эталона (перенос строки), токена нет */
+  flex: 1 1 400px;
+  font-size: var(--fs-16);
+  line-height: var(--lh-text);
+  color: var(--color-gray-900);
+}
+
+.states__banner-strong {
+  font-weight: var(--font-semibold);
+}
+
+.states__banner-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-22);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font-size: var(--fs-15);
+  font-weight: var(--font-bold);
+  text-decoration: none;
+}

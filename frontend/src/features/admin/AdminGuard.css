@@ -1,0 +1,307 @@
+/* Экран «Страж проекта». Значения — из inline-стилей design/project/AdminGuard.dc.html.
+   Цвета, шрифты, отступы — токены tokens.css. Значения вне токенов помечены «локальное значение». */
+
+.admin-guard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.admin-guard__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.admin-guard__title {
+  margin: 0;
+  font-size: var(--fs-34);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.admin-guard__lead {
+  margin: 0;
+  font-size: var(--fs-16);
+  color: var(--color-gray-600);
+  max-width: 820px;
+  line-height: var(--lh-text);
+}
+
+.admin-guard__h2 {
+  margin: 0;
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+/* Панель порогов */
+.admin-guard__panel {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+  padding: var(--space-28);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.admin-guard__scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.admin-guard__track {
+  display: flex;
+  /* локальное значение: высота шкалы порогов эталона 18 px, токена нет */
+  height: 18px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.admin-guard__zone {
+  display: block;
+  height: 100%;
+}
+
+.admin-guard__zone--blocked {
+  background: var(--color-danger-line);
+}
+
+.admin-guard__zone--warn {
+  background: var(--color-warning-border);
+}
+
+.admin-guard__zone--ok {
+  /* локальное значение: зелёная зона шкалы эталона (#86EFAC), токена нет */
+  background: #86efac;
+  flex: 1;
+}
+
+.admin-guard__axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-13);
+  color: var(--color-gray-600);
+}
+
+.admin-guard__sliders {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-24);
+}
+
+.admin-guard__slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.admin-guard__slider-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.admin-guard__range {
+  accent-color: var(--color-brand);
+}
+
+.admin-guard__range:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.admin-guard__help {
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.admin-guard__save {
+  display: flex;
+  gap: var(--space-14);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-guard__save-btn {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-24);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.admin-guard__save-btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.admin-guard__save-note {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+/* Ошибка валидации порогов. Элемента нет в эталоне: тон «ошибка» из брендбука (danger-токены). */
+.admin-guard__error {
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  color: var(--color-danger-text);
+}
+
+/* Журнал */
+.admin-guard__journal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+}
+
+.admin-guard__journal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.admin-guard__filters {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.admin-guard__filter {
+  /* локальное значение: высота фильтра эталона 38 px, токена нет */
+  min-height: 38px;
+  padding: 0 var(--space-14);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-gray-200);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-800);
+  cursor: pointer;
+}
+
+.admin-guard__filter--active {
+  /* локальное значение: рамка 2 px активного фильтра эталона, токена толщины нет */
+  border: 2px solid var(--color-ink);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.admin-guard__filter:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.admin-guard__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  /* локальное значение: радиус таблицы эталона 20 px, токена нет */
+  border-radius: 20px;
+}
+
+.admin-guard__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+  min-width: 900px;
+}
+
+.admin-guard__table th {
+  padding: var(--space-14) var(--space-18);
+  font-weight: var(--font-semibold);
+  text-align: left;
+  background: var(--color-gray-50);
+}
+
+.admin-guard__table tbody tr {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.admin-guard__cell {
+  padding: var(--space-14) var(--space-18);
+}
+
+.admin-guard__cell--date {
+  color: var(--color-gray-600);
+  white-space: nowrap;
+}
+
+.admin-guard__cell--model {
+  font-size: var(--fs-13);
+  color: var(--color-gray-600);
+}
+
+.admin-guard__cell--preview {
+  font-size: var(--fs-14);
+  color: var(--color-gray-800);
+  max-width: 360px;
+}
+
+/* Решение Стража: чип как в эталоне (строчный элемент, цвета — токены статусов). */
+.admin-guard__chip {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+}
+
+.admin-guard__chip--blocked {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.admin-guard__chip--warn {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.admin-guard__chip--ok {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.admin-guard__score {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+}
+
+.admin-guard__meter {
+  display: inline-block;
+  /* локальное значение: шкала близости в строке журнала эталона — 80×8 px, токенов нет */
+  width: 80px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  overflow: hidden;
+}
+
+.admin-guard__fill {
+  display: block;
+  height: 100%;
+}
+
+.admin-guard__fill--blocked {
+  background: var(--color-lost-text);
+}
+
+.admin-guard__fill--warn {
+  background: var(--color-amber-600);
+}
+
+.admin-guard__fill--ok {
+  background: var(--color-fact-doc-line);
+}
+
+.admin-guard__score-value {
+  font-weight: var(--font-semibold);
+}

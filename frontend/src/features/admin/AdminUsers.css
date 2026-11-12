@@ -1,0 +1,452 @@
+/* Экран «Пользователи» (AdminUsers.dc.html). Цвета, радиусы, шрифты и отступы — токены из tokens.css.
+   Значения вне токенов помечены «локальное значение». */
+
+.users__sr-only {
+  position: absolute;
+  left: -9999px;
+}
+
+.users__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.users__title {
+  margin: 0;
+  font-size: var(--fs-34);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.users__tools {
+  display: flex;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+
+.users__search {
+  min-height: var(--control-h-nav);
+  width: 300px; /* локальное значение: ширина поиска из эталона, токена нет */
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-regular);
+  color: var(--color-ink);
+  background: var(--color-white);
+}
+
+.users__search:focus,
+.users__select:focus,
+.users__days:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Статистика */
+
+.users__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* локальное значение: минимальная ширина карточки из эталона */
+  gap: var(--space-12);
+}
+
+.users__stat {
+  background: var(--color-gray-50);
+  border-radius: var(--radius-shell);
+  padding: var(--space-18) var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.users__stat-label {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.users__stat-value {
+  font-size: var(--fs-28);
+  font-weight: var(--font-extrabold);
+}
+
+/* Фильтры */
+
+.users__filters {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.users__filter {
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-800);
+  cursor: pointer;
+}
+
+.users__filter[aria-pressed="true"] {
+  border: 2px solid var(--color-ink); /* локальное значение: толщина обводки активного фильтра из эталона */
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+/* Таблица и карточка */
+
+.users__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-20);
+  align-items: flex-start;
+}
+
+.users__table-wrap {
+  flex: 999 1 560px; /* локальное значение: базовая ширина таблицы из эталона */
+  min-width: 0;
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 20px; /* локальное значение: радиус таблицы из эталона, токена нет */
+}
+
+.users__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+  min-width: 680px; /* локальное значение: минимальная ширина таблицы из эталона */
+}
+
+.users__table thead tr {
+  background: var(--color-gray-50);
+  text-align: left;
+}
+
+.users__table th {
+  padding: var(--space-14) var(--space-18);
+  font-weight: var(--font-semibold);
+  text-align: left;
+}
+
+.users__table td {
+  padding: var(--space-14) var(--space-18);
+}
+
+.users__row {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.users__table tbody tr.users__row:hover {
+  background: var(--color-gray-50);
+}
+
+.users__row--selected,
+.users__table tbody tr.users__row--selected:hover {
+  background: var(--color-peach);
+}
+
+.users__muted-cell {
+  color: var(--color-gray-600);
+}
+
+.users__name {
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.users__name-title {
+  font-weight: var(--font-semibold);
+}
+
+.users__name-email {
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.users__chip {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+  white-space: nowrap; /* статус в таблице не переносится на две строки при узкой колонке */
+}
+
+.users__chip--review {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.users__chip--generating {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+.users__chip--draft {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.users__chip--none {
+  background: var(--color-white);
+  color: var(--color-gray-500);
+  border: 1px solid var(--color-gray-200);
+}
+
+.users__chip--banned {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.users__chip--self {
+  align-self: flex-start;
+}
+
+.users__card {
+  flex: 1 1 340px; /* локальное значение: базовая ширина карточки из эталона */
+  max-width: 380px; /* локальное значение: максимальная ширина карточки из эталона */
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+  box-sizing: border-box;
+}
+
+.users__who {
+  display: flex;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.users__avatar {
+  width: 48px; /* локальное значение: диаметр аватара из эталона */
+  height: 48px;
+  border-radius: var(--radius-pill);
+  background: var(--color-avatar-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-bold);
+}
+
+.users__who-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.users__who-name {
+  font-size: var(--fs-18);
+  font-weight: var(--font-bold);
+}
+
+.users__who-email {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.users__facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 130px 1fr; /* локальное значение: колонка подписей из эталона */
+  gap: var(--space-10) var(--space-12);
+  font-size: var(--fs-14);
+}
+
+.users__facts dt {
+  color: var(--color-gray-500);
+}
+
+.users__facts dd {
+  margin: 0;
+}
+
+.users__muted {
+  color: var(--color-gray-500);
+}
+
+/* Выдача подписки */
+
+.users__grant {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  padding: var(--space-16);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-input);
+}
+
+.users__grant-title {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.users__grant-row {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.users__select {
+  flex: 1;
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-10);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-xs);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-regular);
+  color: var(--color-ink);
+}
+
+.users__days {
+  width: 76px; /* локальное значение: ширина поля дней из эталона */
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-10);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-regular);
+  color: var(--color-ink);
+  background: var(--color-white);
+}
+
+.users__dark-btn {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-16);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.users__dark-btn:disabled {
+  background: var(--color-gray-300); /* локальное значение: состояние «недоступно» не описано в эталоне */
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+}
+
+.users__granted {
+  font-size: var(--fs-14);
+  color: var(--color-success-text);
+}
+
+/* Подтверждение действий (не в эталоне: тексты временные, см. отчёт G4) */
+
+.users__confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  padding: var(--space-16);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-input);
+  background: var(--color-white);
+}
+
+.users__confirm-text {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-800);
+}
+
+.users__confirm-actions {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.users__confirm-actions .users__dark-btn,
+.users__confirm-actions .users__outline-btn {
+  flex: 1;
+}
+
+.users__outline-btn {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Блокировка */
+
+.users__ban {
+  min-height: var(--control-h-nav);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+}
+
+.users__ban--ban {
+  border: 1px solid var(--color-danger-line);
+  background: var(--color-danger-soft);
+  color: var(--color-danger-text);
+}
+
+.users__ban--unban {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  color: var(--color-ink);
+}
+
+/* Журнал действий */
+
+.users__journal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.users__journal-title {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.users__journal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  font-size: var(--fs-14);
+  color: var(--color-gray-800);
+}
+
+.users__journal-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+.users__journal-list .users__muted {
+  color: var(--color-gray-500);
+}

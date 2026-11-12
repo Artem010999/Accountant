@@ -1,0 +1,100 @@
+/* Шапка онбординга. Значения — из inline-стилей Onboarding.dc.html / Brief.dc.html / Generating.dc.html. */
+
+.obh {
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.obh__inner {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-18) var(--space-32);
+  display: flex;
+  align-items: center;
+  gap: var(--space-32);
+  flex-wrap: wrap;
+}
+
+.obh__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.obh__word {
+  font-weight: var(--font-extrabold);
+  font-size: var(--fs-22);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-ink);
+}
+
+.obh__steps {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: var(--space-12);
+  align-items: center;
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.obh__step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.obh__step--done {
+  color: var(--color-fact-doc-line);
+}
+
+.obh__step--current {
+  color: var(--color-ink);
+}
+
+.obh__step--pending {
+  color: var(--color-gray-500);
+}
+
+.obh__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.obh__dot {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.obh__dot--done {
+  background: var(--color-fact-doc-bg);
+}
+
+.obh__dot--current {
+  background: var(--color-brand);
+}
+
+.obh__dot--pending {
+  background: var(--color-gray-100);
+}
+
+.obh__line {
+  width: 40px;
+  height: 2px;
+  background: var(--color-gray-200);
+}
+
+.obh__line--done {
+  background: var(--color-brand);
+}
+
+.obh__email {
+  font-size: var(--fs-15);
+  color: var(--color-gray-600);
+}

@@ -47,6 +47,9 @@ async function run(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineRe
       throw new PipelineFailure('FILE_QUOTA_EXCEEDED', 'Превышен лимит загрузки файлов по тарифу');
     }
   }
+  // TODO(разработчик, S2): правило допуска ФСИ (узлы 4–5 схемы): «нет субъекта / есть ФЛП / открыто ООО» → отказ.
+  // Правила, поля анкеты допуска и источники этих полей пока не определены (docs/PLAN-v1.1.md Q3).
+  // TODO: в реестре секции 1 ключ ФИО называется full_name, а здесь проверяется founderData.name. Привести к одному ключу.
   if (!ctx.founderData?.name) {
     throw new PipelineFailure('FOUNDER_REQUIRED', 'Укажите ФИО в профиле основателя');
   }

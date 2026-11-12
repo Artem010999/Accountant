@@ -1,0 +1,488 @@
+/*
+ * Экран «Закроем пробелы» (design/project/Gaps.dc.html). Значения — из inline-стилей эталона.
+ * Цвета и размеры берём из токенов; единичные значения оставлены локально и помечены «локальное значение: …».
+ */
+
+/*
+ * Оболочка кабинета (CabinetLayout) задаёт main: padding 28/32/56, gap 20 — это оболочка Passport.dc.html.
+ * Эталон Gaps.dc.html задаёт main: padding 36/48/64, gap 28. Отступы оболочки компенсируются отрицательными полями
+ * корня экрана, пока оболочка не станет настраиваемой по маршруту (см. отчёт G2).
+ */
+.gaps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+  box-sizing: border-box;
+  min-width: 0;
+  margin: calc(var(--space-28) * -1) calc(var(--space-32) * -1) calc(var(--space-56) * -1);
+  padding: var(--space-36) var(--space-48) var(--space-64);
+}
+
+/* Шапка */
+
+.gaps__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.gaps__head-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.gaps__title {
+  margin: 0;
+  font-size: var(--fs-40);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.gaps__lead {
+  margin: 0;
+  font-size: var(--fs-17);
+  color: var(--color-gray-600);
+}
+
+.gaps__progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 260px; /* локальное значение: ширина колонки прогресса из эталона */
+}
+
+.gaps__progress-label {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.gaps__bar {
+  display: block;
+  height: var(--size-mark);
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  overflow: hidden;
+}
+
+.gaps__bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-brand);
+}
+
+/* Тело: список пробелов слева, карточка вопроса справа */
+
+.gaps__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-28);
+  align-items: flex-start;
+}
+
+.gaps__list {
+  flex: 1 1 280px; /* локальное значение: ширина колонки списка пробелов из эталона */
+  max-width: 320px; /* локальное значение: ширина колонки списка пробелов из эталона */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.gaps__item-btn {
+  width: 100%;
+  display: flex;
+  gap: var(--space-14);
+  align-items: flex-start;
+  padding: var(--space-16);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-shell);
+  background: var(--color-white);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.gaps__item-btn[aria-current="step"] {
+  border: 2px solid var(--color-brand);
+  background: var(--color-peach-soft);
+}
+
+.gaps__dot {
+  flex: none;
+  margin-top: var(--space-6);
+  width: var(--size-mark);
+  height: var(--size-mark);
+  border-radius: var(--radius-pill);
+}
+
+.gaps__dot--open {
+  background: var(--color-brand);
+}
+
+.gaps__dot--done {
+  background: var(--color-fact-doc-line);
+}
+
+.gaps__dot--novelty {
+  background: var(--color-fact-nodoc-line);
+}
+
+.gaps__item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* локальное значение: зазор заголовка пробела из эталона */
+  text-align: left;
+}
+
+.gaps__item-section {
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.gaps__item-title {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.gaps__item-status {
+  font-size: var(--fs-13);
+  color: var(--color-gray-600);
+}
+
+.gaps__main {
+  flex: 999 1 520px; /* локальное значение: ширина основной колонки из эталона */
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+/* Карточка вопроса и новизны */
+
+.gaps__card {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-22);
+}
+
+.gaps__card--novelty {
+  border: 2px solid var(--color-admin-logout);
+}
+
+.gaps__question {
+  margin: 0;
+  font-size: var(--fs-28);
+  line-height: var(--lh-heading);
+  font-weight: var(--font-bold);
+}
+
+.gaps__criterion {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-16) var(--space-18);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-input);
+}
+
+.gaps__criterion-icon {
+  flex: none;
+  color: var(--color-gray-600);
+}
+
+.gaps__criterion-text {
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-800);
+}
+
+.gaps__criterion-lead {
+  font-weight: var(--font-semibold);
+}
+
+.gaps__summary {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+.gaps__example {
+  margin: var(--space-12) 0 0;
+  padding: var(--space-16) var(--space-18);
+  background: var(--color-peach);
+  border-radius: var(--radius-input);
+  font-size: var(--fs-15);
+  line-height: var(--lh-body);
+  color: var(--color-gray-800);
+}
+
+.gaps__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+/* Поле блока новизны: в эталоне gap 8px (у поля ответа — 10px). */
+.gaps__field--tight {
+  gap: var(--space-8);
+}
+
+.gaps__label {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.gaps__textarea {
+  padding: var(--space-16) var(--space-18);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-shell);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  line-height: var(--lh-lead);
+  resize: vertical;
+}
+
+.gaps__textarea:focus,
+.gaps__input:focus,
+.gaps__proto:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Отказ валидатора */
+
+.gaps__alert {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-16) var(--space-18);
+  background: var(--color-warning-bg);
+  border-radius: var(--radius-input);
+}
+
+.gaps__alert-icon {
+  flex: none;
+  color: var(--color-fact-nodoc-line);
+}
+
+.gaps__alert-text {
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-warning-deep);
+}
+
+.gaps__alert-lead {
+  font-weight: var(--font-semibold);
+}
+
+/* Принято: утверждения с разметкой типов */
+
+.gaps__accepted {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-20);
+  background: var(--color-success-soft);
+  border-radius: var(--radius-shell);
+}
+
+.gaps__accepted-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-success-text);
+}
+
+.gaps__accepted-title svg {
+  color: var(--color-fact-doc-line);
+}
+
+.gaps__claims {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: 1.75; /* локальное значение: межстрочный текста «Записано в паспорт» из эталона */
+  color: var(--color-gray-900);
+}
+
+.gaps__claim {
+  padding: 1px var(--space-2);
+}
+
+.gaps__claim--a {
+  background: var(--color-gray-100);
+  border-bottom: 2px dashed var(--color-gray-600);
+}
+
+.gaps__claim--b {
+  background: var(--color-plan-bg);
+  border-bottom: 2px dotted var(--color-plan-line);
+}
+
+.gaps__accepted-note {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+/* Действия */
+
+.gaps__actions {
+  display: flex;
+  gap: var(--space-14);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.gaps__cta {
+  min-height: var(--control-h-cta);
+  padding: 0 30px; /* локальное значение: горизонтальный отступ кнопки из эталона */
+  border: 0;
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.gaps__later {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+/* Новизна: таблица аналогов */
+
+.gaps__chips {
+  display: flex;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.gaps__chip {
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  padding: var(--space-6) var(--space-12);
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.gaps__chip--stop {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.gaps__attempt {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.gaps__novelty-text {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-lead);
+  color: var(--color-gray-800);
+}
+
+.gaps__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-shell);
+}
+
+.gaps__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+  min-width: 640px; /* локальное значение: минимальная ширина таблицы из эталона */
+}
+
+.gaps__table thead tr {
+  background: var(--color-gray-50);
+  text-align: left;
+}
+
+.gaps__table th {
+  padding: var(--space-14) var(--space-16);
+  font-weight: var(--font-semibold);
+}
+
+.gaps__table tbody tr {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.gaps__table td {
+  padding: var(--space-10) var(--space-12);
+}
+
+.gaps__input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-12);
+  border: 1px solid var(--color-gray-300);
+  border-radius: 10px; /* локальное значение: скругление поля ячейки таблицы из эталона */
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-regular);
+}
+
+.gaps__input--todo {
+  border-color: var(--color-admin-logout);
+}
+
+.gaps__proto {
+  padding: var(--space-14) var(--space-16);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  line-height: var(--lh-text);
+  resize: vertical;
+}
+
+.gaps__notice {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-16) var(--space-18);
+  background: var(--color-warning-bg);
+  border-radius: var(--radius-input);
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-warning-deep);
+}
+
+.gaps__notice-icon {
+  flex: none;
+  color: var(--color-fact-nodoc-line);
+}
+
+.gaps__skip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-cta);
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  text-decoration: none;
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+.gaps__fine {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}

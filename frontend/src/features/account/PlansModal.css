@@ -1,0 +1,111 @@
+/*
+ * Модальное окно «Тарифы». В эталоне такого окна нет: оформлено по образцу окна оплаты из Billing.dc.html
+ * (подложка, радиус, тень, кнопка закрытия) и брендбуку. Цвета и размеры — токены из tokens.css.
+ */
+
+.plans-modal__overlay {
+  position: fixed;
+  inset: 0;
+  /* локальное значение: затемнение окна — ink с прозрачностью 45% (в токенах нет оверлея) */
+  background: rgba(23, 23, 28, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-24);
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.plans-modal__dialog {
+  width: 100%;
+  max-width: 584px;
+  max-height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  /* локальное значение: тень окна из эталона окна оплаты (в токенах теней нет) */
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.plans-modal__dialog:focus {
+  outline: none;
+}
+
+.plans-modal__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plans-modal__title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-extrabold);
+}
+
+.plans-modal__close {
+  width: var(--control-h-nav);
+  height: var(--control-h-nav);
+  padding: 0;
+  border: 0;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.plans-modal__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.plans-modal__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.plans-modal__item {
+  /* локальное значение: радиус карточки тарифа как у карточек эталона (24px) */
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.plans-modal__name {
+  margin: 0;
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+.plans-modal__desc {
+  margin: 0;
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.plans-modal__price {
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-22);
+  font-weight: var(--font-bold);
+}
+
+.plans-modal__price-unit {
+  font-size: var(--fs-15);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-600);
+}

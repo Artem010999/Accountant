@@ -1,0 +1,471 @@
+/*
+ * Экран «Профиль» (design/project/Profile.dc.html). Значения — из inline-стилей эталона.
+ * Цвета и размеры — токены из tokens.css. Значения вне шкалы токенов помечены «локальное значение: …».
+ */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+  /* локальное значение: max-width 1100px эталона минус горизонтальные отступы main 2 × 48px */
+  max-width: 1004px;
+  min-width: 0;
+}
+
+/* Шапка */
+
+.profile__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.profile__head-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.profile__title {
+  margin: 0;
+  font-size: var(--fs-40);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.profile__lead {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+  /* локальное значение: ширина подзаголовка 640px из эталона */
+  max-width: 640px;
+}
+
+.profile__edit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  color: var(--color-ink);
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-24);
+  border: 2px solid var(--color-ink);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Баннер «Сохранено» */
+
+.profile__saved {
+  display: flex;
+  gap: var(--space-14);
+  align-items: center;
+  flex-wrap: wrap;
+  padding: var(--space-18) var(--space-22);
+  background: var(--color-success-soft);
+  border-radius: var(--radius-shell);
+}
+
+.profile__saved-icon {
+  flex: none;
+  color: var(--color-fact-doc-line);
+}
+
+.profile__saved-text {
+  flex: 1 1 auto;
+  font-size: var(--fs-16);
+  color: var(--color-success-text);
+}
+
+.profile__saved-strong {
+  font-weight: var(--font-semibold);
+}
+
+.profile__saved-link {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+/* Карточка основателя */
+
+.profile__card {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.profile__founder {
+  display: flex;
+  align-items: center;
+  gap: var(--space-18);
+  flex-wrap: wrap;
+}
+
+.profile__avatar {
+  /* локальное значение: аватар 64px из эталона (вне шкалы контролов) */
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-pill);
+  background: var(--color-avatar-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-22);
+  font-weight: var(--font-bold);
+  flex: none;
+}
+
+.profile__founder-text {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.profile__name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+
+.profile__name {
+  font-size: var(--fs-24);
+  font-weight: var(--font-bold);
+}
+
+/* Замок и пояснение: ФИО закреплено за проектом (F13) */
+.profile__lock {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  color: var(--color-gray-600);
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.profile__meta {
+  font-size: var(--fs-15);
+  color: var(--color-gray-500);
+}
+
+.profile__support {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.profile__divider {
+  height: 1px;
+  background: var(--color-gray-200);
+}
+
+/* Режим просмотра */
+
+.profile__rows {
+  margin: 0;
+  display: grid;
+  /* локальное значение: минимальная ширина колонки 260px из эталона */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-24) var(--space-32);
+}
+
+.profile__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.profile__row-label {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.profile__row-value {
+  margin: 0;
+  font-size: var(--fs-18);
+  font-weight: var(--font-medium);
+}
+
+/* Режим правки */
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.profile__grid {
+  display: grid;
+  /* локальное значение: минимальная ширина колонки 300px из эталона */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-22);
+}
+
+.profile__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.profile__label {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.profile__label--small {
+  font-size: var(--fs-14);
+  font-weight: var(--font-regular);
+  color: var(--color-gray-600);
+}
+
+.profile__required {
+  color: var(--color-lost-text);
+  font-weight: var(--font-bold);
+}
+
+/* Как в эталоне: content-box, контрол растягивается по ширине колонки флекса (без width: 100%). */
+.profile__input,
+.profile__select {
+  min-height: var(--control-h-field);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-regular);
+  color: var(--color-ink);
+}
+
+.profile__input {
+  padding: 0 var(--space-18);
+}
+
+.profile__select {
+  padding: 0 var(--space-14);
+  /* Как у эталона (font: shorthand): межстрочный интервал normal, иначе текст сдвигается на 1px. */
+  line-height: normal;
+}
+
+.profile__input:focus-visible,
+.profile__select:focus-visible,
+.profile__check:focus-visible,
+.profile__edit:focus-visible,
+.profile__btn:focus-visible,
+.profile__support:focus-visible,
+.profile__saved-link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Состояние ошибки валидации. В эталоне такого состояния нет: ждём текст и вид от владельца дизайна (см. отчёт G3). */
+.profile__input--invalid {
+  border-color: var(--color-danger-text);
+}
+
+/* Текст ошибки под полем: цвет danger из tokens.css, размер как у подписей полей. */
+.profile__error {
+  font-size: var(--fs-14);
+  line-height: var(--lh-text);
+  color: var(--color-danger-text);
+}
+
+.profile__study {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  grid-column: 1 / -1;
+}
+
+.profile__legend {
+  margin-bottom: var(--space-10);
+  padding: 0;
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.profile__check {
+  align-self: flex-start;
+  display: inline-flex;
+  gap: var(--space-12);
+  align-items: center;
+  min-height: var(--control-h-nav);
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-medium);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.profile__box {
+  /* локальное значение: чекбокс 24px, радиус 7px из эталона (вне шкалы контролов) */
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  border: 2px solid var(--color-gray-400);
+  background: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.profile__box--on {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+}
+
+/* Галочка чекбокса: цвет текста кнопки-чекбокса (ink), задаётся через currentColor в SVG. */
+.profile__box {
+  color: var(--color-ink);
+}
+
+.profile__study-grid {
+  display: grid;
+  /* локальное значение: третья колонка 140px из эталона */
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 140px;
+  gap: var(--space-16);
+  padding: var(--space-20);
+  /* локальное значение: радиус блока обучения 20px из эталона */
+  border-radius: 20px;
+  background: var(--color-gray-50);
+}
+
+.profile__warning {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-14) var(--space-18);
+  border-radius: var(--radius-s);
+  background: var(--color-warning-bg);
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-warning-deep);
+}
+
+.profile__warning-icon {
+  flex: none;
+  color: var(--color-fact-nodoc-line);
+}
+
+.profile__actions {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Как в эталоне: обёртка 16px задаёт строку (baseline), подпись 14px внутри. */
+.profile__hint-wrap {
+  margin-right: auto;
+  font-size: var(--fs-16);
+}
+
+.profile__hint {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.profile__btn {
+  min-height: var(--control-h-cta);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+.profile__btn--outline {
+  padding: 0 var(--space-24);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.profile__btn--brand {
+  padding: 0 var(--space-32);
+  border: 0;
+  background: var(--color-brand);
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+}
+
+/* Блоки «Программа» и «Проект» */
+
+.profile__info {
+  display: grid;
+  /* локальное значение: минимальная ширина колонки 300px из эталона */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-16);
+}
+
+.profile__info-card {
+  border-radius: var(--radius-card);
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.profile__info-card--muted {
+  background: var(--color-gray-50);
+}
+
+.profile__info-card--peach {
+  background: var(--color-peach);
+}
+
+.profile__info-caption {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.profile__info-caption--terracotta {
+  color: var(--color-terracotta-deep);
+}
+
+.profile__info-title {
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+.profile__info-text {
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.profile__info-text--strong {
+  color: var(--color-gray-800);
+}

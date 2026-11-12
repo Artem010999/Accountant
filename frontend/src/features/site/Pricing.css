@@ -1,0 +1,242 @@
+/* Тарифы. Значения — из inline-стилей design/project/Pricing.dc.html.
+   Размеры без токена (30, 44, 64 px) и тень переключателя указаны прямо — см. отчёт G1. Цвет #A1A1AA — токен --color-gray-400. */
+
+.pricing__intro {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-56) var(--space-32) var(--space-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.pricing__title {
+  font-size: 64px;
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+}
+
+.pricing__lead {
+  font-size: var(--fs-20);
+  line-height: 1.5;
+  color: var(--color-gray-600);
+  max-width: 720px;
+}
+
+.pricing__toggle {
+  align-self: flex-start;
+  margin-top: var(--space-8);
+}
+
+/* Карточки тарифов */
+.pricing__cards {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-24) var(--space-32) 72px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-20);
+  align-items: stretch;
+}
+
+.pricing__card {
+  position: relative;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-40);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.pricing__card--featured {
+  border: 2px solid var(--color-brand);
+  background: var(--color-peach-soft);
+}
+
+.pricing__badge {
+  position: absolute;
+  top: -15px;
+  left: 40px;
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font-size: var(--fs-14);
+  font-weight: var(--font-bold);
+  padding: 5px var(--space-14);
+  border-radius: var(--radius-pill);
+}
+
+.pricing__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.pricing__name {
+  font-size: 30px;
+  font-weight: var(--font-bold);
+}
+
+.pricing__desc {
+  font-size: var(--fs-17);
+  line-height: 1.5;
+  color: var(--color-gray-600);
+}
+
+.pricing__price {
+  font-size: 44px;
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.pricing__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.pricing__period {
+  font-size: var(--fs-17);
+  color: var(--color-gray-600);
+}
+
+.pricing__discount {
+  align-self: flex-start;
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.pricing__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+  font-size: var(--fs-17);
+  line-height: 1.4;
+}
+
+.pricing__item {
+  display: flex;
+  gap: var(--space-12);
+}
+
+.pricing__item--off {
+  color: var(--color-gray-500);
+}
+
+/* Без flex: none: как в эталоне, иконка сжимается, когда строка пункта длинная. */
+.pricing__icon {
+  stroke: var(--color-fact-doc-line);
+}
+
+.pricing__icon--off {
+  stroke: var(--color-gray-400);
+}
+
+.pricing__cta {
+  margin-top: auto;
+}
+
+/* Таблица сравнения */
+.pricing__table-section {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-24) var(--space-32) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+}
+
+.pricing__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+}
+
+.pricing__table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: var(--fs-17);
+}
+
+.pricing__table-head {
+  background: var(--color-gray-100);
+  text-align: left;
+}
+
+.pricing__table-head th {
+  padding: var(--space-20) var(--space-28);
+  font-weight: var(--font-semibold);
+}
+
+.pricing__th-center {
+  text-align: center;
+}
+
+.pricing__th-pro {
+  color: var(--color-link);
+}
+
+.pricing__table-row {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.pricing__row-title {
+  padding: var(--space-18) var(--space-28);
+  font-weight: var(--font-regular);
+  text-align: left;
+}
+
+.pricing__cell {
+  padding: var(--space-18) var(--space-28);
+  text-align: center;
+}
+
+.pricing__cell--off {
+  color: var(--color-gray-500);
+}
+
+/* Нижние блоки */
+.pricing__notes {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-32) 96px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-20);
+}
+
+.pricing__note {
+  background: var(--color-gray-100);
+  border-radius: var(--radius-xl);
+  padding: var(--space-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.pricing__note--dark {
+  background: var(--color-terracotta);
+  color: var(--color-white);
+}
+
+.pricing__note-title {
+  font-size: var(--fs-22);
+  font-weight: var(--font-bold);
+}
+
+.pricing__note-text {
+  font-size: var(--fs-17);
+  line-height: 1.5;
+  color: var(--color-gray-600);
+}
+
+.pricing__note-text--peach {
+  color: var(--color-peach-300);
+}

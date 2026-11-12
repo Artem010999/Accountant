@@ -77,6 +77,10 @@ async function finalize(
   extraWarnings: string[],
   extraChecklist: string[],
 ): Promise<PipelineCompleted> {
+  // TODO(разработчик, S3): фатальные стоп-факторы «тема не подходит ФСИ» (узлы 14–15 схемы) — новый терминальный статус.
+  // Полный список причин и кто их решает (правило или модель) не определены (docs/PLAN-v1.1.md Q4).
+  // TODO(разработчик, S4): проверки сметы и цифр (узлы 13 и 16) — сходимость статей, лимиты программы.
+  // Правила не определены (docs/PLAN-v1.1.md Q5).
   const passportRecords = records.filter((r) => r.section_id >= 2);
   const allClaims: AuditableClaim[] = passportRecords.flatMap((r) => r.claims as unknown as AuditableClaim[]);
 

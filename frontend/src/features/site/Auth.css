@@ -1,0 +1,181 @@
+/* Вход и регистрация. Значения — из inline-стилей design/project/Auth.dc.html. */
+
+.auth {
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-white);
+}
+
+.auth__form-side {
+  flex: 1 1 560px;
+  min-width: 0;
+  padding: var(--space-32) var(--space-48) var(--space-48);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-48);
+}
+
+.auth__brand {
+  align-self: flex-start;
+}
+
+.auth__form {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+}
+
+.auth__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-22);
+}
+
+.auth__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.auth__lead {
+  font-size: var(--fs-17);
+  line-height: 1.5;
+  color: var(--color-gray-600);
+}
+
+/* Поля ввода: подпись 15/600, поле 56 px с рамкой gray-300 и радиусом 16 */
+.auth__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.auth__label {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+.auth__label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.auth__aside-link {
+  font-size: var(--fs-15);
+}
+
+.auth__input {
+  min-height: var(--control-h-field);
+  padding: 0 var(--space-18);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-regular);
+}
+
+.auth__input:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.auth__consent {
+  display: flex;
+  gap: var(--space-12);
+  align-items: flex-start;
+  font-size: var(--fs-15);
+  line-height: 1.5;
+  color: var(--color-gray-800);
+}
+
+/* Без flex: none: как в эталоне, чекбокс сжимается во flex-строке (13 px при длинном тексте). */
+.auth__checkbox {
+  width: 20px;
+  height: 20px;
+  margin: var(--space-2) 0 0;
+  accent-color: var(--color-brand);
+}
+
+.auth__hint {
+  font-size: var(--fs-14);
+  line-height: 1.5;
+  color: var(--color-gray-500);
+}
+
+/* Блок «Для прототипа» из эталона входа */
+.auth__proto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-16) var(--space-18);
+  background: var(--color-gray-100);
+  border-radius: var(--radius-input);
+}
+
+.auth__proto-title {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auth__proto-link {
+  font-size: var(--fs-15);
+}
+
+/* Правая оранжевая панель */
+.auth__panel {
+  flex: 1 1 480px;
+  min-width: 0;
+  background: var(--color-brand);
+  padding: var(--space-64);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-36);
+}
+
+.auth__panel-title {
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+  max-width: 520px;
+}
+
+.auth__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  font-size: 19px;
+  line-height: 1.4;
+  max-width: 520px;
+}
+
+.auth__step {
+  display: flex;
+  gap: var(--space-14);
+  align-items: flex-start;
+}
+
+.auth__step-num {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-15);
+  font-weight: var(--font-bold);
+}

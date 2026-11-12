@@ -1,0 +1,204 @@
+/* Служебная страница дизайн-системы. Значения — из inline-стилей DesignSystem.dc.html, цвета — токены. */
+
+.ds {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-white);
+  min-height: 100vh;
+}
+
+.ds__main {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-56) var(--space-32) var(--space-80);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-64);
+}
+
+.ds__hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-40);
+  align-items: center;
+}
+
+.ds__hero-text {
+  flex: 1 1 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.ds__h1,
+.ds__h2,
+.ds__h3 {
+  margin: 0;
+}
+
+.ds__lead {
+  margin: 0;
+}
+
+.ds__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.ds__p16 {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-lead);
+  color: var(--color-gray-600);
+  max-width: 860px;
+}
+
+.ds__meta14 {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.ds__caption14 {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.ds__code13 {
+  font-size: var(--fs-13);
+}
+
+.ds__body15 {
+  margin: 0;
+  font-size: var(--fs-15);
+  line-height: var(--lh-body);
+  color: var(--color-gray-800);
+}
+
+.ds__body15--peach {
+  color: var(--color-peach-300);
+}
+
+/* Цвета бренда */
+.ds__swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-14);
+}
+
+.ds__swatch-card {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.ds__swatch-fill {
+  height: 110px;
+}
+
+.ds__swatch-text {
+  padding: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ds__swatch-name {
+  font-size: var(--fs-16);
+}
+
+.ds__chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-10);
+}
+
+.ds__chip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.ds__chip-fill {
+  height: 56px;
+  border-radius: var(--radius-s);
+}
+
+.ds__chip-fill--bordered {
+  border: 1px solid var(--color-gray-200);
+}
+
+/* Язык утверждений */
+.ds__claims {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--space-14);
+}
+
+.ds__claim-sample {
+  font-size: var(--fs-17);
+  line-height: var(--lh-claim);
+}
+
+.ds__claim-title {
+  font-size: var(--fs-15);
+}
+
+.ds__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-10);
+  align-items: center;
+}
+
+.ds__row--buttons {
+  gap: var(--space-16);
+}
+
+.ds__row-label {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  margin-right: var(--space-6);
+}
+
+/* Типографика */
+.ds__type-card {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-card);
+  padding: var(--space-28);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+}
+
+.ds__type-row {
+  display: flex;
+  gap: var(--space-24);
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.ds__type-meta {
+  width: 120px;
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.ds__label-color {
+  color: var(--color-gray-600);
+}
+
+/* Кнопки и формы */
+.ds__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-16);
+  max-width: 900px;
+}
+
+/* Нижний ряд карточек */
+.ds__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-16);
+}

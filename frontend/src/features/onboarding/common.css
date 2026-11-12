@@ -1,0 +1,155 @@
+/*
+ * Общие классы онбординга (Onboarding, Brief, Generating). Значения — из inline-стилей эталонов.
+ * Значения берутся из tokens.css; единичные значения оставлены локально и помечены «локальное значение: …».
+ */
+
+.ob-page {
+  min-height: 100vh;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Заголовок экрана онбординга: 48 px в эталоне, в tokens.css такого размера нет. */
+.ob-title {
+  margin: 0;
+  font-size: var(--fs-48);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.ob-title--tight {
+  line-height: 1.1; /* локальное значение: межстрочный крупного заголовка онбординга, один класс */
+}
+
+.ob-lead {
+  margin: 0;
+  font-size: var(--fs-18);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.ob-required {
+  color: var(--color-lost-text);
+  font-weight: var(--font-bold);
+}
+
+.ob-label {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+/* Подписи полей верхнего уровня (Телефон, Telegram, Регион): 15 px, 600, цвет текста. */
+.ob-label--strong {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.ob-input,
+.ob-select,
+.ob-textarea {
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font: var(--font-regular) var(--fs-17) var(--font-sans);
+}
+
+.ob-input,
+.ob-select {
+  min-height: var(--control-h-field);
+  padding: 0 var(--space-18);
+}
+
+.ob-select {
+  padding: 0 var(--space-14);
+}
+
+.ob-input:disabled {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-200);
+  color: var(--color-gray-400);
+}
+
+.ob-input:focus,
+.ob-select:focus,
+.ob-textarea:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.ob-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+/* Кнопка-чекбокс из эталона (role="checkbox"): квадрат с обводкой и галочкой. */
+.ob-check {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.ob-check--lg {
+  gap: var(--space-12);
+  min-height: var(--control-h-nav);
+  font: var(--font-medium) var(--fs-17) var(--font-sans);
+}
+
+.ob-check--sm {
+  gap: var(--space-10);
+  min-height: var(--control-h-sm);
+  font: var(--font-medium) var(--fs-15) var(--font-sans);
+  color: var(--color-gray-800);
+}
+
+.ob-check__box {
+  flex: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-gray-400);
+  background: var(--color-white);
+}
+
+.ob-check--lg .ob-check__box {
+  width: 24px; /* локальное значение: квадрат чекбокса 24 px, один размер на экране */
+  height: 24px; /* локальное значение: квадрат чекбокса 24 px, один размер на экране */
+  border-radius: 7px; /* локальное значение: скругление квадрата чекбокса 24 px */
+}
+
+.ob-check--sm .ob-check__box {
+  width: var(--size-checkbox-sm);
+  height: var(--size-checkbox-sm);
+  border-radius: 6px; /* локальное значение: скругление квадрата чекбокса 22 px */
+}
+
+.ob-check[aria-checked="true"] .ob-check__box {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+}
+
+/* Основная кнопка «Продолжить» / «Собрать паспорт» — оранжевая пилюля. */
+.ob-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-36);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font: var(--font-bold) var(--fs-18) var(--font-sans);
+  text-decoration: none;
+  cursor: pointer;
+}

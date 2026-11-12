@@ -1,0 +1,35 @@
+.claim {
+  padding: 1px var(--space-2);
+}
+
+.claim--fact-doc {
+  background: var(--color-fact-doc-bg);
+  border-bottom: 2px solid var(--color-fact-doc-line);
+}
+
+.claim--fact-no-doc {
+  background: var(--color-fact-nodoc-bg);
+  border-bottom: 2px dashed var(--color-fact-nodoc-line);
+}
+
+.claim--plan {
+  background: var(--color-plan-bg);
+  border-bottom: 2px dotted var(--color-plan-line);
+}
+
+.claim--hypothesis {
+  background: var(--color-hypothesis-bg);
+  border-bottom: 2px solid var(--color-hypothesis-line);
+}
+
+.claim--hearsay {
+  background: var(--color-hearsay-bg);
+  border-bottom: 2px dashed var(--color-hearsay-line);
+}
+
+/* Потеряна привязка: без фона, красный и зачёркнутый. */
+.claim--lost {
+  padding: 0;
+  color: var(--color-lost-text);
+  text-decoration: line-through;
+}

@@ -1,0 +1,729 @@
+/*
+ * Паспорт проекта (Passport.dc.html). Цвета, радиусы, шрифты и отступы — через токены из tokens.css
+ * (значения из inline-стилей эталона, без округления).
+ * Единичные значения оставлены локально, у каждого комментарий «локальное значение: …»: размеры переключателя
+ * режима эксперта и его ручки, колонки блоков и панели, колонка «ФИО», трекинг подписи, межстрочный текста поля,
+ * тень ручки переключателя.
+ */
+
+.passport {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.passport__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.passport__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-14);
+  flex-wrap: wrap;
+}
+
+.passport__h1 {
+  margin: 0;
+  font-size: var(--fs-34);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.passport__saved {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.passport__actions {
+  display: flex;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+
+.passport__btn {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-18);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  font: var(--font-semibold) var(--fs-15) var(--font-sans);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+a.passport__btn-brand,
+a.passport__btn-brand:hover {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-20);
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  text-decoration: none;
+  font-weight: var(--font-bold);
+  font-size: var(--fs-15);
+}
+
+/* Легенда обозначений и переключатель режима эксперта */
+
+.passport__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+  padding: var(--space-12) var(--space-16);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-shell);
+}
+
+.passport__legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+  font-size: var(--fs-14);
+  color: var(--color-gray-800);
+}
+
+.passport__legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.passport__swatch {
+  width: var(--size-swatch);
+  height: var(--size-mark);
+}
+
+.passport__swatch--fact-doc {
+  background: var(--color-fact-doc-bg);
+  border-bottom: 2px solid var(--color-fact-doc-line);
+}
+
+.passport__swatch--fact-nodoc {
+  background: var(--color-fact-nodoc-bg);
+  border-bottom: 2px dashed var(--color-fact-nodoc-line);
+}
+
+.passport__swatch--plan {
+  background: var(--color-plan-bg);
+  border-bottom: 2px dotted var(--color-plan-line);
+}
+
+.passport__swatch--hyp {
+  background: var(--color-hypothesis-bg);
+  border-bottom: 2px solid var(--color-hypothesis-line);
+}
+
+.passport__swatch--hearsay {
+  background: var(--color-hearsay-bg);
+  border-bottom: 2px dashed var(--color-hearsay-line);
+}
+
+.passport__expert {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-6) 0 var(--space-14);
+  border: 0;
+  background: transparent;
+  font: var(--font-semibold) var(--fs-15) var(--font-sans);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.passport__switch {
+  position: relative;
+  display: inline-block;
+  width: 44px; /* локальное значение: переключатель режима эксперта из эталона */
+  height: 26px; /* локальное значение: переключатель режима эксперта из эталона */
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-300);
+}
+
+.passport__switch--on {
+  background: var(--color-brand);
+}
+
+.passport__knob {
+  position: absolute;
+  top: 3px; /* локальное значение: ручка переключателя из эталона */
+  left: 3px; /* локальное значение: ручка переключателя из эталона */
+  width: 20px; /* локальное значение: ручка переключателя из эталона */
+  height: 20px; /* локальное значение: ручка переключателя из эталона */
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* локальное значение: тень ручки из эталона, больше нигде не повторяется */
+}
+
+.passport__switch--on .passport__knob {
+  left: 21px; /* локальное значение: положение ручки «вкл» из эталона */
+}
+
+/* Тело: навигация по блокам, секция, панель утверждения */
+
+.passport__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-24);
+  align-items: flex-start;
+}
+
+.passport__nav {
+  flex: 1 1 210px; /* локальное значение: ширина колонки блоков из эталона */
+  max-width: 230px; /* локальное значение: ширина колонки блоков из эталона */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.passport__nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  min-height: var(--control-h-nav);
+  padding: var(--space-8) var(--space-12);
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  font: var(--font-medium) var(--fs-15) var(--font-sans);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.passport__nav-item--current {
+  background: var(--color-peach);
+  font-weight: var(--font-semibold);
+}
+
+.passport__nav-num {
+  width: 20px; /* локальное значение: колонка номера блока из эталона */
+  font-size: var(--fs-13);
+  font-weight: var(--font-bold);
+  color: var(--color-gray-500);
+}
+
+.passport__nav-label {
+  flex: 1;
+  text-align: left;
+  line-height: 1.3; /* локальное значение: межстрочный названия блока из эталона */
+}
+
+.passport__nav-dot {
+  flex: none;
+  width: var(--size-mark);
+  height: var(--size-mark);
+  border-radius: var(--radius-pill);
+}
+
+.passport__nav-dot--lock {
+  background: var(--color-gray-400);
+}
+
+.passport__nav-dot--needs {
+  background: var(--color-amber-600);
+}
+
+.passport__nav-dot--approved {
+  background: var(--color-fact-doc-line);
+}
+
+.passport__nav-dot--ai {
+  background: var(--color-gray-300);
+}
+
+.passport__section {
+  flex: 999 1 440px; /* локальное значение: пропорции колонки текста из эталона */
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.passport__sec-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.passport__eyebrow {
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  color: var(--color-link);
+}
+
+.passport__sec-title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-bold);
+  line-height: var(--lh-heading);
+}
+
+.passport__founder {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-card);
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+}
+
+.passport__dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 180px 1fr; /* локальное значение: колонка подписей «ФИО» из эталона */
+  gap: var(--space-10) var(--space-16);
+  font-size: var(--fs-16);
+}
+
+.passport__dl dt {
+  color: var(--color-gray-500);
+}
+
+.passport__dl dd {
+  margin: 0;
+}
+
+.passport__founder-link {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+/* Поле паспорта */
+
+.passport__field {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-card);
+  padding: var(--space-22) var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+}
+
+.passport__field-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.passport__field-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+}
+
+.passport__field-name {
+  margin: 0;
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+}
+
+.passport__field-actions {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.passport__btn-edit,
+.passport__btn-approve {
+  min-height: var(--control-h-sm);
+  padding: 0 var(--space-14);
+  border-radius: var(--radius-pill);
+  font: var(--font-semibold) var(--fs-14) var(--font-sans);
+  cursor: pointer;
+}
+
+.passport__btn-edit {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  color: var(--color-ink);
+}
+
+.passport__btn-approve {
+  border: 0;
+  background: var(--color-ink);
+  color: var(--color-white);
+}
+
+.passport__text {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: 1.85; /* локальное значение: межстрочный текста поля из эталона */
+  color: var(--color-gray-900);
+}
+
+.passport__note {
+  margin: 0;
+  font-size: var(--fs-14);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+/* Правка поля */
+
+.passport__editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.passport__editor-hint {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.passport__textarea {
+  padding: var(--space-14) var(--space-16);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  font: var(--font-regular) var(--fs-16) / var(--lh-body) var(--font-sans);
+  resize: vertical;
+}
+
+.passport__textarea:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.passport__editor-warn {
+  font-size: var(--fs-14);
+  color: var(--color-warning-text);
+}
+
+.passport__editor-actions {
+  display: flex;
+  gap: var(--space-10);
+}
+
+.passport__btn-save,
+.passport__btn-cancel {
+  min-height: var(--control-h-nav);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  color: var(--color-ink);
+}
+
+.passport__btn-save {
+  padding: 0 var(--space-20);
+  border: 0;
+  background: var(--color-brand);
+  font: var(--font-bold) var(--fs-15) var(--font-sans);
+}
+
+.passport__btn-cancel {
+  padding: 0 var(--space-18);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  font: var(--font-semibold) var(--fs-15) var(--font-sans);
+}
+
+/* Утверждение потеряло привязку */
+
+.passport__orphan {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  padding: var(--space-16) var(--space-18);
+  background: var(--color-danger-soft);
+  border-radius: var(--radius-input);
+}
+
+.passport__orphan-title {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-danger-deep);
+}
+
+.passport__orphan-text {
+  font-size: var(--fs-15);
+  color: var(--color-danger-deep);
+  text-decoration: line-through;
+}
+
+.passport__orphan-actions {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.passport__btn-drop,
+.passport__btn-undo {
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-16);
+  border-radius: var(--radius-pill);
+  font: var(--font-semibold) var(--fs-14) var(--font-sans);
+  cursor: pointer;
+}
+
+.passport__btn-drop {
+  border: 0;
+  background: var(--color-lost-text);
+  color: var(--color-white);
+}
+
+.passport__btn-undo {
+  border: 1px solid var(--color-danger-line);
+  background: var(--color-white);
+  color: var(--color-danger-deep);
+}
+
+/* Метки подсветки утверждений в тексте поля (в эталоне — a.claim) */
+
+a.passport-claim,
+a.passport-claim:hover {
+  color: inherit;
+}
+
+.passport-claim {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-2xs);
+  text-decoration: none;
+  cursor: pointer;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.passport-claim:hover {
+  filter: brightness(0.96);
+}
+
+.passport-claim--fact-doc {
+  background: var(--color-fact-doc-bg);
+  border-bottom: 2px solid var(--color-fact-doc-line);
+}
+
+.passport-claim--fact-nodoc {
+  background: var(--color-fact-nodoc-bg);
+  border-bottom: 2px dashed var(--color-fact-nodoc-line);
+}
+
+.passport-claim--plan {
+  background: var(--color-plan-bg);
+  border-bottom: 2px dotted var(--color-plan-line);
+}
+
+.passport-claim--hyp {
+  background: var(--color-hypothesis-bg);
+  border-bottom: 2px solid var(--color-hypothesis-line);
+}
+
+.passport-claim--hearsay {
+  background: var(--color-hearsay-bg);
+  border-bottom: 2px dashed var(--color-hearsay-line);
+}
+
+/* Режим эксперта: всё, кроме рисков, приглушено; риски обведены. */
+a.passport-claim.passport-claim--muted {
+  background: transparent;
+  border-bottom: 0;
+  color: var(--color-gray-500);
+}
+
+.passport-claim--risk {
+  box-shadow: 0 0 0 1px var(--color-fact-nodoc-line) inset;
+}
+
+.passport-claim--selected {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 1px;
+}
+
+/* Панель утверждения */
+
+.passport__panel {
+  flex: 1 1 300px; /* локальное значение: ширина панели из эталона */
+  max-width: 340px; /* локальное значение: ширина панели из эталона */
+  min-width: 0;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+  padding: var(--space-22);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  box-sizing: border-box;
+}
+
+.passport__panel-hint {
+  margin: 0;
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.passport__claim {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.passport__kind {
+  align-self: flex-start;
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+}
+
+.passport__kind--ok {
+  background: var(--color-fact-doc-bg);
+  color: var(--color-success-text);
+}
+
+.passport__kind--nodoc {
+  background: var(--color-fact-nodoc-bg);
+  color: var(--color-warning-text);
+}
+
+.passport__kind--plan {
+  background: var(--color-plan-bg);
+  color: var(--color-info-text);
+}
+
+.passport__kind--hyp {
+  background: var(--color-hypothesis-bg);
+  color: var(--color-hypothesis-text);
+}
+
+.passport__kind--client {
+  background: var(--color-hearsay-bg);
+  color: var(--color-gray-800);
+}
+
+.passport__claim-text {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: var(--lh-text);
+  font-weight: var(--font-medium);
+}
+
+.passport__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.passport__caption {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em; /* локальное значение: трекинг подписи из эталона */
+}
+
+.passport__types {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.passport__type {
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-10);
+  border-radius: var(--radius-xs);
+  font: var(--font-semibold) var(--fs-14) var(--font-sans);
+  cursor: pointer;
+}
+
+.passport__type--on {
+  border: 2px solid var(--color-ink);
+  background: var(--color-white);
+  color: var(--color-ink);
+}
+
+.passport__type--off {
+  border: 1px solid var(--color-gray-200);
+  background: var(--color-gray-50);
+  color: var(--color-gray-800);
+}
+
+.passport__source {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-14);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-s);
+}
+
+.passport__source--plain {
+  gap: var(--space-6);
+}
+
+.passport__source-name {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+}
+
+.passport__source-icon {
+  fill: none;
+  stroke: var(--color-lost-text);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.passport__source-page,
+.passport__conf,
+.passport__advice {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.passport__advice {
+  line-height: var(--lh-text);
+}
+
+.passport__source-quote {
+  font-size: var(--fs-14);
+  line-height: var(--lh-text);
+  color: var(--color-gray-800);
+  font-style: italic;
+}
+
+.passport__origin {
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+}
+
+.passport__claim-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.passport__btn-main,
+.passport__btn-second {
+  min-height: var(--control-h-nav);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.passport__btn-main {
+  border: 0;
+  background: var(--color-brand);
+  font: var(--font-bold) var(--fs-15) var(--font-sans);
+}
+
+.passport__btn-second {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  font: var(--font-semibold) var(--fs-15) var(--font-sans);
+}

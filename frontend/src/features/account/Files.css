@@ -1,0 +1,621 @@
+/* Экран «Материалы». Значения из inline-стилей design/project/Files.dc.html; цвета и размеры — через токены.
+   Значения без токена помечены «локальное значение: …». */
+
+.files__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.files__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.files__title {
+  margin: 0;
+  font-size: var(--fs-40);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.files__lead {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+  /* локальное значение: ширина колонки подписи из эталона (640px), токена нет */
+  max-width: 640px;
+}
+
+.files__add {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  min-height: var(--control-h-cta);
+  padding: 0 var(--space-28);
+  border: 0;
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Тосты */
+
+.files__toast {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+  padding: var(--space-18) var(--space-22);
+  border-radius: var(--radius-shell);
+  flex-wrap: wrap;
+}
+
+.files__toast--success {
+  background: var(--color-success-soft);
+  color: var(--color-success-text);
+}
+
+.files__toast--neutral {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.files__toast--warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning-text);
+}
+
+.files__toast--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-deep);
+}
+
+.files__toast-text {
+  flex: 1;
+  font-size: var(--fs-16);
+  line-height: var(--lh-text);
+}
+
+.files__toast-link {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+/* Кнопки-иконки */
+
+/* Кнопки-иконки без своего display и padding: как в эталоне (браузерные умолчания центрируют иконку). */
+.files__icon-btn {
+  width: var(--control-h-nav);
+  height: var(--control-h-nav);
+  border: 0;
+  background: transparent;
+  border-radius: var(--radius-xs);
+  color: var(--color-gray-800);
+  cursor: pointer;
+}
+
+.files__icon-btn--danger {
+  color: var(--color-lost-text);
+}
+
+.files__toast-close {
+  /* локальное значение: кнопка закрытия тоста 40×40 с радиусом 10px, токена нет */
+  width: var(--control-h-toggle);
+  height: var(--control-h-toggle);
+  border-radius: 10px;
+  color: var(--color-gray-600);
+}
+
+/* Лимиты */
+
+.files__limits {
+  display: grid;
+  /* локальное значение: минимальная ширина карточки 260px из эталона, токена нет */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-16);
+}
+
+.files__limit-card {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-card);
+  padding: var(--space-22) var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.files__limit-caption {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.files__limit-value {
+  font-size: var(--fs-28);
+  font-weight: var(--font-extrabold);
+  /* локальное значение: трекинг цифр лимита -0.01em из эталона, токена нет */
+  letter-spacing: -0.01em;
+}
+
+.files__limit-of {
+  font-size: var(--fs-18);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-500);
+}
+
+.files__bar {
+  display: block;
+  /* локальное значение: высота полосы лимита 8px из эталона, токена нет */
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  overflow: hidden;
+}
+
+.files__bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+}
+
+.files__plan-card {
+  background: var(--color-gray-50);
+  border-radius: var(--radius-card);
+  padding: var(--space-22) var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  justify-content: center;
+}
+
+.files__plan-name {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+.files__plan-text {
+  font-size: var(--fs-14);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.files__plan-link {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+}
+
+/* Список файлов */
+
+.files__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.files__row {
+  display: grid;
+  /* локальное значение: колонки таблицы материалов (120/200/236px) из эталона, токенов нет */
+  grid-template-columns: minmax(0, 1fr) 120px 200px 236px;
+  gap: var(--space-16);
+  align-items: center;
+  padding: var(--space-16) var(--space-22);
+}
+
+.files__row--head {
+  padding: 0 var(--space-22);
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  /* локальное значение: трекинг заголовков таблицы 0.04em из эталона, токена нет */
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gray-500);
+}
+
+.files__row--item {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-shell);
+}
+
+.files__cell--end {
+  text-align: right;
+}
+
+.files__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-14);
+  min-width: 0;
+}
+
+.files__ext {
+  flex: none;
+  /* локальное значение: плашка типа файла 44×44 из эталона, токена нет */
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-12);
+  font-weight: var(--font-bold);
+}
+
+.files__ext--pdf {
+  background: var(--color-danger-bg);
+  color: var(--color-lost-text);
+}
+
+.files__ext--scan {
+  background: var(--color-plan-bg);
+  color: var(--color-plan-line);
+}
+
+.files__ext--docx {
+  /* локальное значение: плашка DOCX из эталона (#E0E7FF / #3730A3), токена нет */
+  background: #E0E7FF;
+  color: #3730A3;
+}
+
+.files__ext--other {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.files__name-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.files__name-title {
+  display: block;
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.files__name-meta {
+  display: block;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.files__date {
+  font-size: var(--fs-15);
+  color: var(--color-gray-800);
+}
+
+.files__status {
+  justify-self: start;
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  padding: var(--space-6) var(--space-12);
+  border-radius: var(--radius-pill);
+}
+
+.files__status--ok {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.files__status--parsing {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.files__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: flex-end;
+}
+
+.files__open {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-14);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Зона загрузки */
+
+.files__drop {
+  /* локальное значение: пунктирная рамка зоны загрузки #FDBA8C, в токенах нет */
+  border: 2px dashed #FDBA8C;
+  background: var(--color-peach-soft);
+  border-radius: var(--radius-shell);
+  /* локальное значение: отступ зоны 26px из эталона, токена нет */
+  padding: 26px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-12);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.files__drop > svg {
+  color: var(--color-link);
+}
+
+.files__drop-link {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.files__hint {
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+  line-height: var(--lh-text);
+}
+
+/* Оверлеи: просмотр и удаление. Перекрывают весь экран (fixed), как overlay эталона на всю страницу. */
+
+.files__overlay {
+  position: fixed;
+  inset: 0;
+  /* локальное значение: затемнение rgba(23,23,28,0.45) из эталона, токена нет */
+  background: rgba(23, 23, 28, 0.45);
+  display: flex;
+  z-index: 10;
+}
+
+.files__overlay--end {
+  justify-content: flex-end;
+}
+
+.files__overlay--center {
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+}
+
+.files__drawer {
+  /* локальное значение: ширина панели просмотра 640px из эталона, токена нет */
+  width: 640px;
+  max-width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: var(--color-white);
+  padding: var(--space-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  overflow: auto;
+}
+
+.files__drawer-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+}
+
+.files__drawer-title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.files__drawer-name {
+  margin: 0;
+  font-size: var(--fs-22);
+  font-weight: var(--font-bold);
+  overflow-wrap: anywhere;
+}
+
+.files__drawer-meta {
+  font-size: var(--fs-15);
+  color: var(--color-gray-500);
+}
+
+.files__close {
+  width: var(--control-h-nav);
+  height: var(--control-h-nav);
+  border: 0;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.files__page-wrap {
+  background: var(--color-gray-100);
+  /* локальное значение: радиус подложки превью 20px из эталона, токена нет */
+  border-radius: 20px;
+  padding: var(--space-28);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.files__page {
+  background: var(--color-white);
+  /* локальное значение: радиус страницы 10px и тень превью из эталона, токенов нет */
+  border-radius: 10px;
+  aspect-ratio: 16 / 9;
+  padding: var(--space-28);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  box-shadow: 0 2px 8px rgba(23, 23, 28, 0.08);
+}
+
+/* локальное значение: строки макета превью (14px заголовок, 8px строки) из эталона, токенов нет */
+.files__page-title {
+  display: block;
+  width: 40%;
+  height: 14px;
+  border-radius: var(--radius-2xs);
+  background: var(--color-ink);
+}
+
+.files__page-line {
+  display: block;
+  height: 8px;
+  border-radius: var(--radius-2xs);
+  background: var(--color-gray-300);
+}
+
+.files__page-line--long {
+  width: 70%;
+}
+
+.files__page-line--short {
+  width: 62%;
+}
+
+.files__page-fact {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: var(--space-6) var(--space-10);
+  /* локальное значение: радиус плашки факта 6px из эталона, токена нет */
+  border-radius: 6px;
+  background: var(--color-fact-doc-bg);
+  border-bottom: 2px solid var(--color-fact-doc-line);
+  font-size: var(--fs-13);
+  color: var(--color-success-text);
+}
+
+.files__page-count {
+  text-align: center;
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.files__drawer-status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.files__drawer-status-title {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+.files__drawer-status-text {
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.files__drawer-actions {
+  margin-top: auto;
+  display: flex;
+  gap: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.files__btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-24);
+  border: 0;
+  background: var(--color-ink);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.files__drawer-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-20);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+.files__confirm {
+  /* локальное значение: ширина окна удаления 520px из эталона, токена нет */
+  width: 520px;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.files__confirm-title {
+  margin: 0;
+  font-size: var(--fs-24);
+  font-weight: var(--font-bold);
+}
+
+.files__confirm-text {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-lead);
+  color: var(--color-gray-800);
+}
+
+.files__confirm-name {
+  font-weight: var(--font-semibold);
+  overflow-wrap: anywhere;
+}
+
+.files__confirm-actions {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: var(--space-8);
+}
+
+.files__btn-outline {
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-22);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.files__btn-danger {
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-22);
+  border: 0;
+  background: var(--color-lost-text);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+  color: var(--color-white);
+  cursor: pointer;
+}

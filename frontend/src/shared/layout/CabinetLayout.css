@@ -1,0 +1,123 @@
+.cabinet {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-white);
+}
+
+.cabinet__aside {
+  flex: 1 1 var(--shell-sidebar-cabinet);
+  max-width: var(--shell-sidebar-cabinet);
+  box-sizing: border-box;
+  background: var(--color-gray-50);
+  border-right: 1px solid var(--color-gray-200);
+  padding: var(--space-24) var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.cabinet__card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-shell);
+  padding: var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.cabinet__caption {
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.cabinet__project-name {
+  font-size: var(--fs-18);
+  font-weight: var(--font-bold);
+}
+
+.cabinet__meta {
+  font-size: var(--fs-13);
+  color: var(--color-gray-600);
+}
+
+.cabinet__plan {
+  margin-top: auto;
+  gap: var(--space-10);
+}
+
+.cabinet__plan-name {
+  font-size: var(--fs-15);
+  font-weight: var(--font-bold);
+}
+
+.cabinet__bar {
+  display: block;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-100);
+  overflow: hidden;
+}
+
+.cabinet__bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-brand);
+}
+
+/* Счётчик пункта меню (у «Пробелов»): значения из Passport.dc.html. */
+.cabinet__badge {
+  margin-left: auto;
+  font-size: var(--fs-13);
+  font-weight: var(--font-bold);
+  padding: var(--space-2) var(--space-8);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-ink);
+}
+
+.cabinet__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  padding: 0 var(--space-8);
+  /* блок пользователя прижат к низу меню, как в эталонах кабинета */
+  margin-top: auto;
+}
+
+.cabinet__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--color-avatar-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-14);
+  font-weight: var(--font-bold);
+}
+
+.cabinet__user-name {
+  flex: 1;
+  font-size: var(--fs-15);
+  font-weight: var(--font-medium);
+}
+
+.cabinet__logout {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.cabinet__main {
+  flex: 999 1 640px;
+  min-width: 0;
+  box-sizing: border-box;
+  /* Отступы и зазор задаёт экран через переменные (useCabinetShell); запасные значения — как в Passport.dc.html. */
+  padding: var(--cabinet-main-padding, var(--space-28) var(--space-32) var(--space-56));
+  display: flex;
+  flex-direction: column;
+  gap: var(--cabinet-main-gap, var(--space-20));
+}

@@ -1,0 +1,74 @@
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.logo--hero {
+  gap: var(--space-16);
+}
+
+.logo--hero .logo__word {
+  font-weight: var(--font-extrabold);
+  font-size: var(--fs-56);
+  letter-spacing: var(--tracking-title);
+}
+
+.logo--hero .logo__product {
+  font-weight: var(--font-medium);
+  font-size: var(--fs-56);
+  color: var(--color-accent-text);
+  margin-left: -8px;
+}
+
+.logo--cabinet {
+  gap: var(--space-10);
+  padding: 0 var(--space-8);
+}
+
+.logo--cabinet .logo__word {
+  font-weight: var(--font-extrabold);
+  font-size: var(--fs-22);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-ink);
+}
+
+.logo--admin {
+  gap: var(--space-10);
+  padding: 0 var(--space-8);
+  color: var(--color-white);
+}
+
+.logo--admin .logo__word {
+  font-weight: var(--font-extrabold);
+  font-size: var(--fs-20);
+  color: var(--color-white);
+}
+
+.logo__badge {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-2) var(--space-8);
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-800);
+  color: var(--color-white);
+}
+
+.logo-mark__tile {
+  fill: var(--color-brand);
+}
+
+.logo-mark__brow {
+  stroke: var(--color-ink);
+  fill: none;
+}
+
+.logo-mark__eye {
+  fill: var(--color-white);
+}
+
+.logo-mark__pupil,
+.logo-mark__beak {
+  fill: var(--color-ink);
+}

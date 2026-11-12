@@ -1,0 +1,117 @@
+/* Публичная оболочка. Значения — из inline-стилей Main.dc.html (шапка и подвал).
+   Ссылки с явным цветом в эталоне не меняют цвет при наведении: поэтому продублирован :hover. */
+
+/* Сброс отступов как в эталоне (margin: 0 у заголовков и абзацев). Специфичность 0, чтобы классы экранов имели приоритет. */
+:where(.site, .auth) :where(h1, h2, h3, p, ul) {
+  margin: 0;
+}
+
+:where(.site, .auth) :where(ul) {
+  padding: 0;
+  list-style: none;
+}
+
+.site {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-white);
+}
+
+.site__header {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-24) var(--space-32);
+  display: flex;
+  align-items: center;
+  gap: var(--space-48);
+  flex-wrap: wrap;
+}
+
+.site__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.site__brand-word {
+  font-weight: var(--font-extrabold);
+  font-size: var(--fs-26);
+  letter-spacing: var(--tracking-title);
+  color: var(--color-ink);
+}
+
+.site__brand-product {
+  margin-left: -4px;
+  font-weight: var(--font-medium);
+  font-size: var(--fs-26);
+  color: var(--color-accent-text);
+}
+
+.site__nav {
+  display: flex;
+  gap: var(--space-32);
+  flex-wrap: wrap;
+  font-size: var(--fs-17);
+  font-weight: var(--font-medium);
+}
+
+.site__nav-link,
+.site__nav-link:hover {
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.site__nav-link--active,
+.site__nav-link--active:hover {
+  color: var(--color-link);
+}
+
+.site__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+}
+
+.site__signin,
+.site__signin:hover {
+  color: var(--color-ink);
+  text-decoration: none;
+  font-size: var(--fs-17);
+  font-weight: var(--font-medium);
+}
+
+.site__footer {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.site__footer-inner {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: var(--space-40) var(--space-32);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-32);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site__copy {
+  font-size: var(--fs-15);
+  color: var(--color-gray-600);
+}
+
+.site__docs {
+  display: flex;
+  gap: var(--space-24);
+  flex-wrap: wrap;
+  font-size: var(--fs-15);
+}
+
+.site__docs-link,
+.site__docs-link:hover {
+  color: var(--color-gray-600);
+}

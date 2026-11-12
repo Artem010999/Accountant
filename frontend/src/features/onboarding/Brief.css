@@ -1,0 +1,454 @@
+/* Стили экрана «Стартовый бриф». Значения — из inline-стилей design/project/Brief.dc.html. */
+
+.brief-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-44) var(--space-32) var(--space-80);
+}
+
+.brief-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+  min-width: 0;
+}
+
+.brief-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.brief-heading__lead {
+  max-width: 760px;
+}
+
+/* Переключатель прототипа в шапке (выбор тарифа для демонстрации веток). */
+.brief-proto {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-4);
+  background: var(--color-gray-100);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-13);
+}
+
+.brief-proto__label {
+  padding: 0 var(--space-8);
+  color: var(--color-gray-600);
+}
+
+.brief-proto__btn {
+  min-height: 32px;
+  padding: 0 var(--space-12);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-gray-600);
+  font: var(--font-medium) var(--fs-13) var(--font-sans);
+  cursor: pointer;
+}
+
+.brief-proto__btn[aria-pressed="true"] {
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-weight: var(--font-semibold);
+}
+
+/* Ветка «есть файлы?»: зона загрузки, пейволл Базового тарифа и карточка анкеты. */
+.brief-ask {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-24);
+  align-items: stretch;
+}
+
+.brief-drop {
+  flex: 999 1 560px;
+  min-width: 0;
+  padding: var(--space-56) var(--space-44);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-14);
+  border: 2px dashed var(--color-admin-logout);
+  border-radius: var(--radius-xl);
+  background: var(--color-peach-soft);
+  color: var(--color-ink);
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.brief-drop__icon {
+  width: 88px; /* локальное значение: иконка зоны загрузки, 88 px только здесь */
+  height: 88px; /* локальное значение: иконка зоны загрузки, 88 px только здесь */
+  border-radius: var(--radius-pill);
+  background: var(--color-peach);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brief-drop__title {
+  font-size: var(--fs-24);
+  font-weight: var(--font-bold);
+}
+
+.brief-drop__or {
+  font-size: var(--fs-17);
+  color: var(--color-gray-600);
+}
+
+.brief-drop__link {
+  color: var(--color-link);
+  text-decoration: underline;
+  font-weight: var(--font-semibold);
+}
+
+.brief-drop__hint {
+  font-size: var(--fs-15);
+  color: var(--color-gray-500);
+}
+
+.brief-locked {
+  flex: 999 1 560px;
+  min-width: 0;
+  padding: var(--space-44);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-16);
+  background: var(--color-peach);
+  border-radius: var(--radius-xl);
+}
+
+.brief-locked__title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-bold);
+}
+
+.brief-locked__text {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: var(--lh-text);
+  color: var(--color-gray-800);
+}
+
+.brief-locked__cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h-cta);
+  padding: 0 var(--space-28);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+  text-decoration: none;
+}
+
+.brief-aside {
+  flex: 1 1 340px;
+  min-width: 0;
+  padding: var(--space-36);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-14);
+  background: var(--color-gray-100);
+  border-radius: var(--radius-xl);
+}
+
+.brief-aside__title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-bold);
+  line-height: 1.2; /* локальное значение: межстрочный заголовка карточки ветки, больше нигде не повторяется */
+}
+
+.brief-aside__text {
+  margin: 0;
+  font-size: var(--fs-17);
+  line-height: var(--lh-text);
+  color: var(--color-gray-800);
+}
+
+.brief-aside__btn {
+  margin-top: 8px;
+  min-height: var(--control-h-lg);
+  padding: 0 var(--space-28);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-10);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-white);
+  font: var(--font-bold) var(--fs-18) var(--font-sans);
+  cursor: pointer;
+}
+
+/* Ветка «Материалы загружены». */
+.brief-files {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.brief-files__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.brief-file {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  padding: var(--space-18) var(--space-22);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-shell);
+}
+
+.brief-file--duplicate {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-soft);
+}
+
+.brief-file__chip {
+  width: 44px; /* локальное значение: миниатюра файла 44 px, отдельного токена нет */
+  height: 44px; /* локальное значение: миниатюра файла 44 px, отдельного токена нет */
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xs);
+  font-size: var(--fs-12);
+  font-weight: var(--font-bold);
+}
+
+.brief-file__chip--ready {
+  background: var(--color-danger-bg);
+  color: var(--color-lost-text);
+}
+
+.brief-file__chip--scan {
+  background: var(--color-plan-bg);
+  color: var(--color-plan-line);
+}
+
+.brief-file__chip--duplicate {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.brief-file__info {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.brief-file__name {
+  font-size: var(--fs-16);
+  font-weight: var(--font-semibold);
+}
+
+.brief-file__meta {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.brief-file__meta--warn {
+  color: var(--color-warning-text);
+}
+
+.brief-file__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-6) var(--space-12);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+}
+
+.brief-file__status--ready {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.brief-file__status--scan {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+/* Кнопка удаления как в эталоне: без своих отступов, иконка — inline-svg. */
+.brief-file__delete {
+  width: var(--control-h-nav);
+  height: var(--control-h-nav);
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  cursor: pointer;
+}
+
+.brief-file__remove-text {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font: var(--font-semibold) var(--fs-14) var(--font-sans);
+  cursor: pointer;
+}
+
+.brief-files__add {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-22);
+  border: 2px dashed var(--color-admin-logout);
+  border-radius: var(--radius-pill);
+  background: var(--color-peach-soft);
+  color: var(--color-terracotta-deep);
+  font: var(--font-semibold) var(--fs-16) var(--font-sans);
+  cursor: pointer;
+}
+
+.brief-files__count {
+  font-weight: var(--font-regular);
+  color: var(--color-gray-500);
+}
+
+/* Ветка «анкета»: вопросы из базы знаний и свободное поле. */
+.brief-questions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+}
+
+.brief-question {
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-card);
+}
+
+.brief-question__label {
+  font-size: var(--fs-18);
+  font-weight: var(--font-semibold);
+}
+
+.brief-question__summary {
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-link);
+  cursor: pointer;
+}
+
+.brief-question__example {
+  margin: var(--space-10) 0 0;
+  font-size: var(--fs-15);
+  line-height: var(--lh-lead);
+  color: var(--color-gray-600);
+}
+
+.brief-textarea {
+  padding: var(--space-14) var(--space-16);
+  border-radius: var(--radius-s);
+  font: var(--font-regular) var(--fs-16)/var(--lh-text) var(--font-sans);
+  resize: vertical;
+}
+
+.brief-extra {
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  background: var(--color-peach-soft);
+  border: 1px solid var(--color-peach-300);
+  border-radius: var(--radius-card);
+}
+
+.brief-extra__label {
+  font-size: var(--fs-18);
+  font-weight: var(--font-semibold);
+}
+
+.brief-extra__hint {
+  font-size: var(--fs-15);
+  line-height: var(--lh-compact);
+  color: var(--color-gray-600);
+}
+
+.brief-textarea--extra {
+  background: var(--color-white);
+}
+
+.brief-form__upload-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Низ экрана: легенда и кнопки «Назад» / «Собрать паспорт». */
+.brief-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.brief-legend {
+  margin: var(--space-16) auto 0 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.brief-footer__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  margin-top: 16px;
+}
+
+/* «Назад» на ветке «есть файлы?» — ссылка: подчёркнута, цвета текста, как в эталоне. */
+.brief-back {
+  font-size: var(--fs-17);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  text-decoration: underline;
+}
+
+.brief-back--button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--font-semibold) var(--fs-17) var(--font-sans);
+  color: var(--color-ink);
+  text-decoration: underline;
+  cursor: pointer;
+}

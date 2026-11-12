@@ -1,0 +1,305 @@
+/* Экран «База знаний». Значения — из inline-стилей design/project/AdminKB.dc.html.
+ * Значения вне tokens.css помечены «локальное значение». Отступы main задаёт AdminLayout (32/40/56, gap 22). */
+
+.kb {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-22);
+  min-width: 0;
+}
+
+/* Шапка: заголовок слева, кнопка справа. */
+.kb__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.kb__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.kb__title {
+  margin: 0;
+  font-size: var(--fs-34);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.kb__lead {
+  margin: 0;
+  font-size: var(--fs-16);
+  color: var(--color-gray-600);
+}
+
+.kb__add {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-22);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  font: var(--font-bold) var(--fs-15) var(--font-sans);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.kb__add:focus-visible,
+.kb__tab:focus-visible,
+.kb__drop-link:focus-visible,
+.kb__publish:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Вкладки программ. */
+.kb__tabs {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.kb__tab {
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-pill);
+  background: var(--color-gray-50);
+  font: var(--font-medium) var(--fs-14) var(--font-sans);
+  color: var(--color-gray-500);
+  cursor: pointer;
+}
+
+/* Выбранная вкладка. */
+.kb__tab[aria-selected="true"] {
+  border: 2px solid var(--color-ink);
+  background: var(--color-white);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+/* Доступная, но не выбранная вкладка: в эталоне не задана, в текущих данных не выводится. */
+.kb__tab:not(:disabled):not([aria-selected="true"]) {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  font-weight: var(--font-medium);
+  color: var(--color-ink);
+}
+
+.kb__tab:disabled {
+  cursor: default;
+}
+
+/* Форма новой редакции. */
+.kb__form {
+  background: var(--color-peach);
+  border-radius: var(--radius-panel);
+  padding: var(--space-28);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+}
+
+.kb__form-title {
+  margin: 0;
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+.kb__grid {
+  display: grid;
+  /* локальное значение: минимальная ширина поля из эталона (200 px), токена нет */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-14);
+}
+
+.kb__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+}
+
+.kb__control {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-12);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-s);
+  background: var(--color-white);
+  font: var(--font-regular) var(--fs-15) var(--font-sans);
+  color: var(--color-ink);
+}
+
+.kb__control:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.kb__control[aria-invalid="true"] {
+  border-color: var(--color-danger-text);
+}
+
+.kb__error {
+  font-size: var(--fs-13);
+  font-weight: var(--font-medium);
+  color: var(--color-danger-text);
+}
+
+/* Зона перетаскивания файла. */
+.kb__drop {
+  position: relative;
+  border: 2px dashed #FDBA8C; /* локальное значение: пунктир зоны из эталона, токена нет */
+  background: var(--color-white);
+  border-radius: var(--radius-shell);
+  padding: var(--space-24);
+  text-align: center;
+  font-size: var(--fs-15);
+  color: var(--color-gray-800);
+}
+
+.kb__drop-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.kb__drop-file {
+  display: block;
+  margin-top: var(--space-8);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+/* Скрытый input type=file: доступен через aria-label, открывается кнопкой «выберите». */
+.kb__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.kb__hint {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+  line-height: var(--lh-text);
+}
+
+.kb__actions {
+  display: flex;
+  gap: var(--space-12);
+}
+
+.kb__publish {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-24);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  font: var(--font-semibold) var(--fs-15) var(--font-sans);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+/* Ошибка формы (дубль хеша). Не в эталоне: текст и цвет из токенов статуса «ошибка». */
+.kb__alert {
+  margin: 0;
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-danger-text);
+}
+
+/* Сообщение об успешной публикации (эталон: role=status). */
+.kb__success {
+  margin: 0;
+  padding: var(--space-14) var(--space-18);
+  border-radius: var(--radius-s);
+  background: var(--color-success-soft);
+  font-size: var(--fs-15);
+  color: var(--color-success-text);
+}
+
+/* Таблица документов. */
+.kb__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 20px; /* локальное значение: радиус таблицы из эталона, токена нет */
+}
+
+.kb__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+  min-width: 860px; /* локальное значение: ширина таблицы из эталона (860 px), токена нет */
+}
+
+.kb__thead-row {
+  background: var(--color-gray-50);
+  text-align: left;
+}
+
+.kb__table th {
+  padding: var(--space-14) var(--space-18);
+  font-weight: var(--font-semibold);
+}
+
+.kb__row {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.kb__td {
+  padding: var(--space-14) var(--space-18);
+}
+
+.kb__doc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.kb__doc-title {
+  font-weight: var(--font-semibold);
+}
+
+.kb__doc-key {
+  font-size: var(--fs-12);
+  color: var(--color-gray-500);
+}
+
+.kb__hash {
+  font-family: ui-monospace, monospace; /* локальное значение: моноширинный шрифт хеша из эталона, токена нет */
+  font-size: var(--fs-13);
+  color: var(--color-gray-600);
+}
+
+.kb__chip {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+}
+
+.kb__chip--on {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.kb__chip--off {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.kb__chip--soon {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}

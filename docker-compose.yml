@@ -1,24 +1,93 @@
 name: passport-constructor
 
-# Бэкенд v1.0: pipeline-api (логика пайплайна) + parser-service (PDF/DOCX/PPTX/OCR).
-# Supabase (Postgres + pgvector + Auth + Storage) — отдельно: `supabase start` или хостед-проект.
-# n8n — опционально: может вызывать POST /pipeline через HTTP Request node.
+# Локальный стек (G5.1). Запуск:
+#   docker compose --profile stub up -d --build      # с заглушкой LLM (без ключей)
+#   docker compose up -d --build                     # с реальным API (OPENAI_BASE_URL из .env)
+# Открыть: сайт http://localhost:8081 · API http://localhost:8080/health · Postgres localhost:54322
+#
+# Миграции: сервис db-migrate выполняется один раз и пропускает уже созданную схему (см. migrate-cli.ts).
 
 services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres        # только локально
+      POSTGRES_DB: postgres
+    ports:
+      - "54322:5432"                     # не 5432: на хосте может быть свой Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # имитация Supabase (схема auth, роли anon/authenticated) — выполняется при первой инициализации
+      - ./backend/supabase/local:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  db-migrate:
+    build: ./backend/pipeline-api
+    command: ["npx", "tsx", "src/db/migrate-cli.ts"]
+    env_file: .env
+    environment:
+      SUPABASE_DB_URL: postgres://postgres:postgres@postgres:5432/postgres
+      DEV_SEED: "1"                      # тестовые данные для локальной проверки
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
   parser:
     build: ./backend/parser-service
     restart: unless-stopped
     ports:
-      - "8000:8000"   # внутренний сервис; в проде не публиковать наружу
-    env_file: .env
+      - "8000:8000"                      # только для отладки; наружу в продакшене не публиковать
+
+  stub-llm:
+    image: node:22-slim
+    profiles: ["stub"]
+    working_dir: /srv
+    command: ["node", "server.mjs"]
+    environment:
+      PORT: "8090"
+    volumes:
+      - ./backend/stub-llm:/srv:ro
+    ports:
+      - "8090:8090"
 
   pipeline:
     build: ./backend/pipeline-api
     restart: unless-stopped
-    depends_on:
-      - parser
-    ports:
-      - "8080:8080"
     env_file: .env
     environment:
-      - PARSER_URL=http://parser:8000
+      SUPABASE_DB_URL: postgres://postgres:postgres@postgres:5432/postgres
+      PARSER_URL: http://parser:8000
+      OPENAI_BASE_URL: http://stub-llm:8090/v1      # переопределяется в .env для реального API
+      OUTBOX_DIR: /srv/backend/pipeline-api/outbox
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/pipeline-api/outbox:/srv/backend/pipeline-api/outbox
+    depends_on:
+      db-migrate:
+        condition: service_completed_successfully
+      parser:
+        condition: service_started
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_PIPELINE_URL: /pipeline
+        VITE_SUPPORT_ENDPOINT: /support
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    depends_on:
+      - pipeline
+
+volumes:
+  pgdata:

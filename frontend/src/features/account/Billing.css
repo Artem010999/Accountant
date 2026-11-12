@@ -1,0 +1,464 @@
+/*
+ * Экран «Тариф и оплата» (design/project/Billing.dc.html). Значения — из inline-стилей эталона.
+ * Цвета и размеры — токены из tokens.css. Значения вне шкалы токенов помечены «локальное значение: …».
+ */
+
+.billing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-28);
+  min-width: 0;
+}
+
+.billing__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.billing__title {
+  margin: 0;
+  font-size: var(--fs-40);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+/* Кнопка «Тарифы» (открывает окно тарифов). Вторичная кнопка по брендбуку: контур и белая подложка, как «Малая» в DesignSystem.dc.html. */
+.billing__plans-open {
+  min-height: var(--control-h-md);
+  padding: 0 var(--space-20);
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.billing__plans-open:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Баннеры результата оплаты: успех / ошибка / ожидание */
+
+.billing__banner {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+  flex-wrap: wrap;
+  padding: var(--space-20) var(--space-24);
+  /* локальное значение: радиус баннера 20px (в эталоне между токенами 18px и 22px) */
+  border-radius: 20px;
+}
+
+.billing__banner--ok {
+  background: var(--color-success-soft);
+  color: var(--color-success-text);
+}
+
+.billing__banner--fail {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-deep);
+}
+
+.billing__banner--pending {
+  background: var(--color-warning-soft);
+  color: var(--color-warning-deep);
+}
+
+.billing__banner-icon {
+  flex: none;
+}
+
+.billing__banner-text {
+  flex: 1 1 auto;
+  font-size: var(--fs-16);
+}
+
+.billing__banner-strong {
+  font-weight: var(--font-semibold);
+}
+
+.billing__banner-action {
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-16);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+}
+
+.billing__banner-action--retry {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-18);
+  background: var(--color-ink);
+  border-radius: var(--radius-pill);
+  color: var(--color-white);
+}
+
+.billing__banner-action:focus-visible,
+.billing__renew:focus-visible,
+.billing__plan-buy:focus-visible,
+.billing__pay:focus-visible,
+.billing__close:focus-visible,
+.billing__proto-btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Блок текущего тарифа */
+
+.billing__hero {
+  background: var(--color-peach);
+  border-radius: var(--radius-xl);
+  padding: var(--space-32);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-32);
+  align-items: center;
+}
+
+.billing__hero-main {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.billing__caption {
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  color: var(--color-terracotta-deep);
+}
+
+.billing__hero-title {
+  margin: 0;
+  font-size: var(--fs-32);
+  font-weight: var(--font-extrabold);
+}
+
+.billing__hero-sub {
+  font-size: var(--fs-16);
+  color: var(--color-gray-800);
+}
+
+.billing__usage {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.billing__usage-count {
+  font-size: var(--fs-15);
+  color: var(--color-gray-800);
+}
+
+.billing__bar {
+  display: block;
+  height: var(--size-mark);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  overflow: hidden;
+}
+
+.billing__bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-brand);
+}
+
+.billing__usage-note {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.billing__renew {
+  min-height: var(--control-h-cta);
+  padding: 0 var(--space-28);
+  border: 0;
+  background: var(--color-ink);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-bold);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+/* Секции: другие тарифы, история */
+
+.billing__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.billing__section-title {
+  margin: 0;
+  font-size: var(--fs-24);
+  font-weight: var(--font-bold);
+}
+
+.billing__plans {
+  display: grid;
+  /* локальное значение: минимальная ширина карточки тарифа 260px из эталона */
+  /* локальное значение: минимальная ширина колонки 260px из эталона */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-16);
+}
+
+.billing__plan {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+  padding: var(--space-28);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.billing__plan-name {
+  margin: 0;
+  font-size: var(--fs-22);
+  font-weight: var(--font-bold);
+}
+
+.billing__plan-desc {
+  margin: 0;
+  font-size: var(--fs-15);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.billing__plan-price {
+  margin: auto 0 0;
+  font-size: var(--fs-22);
+  font-weight: var(--font-bold);
+}
+
+.billing__plan-price-unit {
+  font-size: var(--fs-15);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-600);
+}
+
+.billing__plan-note {
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.billing__plan-buy {
+  min-height: var(--control-h-action);
+  border: 0;
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Таблица истории */
+
+.billing__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  /* локальное значение: радиус таблицы 20px из эталона */
+  border-radius: 20px;
+}
+
+.billing__table {
+  width: 100%;
+  /* локальное значение: минимальная ширина таблицы 720px из эталона */
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+}
+
+.billing__table thead tr {
+  background: var(--color-gray-50);
+  text-align: left;
+}
+
+.billing__table th {
+  padding: var(--space-14) var(--space-20);
+  font-weight: var(--font-semibold);
+}
+
+.billing__table tbody tr {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.billing__table td {
+  padding: var(--space-16) var(--space-20);
+}
+
+.billing__muted {
+  color: var(--color-gray-500);
+}
+
+.billing__chip {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+}
+
+.billing__chip--ok {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.billing__chip--fail {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.billing__chip--pending {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+/* Окно оплаты */
+
+.billing__overlay {
+  position: fixed;
+  inset: 0;
+  /* локальное значение: затемнение окна — ink с прозрачностью 45% (в токенах нет оверлея) */
+  background: rgba(23, 23, 28, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-24);
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.billing__dialog {
+  /* Как в эталоне: content-box, поэтому 520px — ширина содержимого, а полная ширина окна — 584px. */
+  width: 100%;
+  max-width: 520px;
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+  /* локальное значение: тень окна из эталона (в токенах теней нет) */
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.billing__dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.billing__dialog-title {
+  margin: 0;
+  font-size: var(--fs-26);
+  font-weight: var(--font-extrabold);
+}
+
+.billing__close {
+  width: var(--control-h-nav);
+  height: var(--control-h-nav);
+  padding: 0;
+  border: 0;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.billing__summary {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-12);
+  font-size: var(--fs-16);
+}
+
+.billing__summary dt {
+  color: var(--color-gray-600);
+}
+
+.billing__summary dd {
+  margin: 0;
+}
+
+.billing__summary-strong {
+  font-weight: var(--font-semibold);
+}
+
+.billing__total-label,
+.billing__total-value {
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.billing__total-label {
+  font-size: var(--fs-18);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+}
+
+.billing__total-value {
+  margin: 0;
+  font-size: var(--fs-22);
+  font-weight: var(--font-extrabold);
+}
+
+.billing__legal {
+  margin: 0;
+  font-size: var(--fs-14);
+  line-height: var(--lh-text);
+  color: var(--color-gray-600);
+}
+
+.billing__pay {
+  min-height: var(--control-h-cta);
+  border: 0;
+  background: var(--color-brand);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-17);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* Переключатель исхода оплаты: прототип, в продукте не нужен (см. отчёт G3). */
+.billing__proto {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.billing__proto-btn {
+  min-height: var(--control-h-xs);
+  padding: 0 var(--space-10);
+  border: 1px dashed var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--fs-13);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-600);
+  cursor: pointer;
+}

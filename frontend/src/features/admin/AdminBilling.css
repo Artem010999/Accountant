@@ -1,0 +1,312 @@
+/* Экран «Платежи и тарифы». Значения — из inline-стилей design/project/AdminBilling.dc.html.
+   Цвета, шрифты, отступы — токены tokens.css. Значения вне токенов помечены «локальное значение». */
+
+.admin-billing__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.admin-billing__title {
+  margin: 0;
+  font-size: var(--fs-34);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-title);
+}
+
+.admin-billing__tabs {
+  display: flex;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-pill);
+  padding: var(--space-4);
+  gap: var(--space-4);
+}
+
+.admin-billing__tab {
+  min-height: var(--control-h-toggle);
+  padding: 0 var(--space-18);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-600);
+  cursor: pointer;
+}
+
+.admin-billing__tab--active {
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-weight: var(--font-semibold);
+  /* локальное значение: тень активной вкладки эталона (0 1px 3px rgba 0.1), токена тени нет */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.admin-billing__tab:focus-visible,
+.admin-billing__filter:focus-visible,
+.admin-billing__save-btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.admin-billing__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18);
+}
+
+/* Карточки сводки */
+.admin-billing__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-12);
+}
+
+.admin-billing__stat {
+  background: var(--color-gray-50);
+  border-radius: var(--radius-shell);
+  padding: var(--space-18) var(--space-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.admin-billing__stat-label {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
+.admin-billing__stat-value {
+  font-size: var(--fs-28);
+  font-weight: var(--font-extrabold);
+}
+
+/* Фильтр по статусу. Элемента нет в эталоне: вид взят из фильтра журнала Стража (AdminGuard.dc.html). */
+.admin-billing__filters {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.admin-billing__filter {
+  /* локальное значение: высота фильтра эталона Стража (38 px), токена нет */
+  min-height: 38px;
+  padding: 0 var(--space-14);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-gray-200);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-800);
+  cursor: pointer;
+}
+
+.admin-billing__filter--active {
+  /* локальное значение: рамка 2 px активного фильтра эталона Стража, токена толщины нет */
+  border: 2px solid var(--color-ink);
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+/* Таблица платежей */
+.admin-billing__table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  /* локальное значение: радиус таблицы эталона 20 px, токена нет */
+  border-radius: 20px;
+}
+
+.admin-billing__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-15);
+  min-width: 860px;
+}
+
+.admin-billing__table th {
+  padding: var(--space-14) var(--space-18);
+  font-weight: var(--font-semibold);
+  text-align: left;
+  background: var(--color-gray-50);
+}
+
+.admin-billing__table tbody tr {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.admin-billing__cell {
+  padding: var(--space-14) var(--space-18);
+}
+
+.admin-billing__cell--muted {
+  color: var(--color-gray-600);
+}
+
+.admin-billing__cell--strong {
+  font-weight: var(--font-semibold);
+}
+
+.admin-billing__cell--id {
+  font-family: ui-monospace, monospace;
+  font-size: var(--fs-13);
+  color: var(--color-gray-600);
+}
+
+/* Чип — строчный элемент, как в эталоне (inline-block увеличил бы высоту строки таблицы). */
+.admin-billing__chip {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-pill);
+}
+
+.admin-billing__chip--succeeded {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.admin-billing__chip--pending {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.admin-billing__chip--failed {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+
+.admin-billing__chip--refunded {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.admin-billing__note {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+/* Тарифы */
+.admin-billing__plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-16);
+}
+
+.admin-billing__plan {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-panel);
+  padding: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-14);
+}
+
+.admin-billing__plan-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-billing__plan-name {
+  margin: 0;
+  font-size: var(--fs-20);
+  font-weight: var(--font-bold);
+}
+
+.admin-billing__plan-code {
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.admin-billing__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-10);
+}
+
+.admin-billing__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-600);
+}
+
+.admin-billing__input {
+  min-height: var(--control-h-nav);
+  padding: 0 var(--space-12);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-xs);
+  background: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--fs-15);
+  font-weight: var(--font-regular);
+  color: var(--color-ink);
+}
+
+.admin-billing__input:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.admin-billing__features {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.admin-billing__legend {
+  font-size: var(--fs-13);
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-6);
+}
+
+.admin-billing__check {
+  display: flex;
+  gap: var(--space-10);
+  align-items: center;
+  font-size: var(--fs-15);
+}
+
+.admin-billing__checkbox {
+  /* локальное значение: размер чекбокса эталона 18 px, токен — 22 px (малый чекбокс) */
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--color-brand);
+}
+
+.admin-billing__save {
+  display: flex;
+  gap: var(--space-16);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-billing__save-btn {
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-28);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  font-weight: var(--font-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.admin-billing__save-note {
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
