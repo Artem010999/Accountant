@@ -66,6 +66,16 @@ services:
       PARSER_URL: http://parser:8000
       OPENAI_BASE_URL: http://stub-llm:8090/v1      # переопределяется в .env для реального API
       OUTBOX_DIR: /srv/backend/pipeline-api/outbox
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://opencode.ai/zen/go/v1}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-v4.1-flash}
+      KIMI_BASE_URL: ${KIMI_BASE_URL:-https://api.kimi.ai/coding/v1}
+      KIMI_API_KEY: ${KIMI_API_KEY:-}
+      KIMI_MODEL: ${KIMI_MODEL:-kimi-k3}
+      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://api.aitunnel.ru/v1/}
+      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-qwen3-embedding-8b}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-4096}
     ports:
       - "8080:8080"
     volumes:

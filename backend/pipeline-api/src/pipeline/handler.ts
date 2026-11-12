@@ -4,6 +4,7 @@ import { isValidPassportField } from '@passport/contracts';
 import { PipelineFailure } from '../errors';
 import { fieldKb } from '../kb/manifest';
 import { callLlm, anchorSchema } from '../llm/schemas';
+import { wrapUntrustedData } from '../promptGuard';
 import type { RecordRow, UserContext } from '../db/store';
 import { ingestFiles } from './intake';
 import type { PipelineDeps } from './deps';
@@ -84,7 +85,8 @@ async function handleNewProject(deps: PipelineDeps, req: PipelineRequest, ctx: U
   }
 
   // S1_NEW: якорь = выжимка + эмбеддинг
-  const { anchor_summary } = await callLlm(llm, 'anchor', { brief: brief.slice(0, 20_000) }, anchorSchema);
+  const wrappedBrief = wrapUntrustedData('brief', brief.slice(0, 20_000));
+  const { anchor_summary } = await callLlm(llm, 'anchor', { brief: wrappedBrief }, anchorSchema);
   const embedding = await llm.embed(brief.slice(0, GUARD_QUERY_MAX_CHARS));
   await store.setAnchor(projectId, { briefText: brief, summary: anchor_summary, embedding, model: llm.model });
 

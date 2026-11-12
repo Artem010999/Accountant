@@ -1,8 +1,8 @@
 -- ТЗ v1.8, раздел 3.4 (п. 3). Идемпотентные seed-данные для любой среды.
 
-INSERT INTO app_settings (id, guard_threshold_block, guard_threshold_warn)
-VALUES (1, 0.5, 0.75)
-ON CONFLICT (id) DO NOTHING;
+INSERT INTO app_settings (id, guard_threshold_block, guard_threshold_warn, embedding_model)
+VALUES (1, 0.5, 0.75, 'qwen3-embedding-8b')
+ON CONFLICT (id) DO UPDATE SET embedding_model = EXCLUDED.embedding_model;
 
 INSERT INTO billing_plans (id, name, price_rub, duration_days, file_uploads_limit, renewal_discount_percent, features)
 VALUES

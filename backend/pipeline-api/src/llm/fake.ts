@@ -3,6 +3,12 @@ import { EMBEDDING_DIM, type LlmClient, type LlmTask } from './types';
 
 type Override = (input: any) => unknown;
 
+/** Снимает защитную обёртку для работы тестовой заглушки */
+function unwrapUntrusted(text: string): string {
+  if (!text) return '';
+  return text.replace(/<student_untrusted_data[^>]*>([\s\S]*?)<\/student_untrusted_data>/gi, '$1').trim();
+}
+
 /** Эмбеддинг по словам (hashing trick): тексты с общими словами дают близкие векторы. */
 export function hashEmbedding(text: string, dim = EMBEDDING_DIM): number[] {
   const v = new Array<number>(dim).fill(0);
@@ -42,13 +48,15 @@ function firstSentence(text: string): string {
 function defaultResponse(task: LlmTask, input: any): unknown {
   switch (task) {
     case 'anchor':
-      return { anchor_summary: String(input.brief).slice(0, 1200) };
+      return { anchor_summary: unwrapUntrusted(String(input.brief)).slice(0, 1200) };
 
     case 'extract': {
       // По умолчанию заполняем только problem_description первым предложением брифа.
-      const text = [input.user_input, ...(input.sources ?? []).map((s: any) => s.pages?.map((p: any) => p.text).join(' '))]
-        .filter(Boolean)
-        .join(' ');
+      const userInput = unwrapUntrusted(input.user_input ?? '');
+      const sourceTexts = (input.sources ?? []).map((s: any) =>
+        s.pages?.map((p: any) => unwrapUntrusted(p.text ?? '')).join(' ')
+      );
+      const text = [userInput, ...sourceTexts].filter(Boolean).join(' ');
       const sentence = firstSentence(text);
       if (!sentence) return { fields: [] };
       return {
@@ -73,7 +81,7 @@ function defaultResponse(task: LlmTask, input: any): unknown {
     }
 
     case 'validate_answer': {
-      const answer = String(input.answer ?? '').trim();
+      const answer = unwrapUntrusted(String(input.answer ?? '')).trim();
       if (answer.length < 20) {
         return { is_valid: false, rejection_reason: 'Ответ слишком короткий. Опишите подробнее.', formatted_value: null, claims: [] };
       }

@@ -9,6 +9,7 @@ import {
 import { auditClaims, calculateClaimSpans, type RawClaim } from '@passport/passport-core';
 import { callLlm, extractSchema, validateSchema, type LlmClaim } from '../llm/schemas';
 import { fieldKb } from '../kb/manifest';
+import { wrapUntrustedData } from '../promptGuard';
 import type { ClaimDraft, RecordRow, SourceRow } from '../db/store';
 import type { PipelineDeps } from './deps';
 
@@ -95,7 +96,7 @@ export async function extractPassport(
   const out = await callLlm(
     deps.llm,
     'extract',
-    { program, fields, user_input: userInput, sources: toSourcePayload(sources) },
+    { program, fields, user_input: wrapUntrustedData('user_input', userInput), sources: toSourcePayload(sources) },
     extractSchema,
   );
 
@@ -126,7 +127,13 @@ export async function answerField(
   const out = await callLlm(
     deps.llm,
     'validate_answer',
-    { section_id: target.section_id, field_key: target.field_key, question, criteria: kb.criteria, answer },
+    {
+      section_id: target.section_id,
+      field_key: target.field_key,
+      question,
+      criteria: kb.criteria,
+      answer: wrapUntrustedData('user_answer', answer),
+    },
     validateSchema,
   );
 
@@ -152,7 +159,7 @@ function toSourcePayload(sources: SourceRow[]) {
     const trimmed = pages.map((p) => {
       const text = p.text.slice(0, Math.max(0, budget));
       budget -= text.length;
-      return { page: p.page, text };
+      return { page: p.page, text: wrapUntrustedData(`file:${s.file_name}:page_${p.page}`, text) };
     });
     return { source_id: s.id, file_name: s.file_name, pages: trimmed };
   });

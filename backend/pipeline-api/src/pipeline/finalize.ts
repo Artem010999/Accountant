@@ -3,6 +3,7 @@ import { PASSPORT_SECTIONS, type PipelineCompleted, type PipelineQuestion, type 
 import { evaluatePassportRules, type AuditableClaim } from '@passport/passport-core';
 import { fieldKb } from '../kb/manifest';
 import { callLlm, navigatorSchema, noveltySchema } from '../llm/schemas';
+import { wrapUntrustedData } from '../promptGuard';
 import type { RecordRow, UserContext } from '../db/store';
 import type { PipelineDeps } from './deps';
 
@@ -32,10 +33,10 @@ export async function noveltyAndFinalize(
       deps.llm,
       'novelty',
       {
-        tech_approach: valueOf(records, 4, 'tech_approach'),
-        analogues_comparison: valueOf(records, NOVELTY_SECTION, NOVELTY_FIELD),
-        novelty_hypothesis: valueOf(records, NOVELTY_SECTION, 'novelty_hypothesis'),
-        verification_protocol: valueOf(records, NOVELTY_SECTION, 'verification_protocol'),
+        tech_approach: wrapUntrustedData('tech_approach', valueOf(records, 4, 'tech_approach')),
+        analogues_comparison: wrapUntrustedData('analogues_comparison', valueOf(records, NOVELTY_SECTION, NOVELTY_FIELD)),
+        novelty_hypothesis: wrapUntrustedData('novelty_hypothesis', valueOf(records, NOVELTY_SECTION, 'novelty_hypothesis')),
+        verification_protocol: wrapUntrustedData('verification_protocol', valueOf(records, NOVELTY_SECTION, 'verification_protocol')),
         criteria: deps.kb.novelty_criteria,
         min_analogues: rules.min_analogues,
       },

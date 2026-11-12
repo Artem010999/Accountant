@@ -16,7 +16,7 @@ CREATE TABLE app_projects (
     title varchar NOT NULL DEFAULT 'Мой проект',
     brief_text text NOT NULL,                              -- может быть '' до первого брифа (Баг №1)
     anchor_summary text,
-    anchor_embedding vector(1536),
+    anchor_embedding vector(4096),
     anchor_status anchor_status NOT NULL DEFAULT 'pending',
     anchor_model varchar,
     anchor_generated_at timestamp with time zone,
@@ -29,6 +29,7 @@ CREATE TABLE app_settings (
     id int PRIMARY KEY DEFAULT 1,
     guard_threshold_block float NOT NULL DEFAULT 0.5,
     guard_threshold_warn float NOT NULL DEFAULT 0.75,
+    embedding_model varchar NOT NULL DEFAULT 'qwen3-embedding-8b',
     updated_at timestamp with time zone DEFAULT now(),
     CONSTRAINT app_settings_singleton_chk CHECK (id = 1)
 );
