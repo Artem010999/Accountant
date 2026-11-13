@@ -71,6 +71,28 @@ export interface PipelineError {
   message: string;
 }
 
+export interface BlockAuditOut {
+  section_id: number;
+  status: 'approved' | 'needs_review';
+  remark: string | null;
+  how_to_fix: string | null;
+  failed_fields: string[];
+}
+
+export interface BudgetAuditOut {
+  status: 'approved' | 'needs_review' | 'not_provided';
+  remark: string | null;
+  how_to_fix: string | null;
+  violations: string[];
+}
+
+export interface FatalStopFactorOut {
+  code: 'MILITARY_OR_DUAL_USE' | 'NO_TECH_BASIS';
+  reason: string;
+  how_to_fix: string;
+  affected_sections: number[];
+}
+
 export interface PipelineQuestion {
   status: 'NEED_USER_INPUT' | 'WAITING_FOR_INITIAL_BRIEF' | 'STOP_NOV' | 'ANSWER_REJECTED';
   step?: 'INITIAL_BRIEF' | 'GAP_FILLING' | 'NOVELTY' | 'ANSWER_VALIDATION';
@@ -78,6 +100,10 @@ export interface PipelineQuestion {
   question?: string;
   example?: string;
   rejection_reason?: string | null;
+  block_audits?: BlockAuditOut[];
+  budget_audit?: BudgetAuditOut;
+  fatal_stop_factors?: FatalStopFactorOut[];
+  passport?: PipelinePassportField[];
 }
 
 export interface PipelineSwapBlocked {
@@ -113,6 +139,9 @@ export interface PipelineCompleted {
   checklist: string[];
   warnings: string[];
   passport: PipelinePassportField[];
+  block_audits?: BlockAuditOut[];
+  budget_audit?: BudgetAuditOut;
+  fatal_stop_factors?: FatalStopFactorOut[];
 }
 
 /** Анкета допуска ещё не пройдена (или заполнена не полностью). */

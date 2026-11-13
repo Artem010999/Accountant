@@ -47,12 +47,12 @@ export class OpenAiClient implements LlmClient {
     const userPrompt = typeof input === 'string' ? input : JSON.stringify(input);
 
     try {
-      // Канал 2 (Kimi Code): Шаг 6 (Первичный аудит и точечный ре-аудит)
-      if (task === 'validate_answer') {
+      // Канал 2 (Kimi Code): Шаг 6 (Первичный аудит и точечный ре-аудит, валидация ответа)
+      if (task === 'audit' || task === 'validate_answer') {
         return await callKimi({ systemPrompt, userPrompt });
       }
 
-      // Канал 1 (OpenCode Go - DeepSeek): Шаг 5 (сборка блоков), Шаг 8 (тех. подход и аналоги), якорь
+      // Канал 1 (OpenCode Go - DeepSeek): 'anchor', 'extract', 'novelty', 'consultant' (и 'navigator' для обратной совместимости)
       return await callDeepSeek({ systemPrompt, userPrompt });
     } catch (err: any) {
       throw new PipelineFailure('INTERNAL', `LLM (${task}): ${err?.message ?? err}`);

@@ -4,6 +4,7 @@ import {
   isValidPassportField,
   type ClaimKind,
   type ClaimType,
+  type PipelinePassportField,
   type TargetField,
 } from '@passport/contracts';
 import { auditClaims, calculateClaimSpans, type DependencyNode, type RawClaim } from '@passport/passport-core';
@@ -112,6 +113,9 @@ export async function extractPassport(
   const locked_fields = PASSPORT_SECTIONS.flatMap((s) =>
     s.fields
       .map((f) => {
+        if (formFields?.some((ff) => ff.section_id === s.id && ff.field_key === f)) {
+          return null;
+        }
         const rec = existingRecords.find((r) => r.section_id === s.id && r.field_key === f);
         if (rec?.review_status === 'approved') {
           return { section_id: s.id, field_key: f, value: rec.value };
@@ -121,7 +125,7 @@ export async function extractPassport(
       .filter((f): f is { section_id: number; field_key: string; value: string | null } => f !== null),
   );
 
-  // 2. open_fields: открытые для упаковки/заполнения (review_status !== 'approved')
+  // 2. open_fields: открытые для упаковки/заполнения (review_status !== 'approved' или переданы в форме)
   type OpenFieldPayload = {
     section_id: number;
     field_key: string;
@@ -134,9 +138,8 @@ export async function extractPassport(
 
   if (formFields && formFields.length > 0) {
     for (const ff of formFields) {
-      const rec = existingRecords.find((r) => r.section_id === ff.section_id && r.field_key === ff.field_key);
-      if (rec?.review_status === 'approved') continue;
       if (open_fields.some((o) => o.section_id === ff.section_id && o.field_key === ff.field_key)) continue;
+      const rec = existingRecords.find((r) => r.section_id === ff.section_id && r.field_key === ff.field_key);
       const kb = fieldKb(deps.kb, ff.section_id, ff.field_key);
       open_fields.push({
         section_id: ff.section_id,
@@ -255,10 +258,12 @@ export async function extractPassport(
     if (!openFieldKeys.has(`${item.section_id}/${item.field_key}`)) continue;
 
     // Железная защита на сохранении: approved-блоки ни при каких условиях не перезаписываются
+    // автоматической экстракцией, если только поле не передано пользователем явно в formFields
+    const isExplicitForm = formFields?.some((ff) => ff.section_id === item.section_id && ff.field_key === item.field_key);
     const existingRec = existingRecords.find(
       (r) => r.section_id === item.section_id && r.field_key === item.field_key,
     );
-    if (existingRec?.review_status === 'approved') continue;
+    if (!isExplicitForm && existingRec?.review_status === 'approved') continue;
 
     const raw = item.value?.trim();
     if (!raw) continue;
@@ -306,7 +311,6 @@ export async function extractPassport(
       const existingRec = existingRecords.find(
         (r) => r.section_id === ff.section_id && r.field_key === ff.field_key,
       );
-      if (existingRec?.review_status === 'approved') continue;
 
       const raw = ff.value?.trim();
       if (!raw) continue;
@@ -352,6 +356,34 @@ export async function extractPassport(
 
 export type AnswerResult = { ok: true } | { ok: false; reason: string };
 
+/** Формирует массив всех полей паспорта (разделы 2–10) для передачи на фронтенд. */
+export function buildPassportFields(records: RecordRow[]): PipelinePassportField[] {
+  const result: PipelinePassportField[] = [];
+  for (const s of PASSPORT_SECTIONS) {
+    for (const f of s.fields) {
+      const rec = records.find((r) => r.section_id === s.id && r.field_key === f);
+      result.push({
+        section_id: s.id,
+        field_key: f,
+        value: rec?.value ?? null,
+        review_status: rec?.review_status ?? 'draft',
+        claims: (rec?.claims ?? []).map((c) => ({
+          claim_text: c.claim_text,
+          claim_type: c.claim_type,
+          claim_kind: (c.claim_kind ?? null) as any,
+          source_id: c.source_id,
+          source_locator: c.source_locator,
+          span_start: c.span_start,
+          span_end: c.span_end,
+          order_index: c.order_index ?? 0,
+          verification_status: c.verification_status,
+        })),
+      });
+    }
+  }
+  return result;
+}
+
 /** Дозаполнение (S6B → G5): валидация ответа по критериям КБ, сохранение поля и claims. */
 export async function answerField(
   deps: PipelineDeps,
@@ -361,6 +393,34 @@ export async function answerField(
   answer: string,
 ): Promise<AnswerResult> {
   const kb = fieldKb(deps.kb, target.section_id, target.field_key);
+
+  const existingRecords = await deps.store.getRecords(projectId);
+  const dbDir = existingRecords.find((r) => r.section_id === 4 && r.field_key === 'direction')?.value;
+  const rawDirection = (dbDir ?? '').trim();
+  const knownDirection: DirectionCode = (DIRECTION_CODES as readonly string[]).includes(rawDirection)
+    ? (rawDirection as DirectionCode)
+    : 'all';
+
+  let ragContextText = '';
+  try {
+    const ragDb = await getRagDb();
+    try {
+      const ragResult = await retrieveRagContext(ragDb.sql, {
+        step: 'audit',
+        targetBlocks: [String(target.section_id)],
+        direction: knownDirection,
+        queryText: `${question} ${answer}`.slice(0, 2000),
+        topKSearch: 5,
+        includePinned: true,
+      });
+      ragContextText = ragResult.formattedContext;
+    } finally {
+      await ragDb.close();
+    }
+  } catch (err) {
+    deps.logger.warn('[answerField] RAG context unavailable, proceeding without RAG:', err);
+  }
+
   const out = await callLlm(
     deps.llm,
     'validate_answer',
@@ -370,6 +430,7 @@ export async function answerField(
       question,
       criteria: kb.criteria,
       answer: wrapUntrustedData('user_answer', answer),
+      rag_context: ragContextText,
     },
     validateSchema,
   );

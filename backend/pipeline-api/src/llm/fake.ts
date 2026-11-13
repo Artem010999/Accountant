@@ -28,6 +28,10 @@ export class FakeLlm implements LlmClient {
   /** Переопределения ответов по задаче (для сценариев тестов). */
   constructor(private readonly overrides: Partial<Record<LlmTask, Override>> = {}) {}
 
+  hasOverride(task: LlmTask): boolean {
+    return Boolean(this.overrides[task]);
+  }
+
   async complete(task: LlmTask, input: any): Promise<unknown> {
     this.calls.push({ task, input });
     const override = this.overrides[task];
@@ -154,7 +158,89 @@ function defaultResponse(task: LlmTask, input: any): unknown {
         missing_details_question: 'Укажите минимум 2 аналога и измеримое отличие по каждому.',
       };
 
+    case 'audit': {
+      const openBlocks = Array.isArray(input?.open_blocks) ? input.open_blocks : [];
+      const blockAudits = openBlocks.map((b: any) => {
+        const fields = Array.isArray(b.fields) ? b.fields : [];
+        const emptyFields = fields
+          .filter((f: any) => {
+            if (b.section_id === 4 && f.field_key === 'tech_challenge') return false; // optional
+            const raw = unwrapUntrusted(f.value ?? '').trim();
+            const minLen = b.section_id === 4 && f.field_key === 'direction' ? 0 : 10;
+            return !raw || raw.length <= minLen;
+          })
+          .map((f: any) => f.field_key);
+
+        const needsReviewFields = fields
+          .filter((f: any) => f.review_status === 'needs_review')
+          .map((f: any) => f.field_key);
+
+        if (emptyFields.length > 0) {
+          return {
+            section_id: b.section_id,
+            status: 'needs_revision',
+            remark: `Блок ${b.section_id} содержит незаполненные обязательные поля: ${emptyFields.join(', ')}.`,
+            how_to_fix: `Заполните обязательные поля блока ${b.section_id}: ${emptyFields.join(', ')}.`,
+            failed_fields: emptyFields,
+          };
+        }
+
+        if (needsReviewFields.length > 0) {
+          return {
+            section_id: b.section_id,
+            status: 'needs_revision',
+            remark: `Блок ${b.section_id} требует повторной проверки в связи с изменением связанных блоков.`,
+            how_to_fix: `Проверьте согласованность сведений Блока ${b.section_id} с обновлёнными связанными блоками.`,
+            failed_fields: needsReviewFields,
+          };
+        }
+
+        return {
+          section_id: b.section_id,
+          status: 'approved',
+          remark: null,
+          how_to_fix: null,
+          failed_fields: [],
+        };
+      });
+
+      const hasBudget = Array.isArray(input?.budget_items) && input.budget_items.length > 0;
+      const budgetInvalidated =
+        Array.isArray(input?.code_warnings) &&
+        input.code_warnings.some((w: string) => w.includes('связанные блоки изменились'));
+
+      return {
+        fatal_stop_factors: [],
+        block_audits: blockAudits,
+        novelty_audit: {
+          analogues_count: 2,
+          analogues_list: ['Аналог 1', 'Аналог 2'],
+          has_measurable_comparison: true,
+          passed: true,
+          remark: null,
+          how_to_fix: null,
+        },
+        budget_audit:
+          hasBudget && !budgetInvalidated
+            ? {
+                status: 'approved',
+                remark: null,
+                how_to_fix: null,
+              }
+            : {
+                status: budgetInvalidated ? 'needs_revision' : 'not_provided',
+                remark: budgetInvalidated ? 'Смета: связанные блоки изменились. Подтвердите смету заново.' : null,
+                how_to_fix: budgetInvalidated ? 'Подтвердите смету заново после изменения связанных блоков.' : null,
+              },
+      };
+    }
+
     case 'navigator':
       return { summary: 'Паспорт сформирован автоматически (тестовая заглушка).', checklist: ['Проверьте данные перед подачей.'] };
+
+    case 'consultant':
+      return {
+        reply: 'Здравствуйте! Я ИИ-Консультант. Чем могу помочь по заявке на конкурс «Студенческий стартап»?',
+      };
   }
 }

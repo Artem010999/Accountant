@@ -216,7 +216,7 @@ export class PassportStore {
       `INSERT INTO project_passport_records (project_id, section_id, field_key, value)
        VALUES ($1::uuid, $2, $3, $4)
        ON CONFLICT (project_id, section_id, field_key)
-       DO UPDATE SET value = EXCLUDED.value, updated_at = now()
+       DO UPDATE SET value = EXCLUDED.value, review_status = 'draft', updated_at = now()
        RETURNING id`,
       [projectId, sectionId, fieldKey, value],
     );
@@ -302,6 +302,34 @@ export class PassportStore {
     );
   }
 
+  /** Устанавливает review_status = 'approved' для переданных sectionIds, где value не пустое (Шаг 6). */
+  async approveSectionFields(projectId: string, sectionIds: number[]): Promise<void> {
+    if (sectionIds.length === 0) return;
+    await this.sql.query(
+      `UPDATE project_passport_records
+          SET review_status = 'approved', updated_at = now()
+        WHERE project_id = $1::uuid
+          AND section_id = ANY($2::int[])
+          AND value IS NOT NULL
+          AND length(trim(value)) > 0`,
+      [projectId, sectionIds],
+    );
+  }
+
+  /** Устанавливает review_status = 'needs_review' для указанных пар (section_id, field_key). */
+  async markFieldsNeedsReview(projectId: string, targets: { section_id: number; field_key: string }[]): Promise<void> {
+    if (targets.length === 0) return;
+    await this.sql.query(
+      `UPDATE project_passport_records r
+          SET review_status = 'needs_review', updated_at = now()
+         FROM jsonb_to_recordset($2::jsonb) AS t(section_id int, field_key text)
+        WHERE r.project_id = $1::uuid
+          AND r.section_id = t.section_id
+          AND r.field_key = t.field_key`,
+      [projectId, JSON.stringify(targets)],
+    );
+  }
+
   /** Активная редакция лимитов сметы (таблица budget_limit_sets). Меняется записью в таблицу, без деплоя. */
   async getBudgetLimits(): Promise<BudgetLimits> {
     const { rows } = await this.sql.query(
@@ -348,11 +376,20 @@ export class PassportStore {
     );
   }
 
-  /** Снимает одобрение со строк сметы (только approved, как и для полей паспорта). */
+  /** Снимает одобрение со строк сметы или помечает на проверку (Шаг 6). */
   async markBudgetNeedsReview(projectId: string): Promise<void> {
     await this.sql.query(
       `UPDATE project_budget_items SET review_status = 'needs_review', updated_at = now()
-        WHERE project_id = $1::uuid AND review_status = 'approved'`,
+        WHERE project_id = $1::uuid AND review_status != 'needs_review'`,
+      [projectId],
+    );
+  }
+
+  /** Устанавливает review_status = 'approved' для всех строк project_budget_items данного projectId (Шаг 6). */
+  async approveBudgetItems(projectId: string): Promise<void> {
+    await this.sql.query(
+      `UPDATE project_budget_items SET review_status = 'approved', updated_at = now()
+        WHERE project_id = $1::uuid`,
       [projectId],
     );
   }

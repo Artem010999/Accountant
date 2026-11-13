@@ -1,4 +1,4 @@
-export type LlmTask = 'anchor' | 'extract' | 'validate_answer' | 'novelty' | 'navigator';
+export type LlmTask = 'anchor' | 'extract' | 'audit' | 'validate_answer' | 'novelty' | 'navigator' | 'consultant';
 
 export const EMBEDDING_DIM = 4096;
 

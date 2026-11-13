@@ -13,7 +13,8 @@
     "verify:embedding": "tsx scripts/verify-embedding.ts",
     "seed:rag": "tsx scripts/seed-rag.ts",
     "verify:rag": "tsx scripts/verify-rag.ts",
-    "verify:assembly": "tsx scripts/verify-assembly.ts"
+    "verify:assembly": "tsx scripts/verify-assembly.ts",
+    "verify:audit": "tsx scripts/verify-audit.ts"
   },
   "dependencies": {
     "@passport/contracts": "0.1.0",

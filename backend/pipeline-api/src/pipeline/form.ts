@@ -1,10 +1,10 @@
 // Задачи 1.4, 1.5, 3.2, 3.5: приём формы целиком или точечных правок открытых блоков (шаги 3В, 5 и 7).
 // Текстовые поля упаковываются через DeepSeek Flash (extractPassport) с подключением RAG, смета сохраняется напрямую.
-import type { BudgetItemInput, PipelineRequest, PipelineResponse } from '@passport/contracts';
+import type { PipelineRequest, PipelineResponse } from '@passport/contracts';
 import { isValidPassportField } from '@passport/contracts';
-import { BUDGET_NODE, type DependencyNode } from '@passport/passport-core';
+import type { DependencyNode } from '@passport/passport-core';
 import { PipelineFailure } from '../errors';
-import type { BudgetRow, UserContext } from '../db/store';
+import type { UserContext } from '../db/store';
 import type { PipelineDeps } from './deps';
 import { createAnchor, GUARD_QUERY_MAX_CHARS } from './anchor';
 import { checkFieldValue } from './fieldValidation';
@@ -76,12 +76,8 @@ export async function handleSubmitForm(deps: PipelineDeps, req: PipelineRequest,
     await extractPassport(deps, projectId, req.program, '', sources, values, changed);
   }
 
-  // 5. Смета целиком (если передана). Смена непустой сметы — изменение узла «budget».
+  // 5. Смета целиком (если передана).
   if (req.budget_items !== undefined) {
-    const prevItems = await store.getBudgetItems(projectId);
-    if (prevItems.length > 0 && budgetSignature(prevItems) !== budgetSignature(req.budget_items)) {
-      changed.add(BUDGET_NODE);
-    }
     await store.replaceBudgetItems(
       projectId,
       req.budget_items.map((b) => ({ ...b, justification: b.justification ?? '' })),
@@ -100,11 +96,4 @@ export async function handleSubmitForm(deps: PipelineDeps, req: PipelineRequest,
     };
   }
   return nextStep(deps, ctx, projectId, req.program);
-}
-
-/** Сравнение сметы без учёта id и статусов: одинаковые строки → одинаковая подпись. */
-function budgetSignature(items: readonly (BudgetItemInput | BudgetRow)[]): string {
-  return JSON.stringify(
-    items.map((i) => [i.stage, i.category, i.title, Number(i.quantity), Number(i.unit_price), Number(i.amount), i.justification ?? '']),
-  );
 }
