@@ -53,3 +53,26 @@ export const pipelineRequestSchema = z
   .strict();
 
 export type ValidPipelineRequest = z.output<typeof pipelineRequestSchema>;
+
+// Вход выгрузки (POST /export): 10 секций паспорта с экрана. Сервер сверяет их с одобренными значениями.
+export const exportRequestSchema = z
+  .object({
+    user_id: z.string().uuid(),
+    sections: z
+      .array(
+        z.object({
+          section_id: z.number().int().min(1).max(10),
+          fields: z.array(z.object({ field_key: z.string().min(1).max(100), value: z.string().max(50_000) })).max(60),
+        }),
+      )
+      .length(10),
+  })
+  .strict();
+
+// Вход ИИ-Консультанта (POST /consultant).
+export const consultantRequestSchema = z
+  .object({
+    user_id: z.string().uuid(),
+    message: z.string().trim().min(1).max(2_000),
+  })
+  .strict();

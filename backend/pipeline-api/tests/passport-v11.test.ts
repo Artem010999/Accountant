@@ -293,15 +293,20 @@ describe('1.3 смета в финализации', () => {
     expect(res.eligibility_status).not.toBe('NOT_ELIGIBLE');
   });
 
-  it('направление не совпадает с направлением вызова — стоп-фактор', async () => {
+  it('направление не совпадает с направлением вызова — блок 4 не согласован с причиной', async () => {
     const userId = await createUser(db.sql);
     const deps = await completeProject(userId);
     // вызов № 1 относится к Н1; меняем направление на Н2 вручную
     await handlePipeline(deps, req(userId, { action: 'submit_form', form: [{ section_id: 4, field_key: 'direction', value: 'Н2' }] }));
     const res = await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: VALID_BUDGET }));
     if (res.status !== 'COMPLETED') throw new Error('expected COMPLETED');
-    expect(res.checklist.join(' ')).toContain('относится к направлению Н1, а выбрано Н2');
-  });
+    // Аудит коллеги: расхождение направления и вызова не даёт согласовать блок 4, причина — в отчёте аудита.
+    const block4 = res.block_audits?.find((b) => b.section_id === 4);
+    expect(block4?.status).toBe('needs_review');
+    expect(block4?.remark ?? '').toContain('Несоответствие направления и технологического вызова');
+    expect(block4?.remark ?? '').toContain('относится к направлению Н1');
+    // Аудит ходит в базу знаний (RAG) по сети: без ключей эмбеддингов это занимает до ~30 секунд.
+  }, 120_000);
 });
 
 describe('1.5 связанные блоки: «разморозка»', () => {

@@ -1,0 +1,129 @@
+/* ИИ-консультант: простой экран без макета в дизайне. Только токены из shared/styles/tokens.css. */
+.consultant {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-32) var(--space-16);
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+}
+
+.consultant__h1 {
+  margin: 0 0 var(--space-8);
+  font-size: var(--fs-28);
+  font-weight: var(--font-extrabold);
+  color: var(--color-terracotta);
+}
+
+.consultant__lead {
+  margin: 0 0 var(--space-24);
+  font-size: var(--fs-15);
+  color: var(--color-gray-600);
+}
+
+.consultant__log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  min-height: 240px;
+  margin-bottom: var(--space-16);
+}
+
+.consultant__msg {
+  max-width: 85%;
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-card);
+}
+
+.consultant__msg--user {
+  align-self: flex-end;
+  background: var(--color-peach);
+}
+
+.consultant__msg--assistant {
+  align-self: flex-start;
+  background: var(--color-gray-100);
+}
+
+.consultant__text {
+  margin: 0;
+  font-size: var(--fs-16);
+  line-height: var(--lh-text);
+  white-space: pre-wrap;
+}
+
+.consultant__warnings {
+  margin: var(--space-8) 0 0;
+  padding: var(--space-8) var(--space-12) var(--space-8) var(--space-28);
+  border-radius: var(--radius-input);
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  font-size: var(--fs-14);
+}
+
+.consultant__sources {
+  margin: var(--space-8) 0 0;
+  font-size: var(--fs-13);
+  color: var(--color-gray-500);
+}
+
+.consultant__typing {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-500);
+}
+
+.consultant__error {
+  margin: 0 0 var(--space-12);
+  padding: var(--space-10) var(--space-14);
+  border-radius: var(--radius-input);
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  font-size: var(--fs-14);
+}
+
+.consultant__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.consultant__label {
+  font-size: var(--fs-14);
+  font-weight: var(--font-semibold);
+  color: var(--color-gray-600);
+}
+
+.consultant__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-12) var(--space-14);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-input);
+  font: inherit;
+  font-size: var(--fs-16);
+  color: var(--color-ink);
+  resize: vertical;
+}
+
+.consultant__input:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.consultant__send {
+  align-self: flex-end;
+  min-height: var(--control-h-action);
+  padding: 0 var(--space-24);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-ink);
+  font: var(--font-semibold) var(--fs-16) var(--font-sans);
+  cursor: pointer;
+}
+
+.consultant__send:disabled {
+  background: var(--color-gray-200);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+}

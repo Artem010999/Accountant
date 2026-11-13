@@ -56,6 +56,13 @@
   cursor: pointer;
 }
 
+/* Недоступно до одобрения всех блоков: тот же контур, приглушённый текст. */
+.passport__btn:disabled {
+  color: var(--color-gray-500);
+  border-color: var(--color-gray-200);
+  cursor: not-allowed;
+}
+
 a.passport__btn-brand,
 a.passport__btn-brand:hover {
   display: inline-flex;

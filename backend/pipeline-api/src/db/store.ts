@@ -4,6 +4,7 @@ import type { BudgetCategory, ClaimKind, ClaimType, ClaimVerificationStatus, Pro
 import type { BudgetLimits, BudgetLineItem } from '@passport/passport-core';
 import type { SqlClient } from './sql';
 import { toVectorLiteral } from './sql';
+import { retrieveRagContext } from '../rag/retriever';
 
 export interface UserContext {
   /** ФИО всегда в ключе full_name (см. normalizeFounder). */
@@ -328,6 +329,96 @@ export class PassportStore {
           AND r.field_key = t.field_key`,
       [projectId, JSON.stringify(targets)],
     );
+  }
+
+  /**
+   * Блокировка от двойного запуска (блок 4). Зависшая блокировка (старше 10 минут) снимается автоматически.
+   * busy — проверка уже идёт; no_user — профиля нет (дальше пайплайн ответит USER_BANNED).
+   */
+  async acquireProcessingLock(userId: string): Promise<'acquired' | 'busy' | 'no_user'> {
+    const { rows } = await this.sql.query(
+      `UPDATE app_profiles SET processing_started_at = now()
+        WHERE id = $1::uuid
+          AND (processing_started_at IS NULL OR processing_started_at < now() - interval '10 minutes')
+        RETURNING id`,
+      [userId],
+    );
+    if (rows.length > 0) return 'acquired';
+    const exists = await this.sql.query('SELECT 1 FROM app_profiles WHERE id = $1::uuid', [userId]);
+    return exists.rows.length > 0 ? 'busy' : 'no_user';
+  }
+
+  async releaseProcessingLock(userId: string): Promise<void> {
+    await this.sql.query('UPDATE app_profiles SET processing_started_at = NULL WHERE id = $1::uuid', [userId]);
+  }
+
+  /** Строка журнала LLM (блок 4). */
+  async insertLlmLog(e: {
+    user_id: string | null;
+    task: string;
+    model: string;
+    status: 'ok' | 'error';
+    duration_ms: number;
+    error_message?: string;
+    response_preview?: string;
+  }): Promise<void> {
+    await this.sql.query(
+      `INSERT INTO llm_call_log (user_id, task, model, status, duration_ms, error_message, response_preview)
+       VALUES ($1::uuid, $2, $3, $4, $5, $6, $7)`,
+      [e.user_id, e.task, e.model, e.status, e.duration_ms, e.error_message ?? null, e.response_preview ?? null],
+    );
+  }
+
+  /** Последние сообщения диалога консультанта в хронологическом порядке (6–8 сообщений). */
+  async recentConsultantMessages(userId: string, limit: number): Promise<{ role: 'user' | 'assistant'; content: string }[]> {
+    const { rows } = await this.sql.query(
+      `SELECT role, content FROM consultant_messages WHERE user_id = $1::uuid ORDER BY id DESC LIMIT $2`,
+      [userId, limit],
+    );
+    return rows.reverse();
+  }
+
+  async insertConsultantMessage(userId: string, role: 'user' | 'assistant', content: string): Promise<void> {
+    await this.sql.query('INSERT INTO consultant_messages (user_id, role, content) VALUES ($1::uuid, $2, $3)', [userId, role, content]);
+  }
+
+  /** Поиск карточек базы знаний для консультанта (RAG, шаг chat, без обязательного ядра). */
+  async ragSearch(queryText: string): Promise<{ cards: { card_id: string; title: string }[]; context: string }> {
+    const res = await retrieveRagContext(this.sql, { step: 'chat', queryText, includePinned: false });
+    return {
+      cards: res.cards.map((c) => ({ card_id: c.card_id, title: c.title })),
+      context: res.formattedContext,
+    };
+  }
+
+  /** Название проекта и ФИО основателя для выгрузки. */
+  async getProjectHeader(projectId: string): Promise<{ title: string; founder_name: string }> {
+    const { rows } = await this.sql.query(
+      `SELECT p.title, pr.founder_data->>'full_name' AS full_name, pr.founder_data->>'name' AS legacy_name
+         FROM app_projects p JOIN app_profiles pr ON pr.id = p.user_id WHERE p.id = $1::uuid`,
+      [projectId],
+    );
+    const r = rows[0];
+    return { title: r?.title ?? 'Мой проект', founder_name: r?.full_name ?? r?.legacy_name ?? '' };
+  }
+
+  async insertExport(projectId: string, userId: string, fileName: string, sha256: string, content: Buffer): Promise<string> {
+    const { rows } = await this.sql.query(
+      `INSERT INTO passport_exports (project_id, user_id, file_name, sha256, content)
+       VALUES ($1::uuid, $2::uuid, $3, $4, $5) RETURNING id`,
+      [projectId, userId, fileName, sha256, content],
+    );
+    return rows[0].id;
+  }
+
+  /** Выгрузка только владельцу: чужой id вернёт null. */
+  async getExport(exportId: string, userId: string): Promise<{ file_name: string; content: Buffer } | null> {
+    const { rows } = await this.sql.query(
+      'SELECT file_name, content FROM passport_exports WHERE id = $1::uuid AND user_id = $2::uuid',
+      [exportId, userId],
+    );
+    if (!rows[0]) return null;
+    return { file_name: rows[0].file_name, content: Buffer.from(rows[0].content) };
   }
 
   /** Активная редакция лимитов сметы (таблица budget_limit_sets). Меняется записью в таблицу, без деплоя. */

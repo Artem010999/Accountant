@@ -63,6 +63,9 @@ export type PipelineErrorCode =
   | 'FOUNDER_REQUIRED'
   | 'INVALID_TARGET'
   | 'INVALID_FIELD_VALUE'
+  | 'ALREADY_PROCESSING'
+  | 'NOT_APPROVED'
+  | 'STALE_EXPORT'
   | 'INTERNAL';
 
 export interface PipelineError {
@@ -134,6 +137,10 @@ export interface PipelinePassportField {
 
 export interface PipelineCompleted {
   status: 'COMPLETED';
+  /** Все блоки и смета одобрены: кнопка «Скачать» активна. */
+  export_ready: boolean;
+  /** Что ещё не одобрено (пусто, если export_ready = true). */
+  not_approved: string[];
   eligibility_status: 'ELIGIBLE' | 'NEEDS_CLARIFICATION' | 'NOT_ELIGIBLE';
   summary: string;
   checklist: string[];
@@ -156,10 +163,19 @@ export interface PipelineRejected {
   reasons: { key: string; reason: string; how_to_fix: string }[];
 }
 
+/** Выгрузка готова: файл DOCX хранится в БД, скачивается по download_path (заголовок x-user-id). */
+export interface PipelineExportReady {
+  status: 'EXPORT_READY';
+  export_id: string;
+  file_name: string;
+  download_path: string;
+}
+
 export type PipelineResponse =
   | PipelineQuestion
   | PipelineSwapBlocked
   | PipelineCompleted
   | PipelineEligibilityRequired
   | PipelineRejected
+  | PipelineExportReady
   | PipelineError;

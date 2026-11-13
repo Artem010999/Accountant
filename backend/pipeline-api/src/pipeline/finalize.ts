@@ -10,6 +10,7 @@ import { challengeDirectionMismatch } from './fieldValidation';
 import { invalidateDependents } from './invalidation';
 import { buildPassportFields } from './passport';
 import type { AuditReport } from './audit';
+import { notApproved } from './export';
 
 const NOVELTY_SECTION = 6;
 const NOVELTY_FIELD = 'analogues_comparison';
@@ -263,8 +264,17 @@ async function finalize(
 
   const passport = buildPassportFields(records);
 
+  // Готовность к выгрузке: все блоки и смета одобрены (блок 4). Кнопка «Скачать» — только при export_ready.
+  const notApprovedNow = notApproved(
+    await deps.store.getRecords(projectId),
+    await deps.store.getBudgetItems(projectId),
+    Boolean(ctx.founderData.full_name?.trim()),
+  );
+
   return {
     status: 'COMPLETED',
+    export_ready: notApprovedNow.length === 0,
+    not_approved: notApprovedNow,
     eligibility_status: rules.eligibility_status,
     summary: nav.summary,
     checklist,

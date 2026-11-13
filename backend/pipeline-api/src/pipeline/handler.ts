@@ -14,13 +14,32 @@ import { createAnchor, GUARD_QUERY_MAX_CHARS } from './anchor';
 import { gateEligibility } from './eligibility';
 import { handleSubmitForm } from './form';
 import { nextStep } from './next';
+import { LoggedLlm } from '../llm/logged';
 
 const SHORT_ANSWER_CHARS = 150;
 
-/** Единая точка входа. Ожидаемые ошибки → ERROR с кодом; прочее логируется и отдаётся как INTERNAL. */
-export async function handlePipeline(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineResponse> {
+/** Каждый вызов LLM в этом запросе пишется в журнал llm_call_log (блок 4). */
+export function withCallLogging(deps: PipelineDeps, userId: string | null): PipelineDeps {
+  return { ...deps, llm: new LoggedLlm(deps.llm, (e) => deps.store.insertLlmLog(e), userId) };
+}
+
+/**
+ * Единая точка входа. Ожидаемые ошибки → ERROR с кодом; прочее логируется и отдаётся как INTERNAL.
+ * Блокировка (блок 4): пока по пользователю идёт проверка, второй запуск получает ALREADY_PROCESSING.
+ */
+export async function handlePipeline(baseDeps: PipelineDeps, req: PipelineRequest): Promise<PipelineResponse> {
+  const deps = withCallLogging(baseDeps, req.user_id);
   try {
-    return await run(deps, req);
+    const lock = await deps.store.acquireProcessingLock(req.user_id);
+    if (lock === 'busy') {
+      return { status: 'ERROR', code: 'ALREADY_PROCESSING', message: 'Проверка уже идёт. Дождитесь результата и не отправляйте запрос повторно.' };
+    }
+    if (lock === 'no_user') return await run(deps, req); // профиля нет: run ответит USER_BANNED
+    try {
+      return await run(deps, req);
+    } finally {
+      await deps.store.releaseProcessingLock(req.user_id);
+    }
   } catch (err) {
     if (err instanceof PipelineFailure) {
       return { status: 'ERROR', code: err.code, message: err.message };

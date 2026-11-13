@@ -68,6 +68,17 @@ export const blockAuditItemSchema = z.object({
   failed_fields: z.array(z.string()).default([]),
 });
 
+export const chatGuardSchema = z.object({
+  verdict: z.enum(['ok', 'solve_task']),
+  reason: z.string().default(''),
+});
+
+// Ответ ИИ-Консультанта по промпту 'consultant': поле reply; предупреждения — опционально.
+export const consultantSchema = z.object({
+  reply: z.string().min(1),
+  warnings: z.array(z.string()).default([]),
+});
+
 export const auditOutputSchema = z.object({
   fatal_stop_factors: z.array(fatalStopFactorSchema).default([]),
   block_audits: z.array(blockAuditItemSchema).default([]),

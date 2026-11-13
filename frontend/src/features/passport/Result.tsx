@@ -67,7 +67,10 @@ const STACK = [
   { tone: 'hearsay', flex: 4 },
 ];
 
-export function Result() {
+const exportHint = 'Скачать можно, когда все 10 блоков одобрены';
+
+/** exportReady — все блоки и смета одобрены аудитом (ответ COMPLETED.export_ready). По умолчанию — нет. */
+export function Result({ exportReady = false }: { exportReady?: boolean } = {}) {
   const [verdict, setVerdict] = useState<Verdict>('warn');
   const [approved, setApproved] = useState(false);
   const [checks, setChecks] = useState<boolean[]>([true, false, false, false, false]);
@@ -235,8 +238,8 @@ export function Result() {
               </p>
             )}
             <div className="result__downloads">
-              <button type="button" className="result__download">Скачать DOCX</button>
-              <button type="button" className="result__download">Скачать PDF</button>
+              <button type="button" className="result__download" disabled={!exportReady} title={exportHint}>Скачать DOCX</button>
+              <button type="button" className="result__download" disabled={!exportReady} title={exportHint}>Скачать PDF</button>
             </div>
             <p className="result__fine">Скачивание не означает подачу. Заявка подаётся в системе фонда.</p>
           </section>

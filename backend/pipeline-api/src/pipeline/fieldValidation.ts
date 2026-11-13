@@ -50,3 +50,6 @@ export function challengeDirectionMismatch(
   }
   return null;
 }
+
+/** Необязательные поля (ключ «секция/поле»): не попадают в пробелы и не требуют одобрения для выгрузки. */
+export const OPTIONAL_FIELDS = new Set(['4/tech_challenge']);

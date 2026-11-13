@@ -21,6 +21,7 @@ import { AdminGuard } from '../features/admin/AdminGuard';
 import { AdminKB } from '../features/admin/AdminKB';
 import { DesignSystem } from '../features/design-system/DesignSystem';
 import { Support } from '../features/support/Support';
+import { Consultant } from '../features/consultant/Consultant';
 
 // Оболочка маршрута: none — без бокового меню; cabinet — меню кабинета; admin — меню админки.
 export type RouteShell = 'none' | 'cabinet' | 'admin';
@@ -52,6 +53,7 @@ export const APP_ROUTES: AppRoute[] = [
   { path: '/profile', shell: 'cabinet', element: <Profile />, title: 'Буха — профиль' },
   { path: '/states', shell: 'none', element: <States />, title: 'Буха — блокировки и лимиты' },
   { path: '/support', shell: 'none', element: <Support />, title: 'Буха — поддержка' },
+  { path: '/consultant', shell: 'none', element: <Consultant />, title: 'Буха — ИИ-консультант' },
   { path: '/admin/users', shell: 'admin', element: <AdminUsers />, title: 'Буха — админка, пользователи' },
   { path: '/admin/billing', shell: 'admin', element: <AdminBilling />, title: 'Буха — админка, платежи и тарифы' },
   { path: '/admin/guard', shell: 'admin', element: <AdminGuard />, title: 'Буха — админка, Страж' },

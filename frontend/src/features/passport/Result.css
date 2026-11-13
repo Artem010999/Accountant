@@ -531,6 +531,13 @@
   cursor: pointer;
 }
 
+/* Недоступно до одобрения всех блоков. */
+.result__download:disabled {
+  color: var(--color-gray-500);
+  border-color: var(--color-gray-300);
+  cursor: not-allowed;
+}
+
 .result__fine {
   margin: 0;
   font-size: var(--fs-13);

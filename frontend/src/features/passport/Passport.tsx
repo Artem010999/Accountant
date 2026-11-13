@@ -265,7 +265,11 @@ function segText(seg: Seg): string {
   return typeof seg === 'string' ? seg : CLAIMS[seg.c].text;
 }
 
-export function Passport() {
+/** Подсказка на заблокированной кнопке скачивания (CJM, шаг 6: скачать можно после одобрения всех блоков). */
+const exportHint = 'Скачать можно, когда все 10 блоков одобрены';
+
+/** exportReady — все блоки и смета одобрены аудитом (ответ COMPLETED.export_ready). По умолчанию — нет. */
+export function Passport({ exportReady = false }: { exportReady?: boolean } = {}) {
   const [st, setSt] = useState<PassportState>(INITIAL_STATE);
   const sec = SECTIONS.find((s) => s.id === st.sec) ?? SECTIONS[0];
   const selected = st.sel ? CLAIMS[st.sel] : undefined;
@@ -310,8 +314,8 @@ export function Passport() {
           <span className="passport__saved">Сохранено 2 минуты назад</span>
         </div>
         <div className="passport__actions">
-          <button type="button" className="passport__btn">DOCX</button>
-          <button type="button" className="passport__btn">PDF</button>
+          <button type="button" className="passport__btn" disabled={!exportReady} title={exportHint}>DOCX</button>
+          <button type="button" className="passport__btn" disabled={!exportReady} title={exportHint}>PDF</button>
           <Link to="/result" className="passport__btn-brand">Итог проверки</Link>
         </div>
       </div>

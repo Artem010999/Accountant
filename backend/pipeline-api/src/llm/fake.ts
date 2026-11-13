@@ -238,6 +238,9 @@ function defaultResponse(task: LlmTask, input: any): unknown {
     case 'navigator':
       return { summary: 'Паспорт сформирован автоматически (тестовая заглушка).', checklist: ['Проверьте данные перед подачей.'] };
 
+    case 'chat_guard':
+      return { verdict: 'ok', reason: '' };
+
     case 'consultant':
       return {
         reply: 'Здравствуйте! Я ИИ-Консультант. Чем могу помочь по заявке на конкурс «Студенческий стартап»?',
