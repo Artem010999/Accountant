@@ -12,7 +12,8 @@
     "migrate": "tsx src/db/migrate-cli.ts",
     "verify:embedding": "tsx scripts/verify-embedding.ts",
     "seed:rag": "tsx scripts/seed-rag.ts",
-    "verify:rag": "tsx scripts/verify-rag.ts"
+    "verify:rag": "tsx scripts/verify-rag.ts",
+    "verify:assembly": "tsx scripts/verify-assembly.ts"
   },
   "dependencies": {
     "@passport/contracts": "0.1.0",

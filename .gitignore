@@ -34,3 +34,8 @@ backend/pipeline-api/outbox/
 # Локальная база PGlite (pgdata)
 backend/pipeline-api/data/pgdata/
 
+# Repomix dumps
+*-repomix.md
+repomix*
+
+

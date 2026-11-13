@@ -55,14 +55,42 @@ CREATE INDEX IF NOT EXISTS idx_rag_cards_direction ON rag_knowledge_cards (direc
 CREATE INDEX IF NOT EXISTS idx_rag_cards_source_doc ON rag_knowledge_cards (source_doc);
 `;
 
+let isPostgresUnavailable = false;
+
+let sharedPglite: PGlite | null = null;
+let pgliteInitPromise: Promise<PGlite> | null = null;
+
+async function getOrCreateSharedPglite(): Promise<PGlite> {
+  if (sharedPglite && !(sharedPglite as any).closed) {
+    return sharedPglite;
+  }
+  if (!pgliteInitPromise) {
+    pgliteInitPromise = (async () => {
+      const dataDir = resolve(PIPELINE_API_DIR, 'data', 'pgdata');
+      if (!existsSync(dataDir)) {
+        mkdirSync(dataDir, { recursive: true });
+      }
+      const instance = new PGlite(dataDir, { extensions: { vector } });
+      await instance.exec('CREATE EXTENSION IF NOT EXISTS vector;');
+      const sql = fromPglite(instance);
+      await sql.exec(MIGRATION_SQL);
+      sharedPglite = instance;
+      return instance;
+    })();
+  }
+  return pgliteInitPromise;
+}
+
 export async function getRagDb(overrideUrl?: string): Promise<RagDbInstance> {
   const dbUrl = overrideUrl || config.databaseUrl;
 
-  if (dbUrl) {
+  const shouldAttemptPg = dbUrl && (overrideUrl || !isPostgresUnavailable);
+
+  if (shouldAttemptPg) {
     try {
       const pool = new Pool({
         connectionString: dbUrl,
-        connectionTimeoutMillis: 1500,
+        connectionTimeoutMillis: 500,
       });
       // Test connectivity
       const testClient = await pool.connect();
@@ -70,6 +98,8 @@ export async function getRagDb(overrideUrl?: string): Promise<RagDbInstance> {
 
       const sql = fromPgPool(pool);
       await sql.exec(MIGRATION_SQL);
+
+      isPostgresUnavailable = false;
 
       return {
         sql,
@@ -79,6 +109,9 @@ export async function getRagDb(overrideUrl?: string): Promise<RagDbInstance> {
         },
       };
     } catch (err: any) {
+      if (!overrideUrl) {
+        isPostgresUnavailable = true;
+      }
       console.warn(
         `[ragDb] PostgreSQL connection to ${dbUrl} failed (${err?.message || err}). Falling back to local persistent PGlite.`
       );
@@ -86,21 +119,14 @@ export async function getRagDb(overrideUrl?: string): Promise<RagDbInstance> {
   }
 
   // Fallback to local persistent PGlite in backend/pipeline-api/data/pgdata
-  const dataDir = resolve(PIPELINE_API_DIR, 'data', 'pgdata');
-  if (!existsSync(dataDir)) {
-    mkdirSync(dataDir, { recursive: true });
-  }
-
-  const pglite = new PGlite(dataDir, { extensions: { vector } });
-  await pglite.exec('CREATE EXTENSION IF NOT EXISTS vector;');
+  const pglite = await getOrCreateSharedPglite();
   const sql = fromPglite(pglite);
-  await sql.exec(MIGRATION_SQL);
 
   return {
     sql,
     isPglite: true,
     close: async () => {
-      await pglite.close();
+      // Shared PGlite instance remains open for the process lifecycle to prevent filesystem lock churn
     },
   };
 }

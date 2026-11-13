@@ -1,5 +1,5 @@
-// Задачи 1.4 и 1.5: приём формы целиком или точечных правок открытых блоков (шаги 3В и 7).
-// Ручной ввод: без LLM-извлечения. Каждое непустое значение — одно утверждение клиента.
+// Задачи 1.4, 1.5, 3.2, 3.5: приём формы целиком или точечных правок открытых блоков (шаги 3В, 5 и 7).
+// Текстовые поля упаковываются через DeepSeek Flash (extractPassport) с подключением RAG, смета сохраняется напрямую.
 import type { BudgetItemInput, PipelineRequest, PipelineResponse } from '@passport/contracts';
 import { isValidPassportField } from '@passport/contracts';
 import { BUDGET_NODE, type DependencyNode } from '@passport/passport-core';
@@ -8,8 +8,8 @@ import type { BudgetRow, UserContext } from '../db/store';
 import type { PipelineDeps } from './deps';
 import { createAnchor, GUARD_QUERY_MAX_CHARS } from './anchor';
 import { checkFieldValue } from './fieldValidation';
-import { invalidateDependents, noteFieldChange } from './invalidation';
-import { writeClaims } from './passport';
+import { invalidateDependents } from './invalidation';
+import { extractPassport } from './passport';
 import { nextStep } from './next';
 
 /** Поля с кодами (направление, номер вызова) не участвуют в guard: это не текст о проекте. */
@@ -69,20 +69,11 @@ export async function handleSubmitForm(deps: PipelineDeps, req: PipelineRequest,
     }
   }
 
-  // 4. Запись полей. Изменения собираются, зависимые помечаются после всех записей.
+  // 4. Упаковка и запись полей через DeepSeek (extractPassport).
   const changed = new Set<DependencyNode>();
-  for (const v of values) {
-    const prev = await store.getFieldValue(projectId, v.section_id, v.field_key);
-    noteFieldChange(prev, v.value, v.section_id, changed);
-    const recordId = await store.upsertField(projectId, v.section_id, v.field_key, v.value);
-    await writeClaims(
-      deps,
-      recordId,
-      v.value,
-      [{ claim_text: v.value, claim_type: 'client_statement', claim_kind: 'paragraph', source_id: null, source_locator: null, confidence: null }],
-      {},
-      new Set(),
-    );
+  if (values.length > 0) {
+    const sources = await store.listSources(projectId);
+    await extractPassport(deps, projectId, req.program, '', sources, values, changed);
   }
 
   // 5. Смета целиком (если передана). Смена непустой сметы — изменение узла «budget».
