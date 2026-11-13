@@ -108,6 +108,13 @@ export type FatalStopFactor = z.output<typeof fatalStopFactorSchema>;
 export type BlockAuditItem = z.output<typeof blockAuditItemSchema>;
 export type AuditOutput = z.output<typeof auditOutputSchema>;
 
+export const consultantSchema = z.object({
+  reply: z.string().min(1),
+  referenced_cards: z.array(z.string()).nullish().transform((v) => v ?? []),
+});
+
+export type ConsultantOutput = z.output<typeof consultantSchema>;
+
 /** Вызов LLM + проверка формы ответа. */
 export async function callLlm<S extends z.ZodTypeAny>(
   llm: LlmClient,

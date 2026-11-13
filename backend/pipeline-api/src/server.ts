@@ -5,6 +5,7 @@ import { handlePipeline } from './pipeline/handler';
 import { pipelineRequestSchema } from './pipeline/validation';
 import type { PipelineDeps } from './pipeline/deps';
 import { handleSupportRequest, SUPPORT_PATH, type SupportOptions } from './support/http';
+import { handleChatRequest, CHAT_PATH, type ChatOptions } from './chat/http';
 
 const MAX_BODY_BYTES = 1_000_000;
 
@@ -24,20 +25,36 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
   return JSON.parse(Buffer.concat(chunks).toString('utf8'));
 }
 
-export function createPipelineServer(deps: PipelineDeps, opts: { sharedSecret?: string; support?: SupportOptions } = {}): Server {
+export interface PipelineServerOptions {
+  sharedSecret?: string;
+  support?: SupportOptions;
+  chat?: ChatOptions;
+}
+
+export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOptions = {}): Server {
   return createServer(async (req, res) => {
     try {
-      if (req.method === 'GET' && req.url === '/health') {
+      const pathname = req.url ? new URL(req.url, 'http://localhost').pathname : '';
+
+      if (req.method === 'GET' && pathname === '/health') {
         return send(res, 200, { status: 'ok' });
       }
 
       // Публичный эндпоинт поддержки: без x-pipeline-secret, CORS только для SUPPORT_ALLOWED_ORIGIN.
-      if (req.url === SUPPORT_PATH) {
+      if (pathname === SUPPORT_PATH) {
         if (!opts.support) return send(res, 404, { error: 'not found' });
         return await handleSupportRequest(req, res, opts.support);
       }
 
-      if (req.method !== 'POST' || req.url !== '/pipeline') {
+      // Публичный эндпоинт ИИ-Консультанта: без x-pipeline-secret
+      if (pathname === CHAT_PATH) {
+        const chatOpts = opts.chat ?? {
+          allowedOrigin: opts.support?.allowedOrigin,
+        };
+        return await handleChatRequest(req, res, deps, chatOpts);
+      }
+
+      if (req.method !== 'POST' || pathname !== '/pipeline') {
         return send(res, 404, { error: 'not found' });
       }
 

@@ -14,7 +14,8 @@
     "seed:rag": "tsx scripts/seed-rag.ts",
     "verify:rag": "tsx scripts/verify-rag.ts",
     "verify:assembly": "tsx scripts/verify-assembly.ts",
-    "verify:audit": "tsx scripts/verify-audit.ts"
+    "verify:audit": "tsx scripts/verify-audit.ts",
+    "verify:consultant": "tsx scripts/verify-consultant.ts"
   },
   "dependencies": {
     "@passport/contracts": "0.1.0",

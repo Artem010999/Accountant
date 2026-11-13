@@ -163,3 +163,34 @@ export type PipelineResponse =
   | PipelineEligibilityRequired
   | PipelineRejected
   | PipelineError;
+
+export type ChatMessageRole = 'user' | 'assistant';
+
+export interface ChatMessageOut {
+  id: string;
+  role: ChatMessageRole;
+  content: string;
+  referenced_cards: string[];
+  created_at: string;
+}
+
+export interface ConsultantChatRequest {
+  user_id: string;
+  message: string;
+  active_section_id?: number;
+  program?: string;
+}
+
+export interface ConsultantChatResponse {
+  status: 'OK';
+  project_id: string;
+  user_message: ChatMessageOut;
+  assistant_message: ChatMessageOut;
+  history: ChatMessageOut[];
+}
+
+export interface ConsultantHistoryResponse {
+  status: 'OK';
+  project_id: string | null;
+  messages: ChatMessageOut[];
+}

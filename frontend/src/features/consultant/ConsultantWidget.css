@@ -1,0 +1,345 @@
+/* Виджет ИИ-Консультанта: выдвижная панель и плавающая кнопка на токенах проекта */
+
+.consultant-trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8, 8px);
+  padding: 12px 20px;
+  background-color: var(--color-brand, #FF6B1A);
+  color: var(--color-ink, #17171C);
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-15, 15px);
+  font-weight: var(--font-semibold, 600);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.consultant-trigger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+}
+
+.consultant-trigger:active {
+  transform: translateY(0);
+}
+
+.consultant-trigger__icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.consultant-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background-color: rgba(23, 23, 28, 0.35);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.consultant-drawer {
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  background-color: var(--color-white, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Шапка консультанта */
+.consultant-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--color-gray-200, #E4E4E7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8, 8px);
+}
+
+.consultant-header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.consultant-title {
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-18, 18px);
+  font-weight: var(--font-bold, 700);
+  color: var(--color-ink, #17171C);
+  margin: 0;
+}
+
+.consultant-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--color-gray-300, #D4D4D8);
+  border-radius: var(--radius-pill, 999px);
+  padding: 6px 12px;
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-13, 13px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-gray-600, #52525B);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.consultant-close:hover {
+  border-color: var(--color-ink, #17171C);
+  color: var(--color-ink, #17171C);
+}
+
+.consultant-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: var(--color-peach, #FFF1E8);
+  color: var(--color-terracotta-deep, #9A3412);
+  border-radius: var(--radius-s, 14px);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-13, 13px);
+  font-weight: var(--font-medium, 500);
+}
+
+/* Быстрые чипы-подсказки */
+.consultant-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 24px;
+  background-color: var(--color-gray-50, #FAFAFA);
+  border-bottom: 1px solid var(--color-gray-200, #E4E4E7);
+}
+
+.consultant-chip {
+  background-color: var(--color-white, #FFFFFF);
+  border: 1px solid var(--color-gray-300, #D4D4D8);
+  border-radius: var(--radius-pill, 999px);
+  padding: 6px 12px;
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-13, 13px);
+  color: var(--color-gray-800, #3F3F46);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.consultant-chip:hover {
+  background-color: var(--color-peach-soft, #FFFAF6);
+  border-color: var(--color-brand, #FF6B1A);
+  color: var(--color-ink, #17171C);
+}
+
+/* Лента сообщений */
+.consultant-feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.consultant-welcome {
+  background-color: var(--color-peach-soft, #FFFAF6);
+  border: 1px dashed var(--color-brand, #FF6B1A);
+  border-radius: var(--radius-card, 22px);
+  padding: 16px;
+  color: var(--color-gray-800, #3F3F46);
+  font-size: var(--fs-14, 14px);
+  line-height: var(--lh-body, 1.6);
+}
+
+.consultant-welcome p {
+  margin: 0 0 8px;
+}
+
+.consultant-welcome p:last-child {
+  margin-bottom: 0;
+}
+
+.consultant-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 88%;
+}
+
+.consultant-msg--user {
+  align-self: flex-end;
+}
+
+.consultant-msg--assistant {
+  align-self: flex-start;
+}
+
+.consultant-msg__bubble {
+  padding: 12px 16px;
+  border-radius: var(--radius-card, 22px);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-14, 14px);
+  line-height: var(--lh-body, 1.6);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.consultant-msg--user .consultant-msg__bubble {
+  background-color: var(--color-brand, #FF6B1A);
+  color: var(--color-ink, #17171C);
+  border-bottom-right-radius: 4px;
+}
+
+.consultant-msg--assistant .consultant-msg__bubble {
+  background-color: var(--color-gray-100, #F4F4F5);
+  color: var(--color-ink, #17171C);
+  border-bottom-left-radius: 4px;
+}
+
+.consultant-msg__actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.consultant-btn-copy {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: var(--color-white, #FFFFFF);
+  border: 1px solid var(--color-gray-300, #D4D4D8);
+  border-radius: var(--radius-pill, 999px);
+  font-size: var(--fs-13, 13px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-link, #C2410C);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.consultant-btn-copy:hover {
+  background-color: var(--color-peach, #FFF1E8);
+  border-color: var(--color-brand, #FF6B1A);
+}
+
+.consultant-msg__sources {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-gray-200, #E4E4E7);
+  font-size: var(--fs-13, 13px);
+  color: var(--color-gray-500, #71717A);
+}
+
+.consultant-typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background-color: var(--color-gray-100, #F4F4F5);
+  border-radius: var(--radius-pill, 999px);
+  align-self: flex-start;
+  font-size: var(--fs-13, 13px);
+  color: var(--color-gray-600, #52525B);
+}
+
+.consultant-typing__dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-brand, #FF6B1A);
+  border-radius: 50%;
+  animation: bounceDot 1.4s infinite ease-in-out both;
+}
+
+.consultant-typing__dot:nth-child(1) { animation-delay: -0.32s; }
+.consultant-typing__dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounceDot {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+/* Форма отправки внизу */
+.consultant-form {
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--color-gray-200, #E4E4E7);
+  background-color: var(--color-white, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8, 8px);
+}
+
+.consultant-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-gray-300, #D4D4D8);
+  border-radius: var(--radius-input, 16px);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-14, 14px);
+  line-height: var(--lh-body, 1.6);
+  color: var(--color-ink, #17171C);
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.consultant-textarea:focus {
+  border-color: var(--color-brand, #FF6B1A);
+  box-shadow: 0 0 0 2px var(--color-focus, #FFB38A);
+}
+
+.consultant-form__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.consultant-btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: var(--color-brand, #FF6B1A);
+  color: var(--color-ink, #17171C);
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--fs-14, 14px);
+  font-weight: var(--font-semibold, 600);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.consultant-btn-submit:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.consultant-btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.consultant-error {
+  padding: 8px 12px;
+  background-color: var(--color-danger-bg, #FEE2E2);
+  color: var(--color-danger-text, #991B1B);
+  border-radius: var(--radius-s, 14px);
+  font-size: var(--fs-13, 13px);
+  margin-bottom: 8px;
+}

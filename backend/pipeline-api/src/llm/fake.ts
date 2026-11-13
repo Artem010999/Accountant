@@ -238,9 +238,30 @@ function defaultResponse(task: LlmTask, input: any): unknown {
     case 'navigator':
       return { summary: 'Паспорт сформирован автоматически (тестовая заглушка).', checklist: ['Проверьте данные перед подачей.'] };
 
-    case 'consultant':
+    case 'consultant': {
+      const ragText = typeof input?.rag_context === 'string' ? input.rag_context : JSON.stringify(input?.rag_context ?? '');
+      const hasVerification = ragText.includes('needs_verification_8') || ragText.includes('РАБОЧИЙ ОРИЕНТИР');
+
+      // Ищем ID карточки в тексте rag_context
+      const cardMatch =
+        ragText.match(/### Карточка \d+ \(([^)]+)\)/) ||
+        ragText.match(/card_id:\s*([a-zA-Z0-9_\-]+)/i) ||
+        ragText.match(/\((cmp_[a-zA-Z0-9_\-]+|tl_[a-zA-Z0-9_\-]+|[a-zA-Z0-9_\-]+)\)/);
+      const foundCardId = cardMatch ? cardMatch[1] : (hasVerification ? 'cmp_10_finance_stage2_limits' : undefined);
+      const referencedCards = foundCardId ? [foundCardId] : [];
+
+      if (hasVerification) {
+        return {
+          reply:
+            'Внимание: данный лимит имеет статус [РАБОЧИЙ ОРИЕНТИР — ТРЕБУЕТ СВЕРКИ С ПОЛОЖЕНИЕМ 8-Й ОЧЕРЕДИ]. Лимиты: 20 000 / 980 000 ₽ по этапам и 250 000 ₽ на подрядчиков. Обязательно сверьтесь с официальным Положением 8-й очереди (Pol_StS_8).',
+          referenced_cards: referencedCards,
+        };
+      }
+
       return {
         reply: 'Здравствуйте! Я ИИ-Консультант. Чем могу помочь по заявке на конкурс «Студенческий стартап»?',
+        referenced_cards: referencedCards,
       };
+    }
   }
 }

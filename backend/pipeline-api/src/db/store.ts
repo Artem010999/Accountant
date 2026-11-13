@@ -32,6 +32,16 @@ export interface BudgetRow extends BudgetLineItem {
   review_status: string;
 }
 
+export interface ChatMessageRow {
+  id: string;
+  project_id: string;
+  user_id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  referenced_cards: string[];
+  created_at: string;
+}
+
 /** Одно место, где хранится ФИО: ключ full_name. Старый ключ name из регистрации читаем только здесь. */
 export function normalizeFounder(raw: Record<string, any> | null | undefined): Record<string, any> & { full_name?: string } {
   const data = raw ?? {};
@@ -392,5 +402,47 @@ export class PassportStore {
         WHERE project_id = $1::uuid`,
       [projectId],
     );
+  }
+
+  async insertChatMessage(msg: {
+    projectId: string;
+    userId: string;
+    role: 'user' | 'assistant';
+    content: string;
+    referencedCards?: string[];
+  }): Promise<ChatMessageRow> {
+    const { rows } = await this.sql.query(
+      `INSERT INTO project_chat_messages (project_id, user_id, role, content, referenced_cards)
+       VALUES ($1::uuid, $2::uuid, $3, $4, $5::text[])
+       RETURNING id, project_id, user_id, role, content, referenced_cards, created_at::text AS created_at`,
+      [msg.projectId, msg.userId, msg.role, msg.content, msg.referencedCards ?? []],
+    );
+    const r = rows[0];
+    return {
+      ...r,
+      referenced_cards: Array.isArray(r.referenced_cards) ? r.referenced_cards : [],
+    };
+  }
+
+  /**
+   * Возвращает последние limit сообщений диалога в хронологическом порядке (от старых к новым).
+   */
+  async getChatMessages(projectId: string, limit = 8): Promise<ChatMessageRow[]> {
+    const { rows } = await this.sql.query(
+      `SELECT id, project_id, user_id, role, content, referenced_cards, created_at::text AS created_at
+         FROM (
+           SELECT id, project_id, user_id, role, content, referenced_cards, created_at
+             FROM project_chat_messages
+            WHERE project_id = $1::uuid
+            ORDER BY created_at DESC, id DESC
+            LIMIT $2::int
+         ) sub
+        ORDER BY created_at ASC, id ASC`,
+      [projectId, limit],
+    );
+    return rows.map((r) => ({
+      ...r,
+      referenced_cards: Array.isArray(r.referenced_cards) ? r.referenced_cards : [],
+    }));
   }
 }
