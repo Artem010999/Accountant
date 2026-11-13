@@ -6,7 +6,8 @@
 import { createServer } from 'node:http';
 
 const PORT = Number(process.env.PORT ?? 8090);
-const DIM = 1536;
+// Должно совпадать с колонкой anchor_embedding (vector(4096), миграция 0005) и EMBEDDING_DIM в pipeline-api.
+const DIM = 4096;
 
 function hashEmbedding(text) {
   const v = new Array(DIM).fill(0);

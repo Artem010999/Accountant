@@ -6,15 +6,21 @@ import {
   type ClaimType,
   type TargetField,
 } from '@passport/contracts';
-import { auditClaims, calculateClaimSpans, type RawClaim } from '@passport/passport-core';
+import { auditClaims, calculateClaimSpans, type DependencyNode, type RawClaim } from '@passport/passport-core';
 import { callLlm, extractSchema, validateSchema, type LlmClaim } from '../llm/schemas';
 import { fieldKb } from '../kb/manifest';
 import { wrapUntrustedData } from '../promptGuard';
+import { checkFieldValue } from './fieldValidation';
+import { invalidateDependents, noteFieldChange } from './invalidation';
 import type { ClaimDraft, RecordRow, SourceRow } from '../db/store';
 import type { PipelineDeps } from './deps';
 
 const MAX_SOURCE_CHARS = 60_000;
 const MIN_FIELD_LENGTH = 10; // length(trim(value)) > 10 — ТЗ, ШАГ 6 (G4)
+/** Коды (направление «Н1», номер вызова «1») — короткие по природе: для них достаточно непустого значения. */
+const CODE_FIELDS = new Set(['4/direction', '4/tech_challenge']);
+/** Необязательные поля: не попадают в пробелы. Технологический вызов пока необязателен для всех направлений (решение владельца). */
+const OPTIONAL_FIELDS = new Set(['4/tech_challenge']);
 
 /** Записывает claims поля: спаны (0-based), аудит источников, атомарная замена в БД. */
 export async function writeClaims(
@@ -66,8 +72,10 @@ export function findGaps(records: RecordRow[]): TargetField[] {
   const gaps: TargetField[] = [];
   for (const section of PASSPORT_SECTIONS) {
     for (const fieldKey of section.fields) {
+      if (OPTIONAL_FIELDS.has(`${section.id}/${fieldKey}`)) continue;
       const rec = records.find((r) => r.section_id === section.id && r.field_key === fieldKey);
-      const empty = !rec || !rec.value || rec.value.trim().length <= MIN_FIELD_LENGTH;
+      const minLength = CODE_FIELDS.has(`${section.id}/${fieldKey}`) ? 0 : MIN_FIELD_LENGTH;
+      const empty = !rec || !rec.value || rec.value.trim().length <= minLength;
       if (empty || rec.review_status === 'needs_review') {
         gaps.push({ section_id: section.id, field_key: fieldKey });
       }
@@ -103,14 +111,26 @@ export async function extractPassport(
   const sourcesById = Object.fromEntries(sources.map((s) => [s.id, { extracted_text: s.extracted_text }]));
   const validSourceIds = new Set(sources.map((s) => s.id));
 
+  const changed = new Set<DependencyNode>();
   for (const item of out.fields) {
     if (!isValidPassportField(item.section_id, item.field_key)) continue;
-    const value = item.value?.trim();
-    if (!value) continue;
+    const raw = item.value?.trim();
+    if (!raw) continue;
+    // Поля с допустимым набором (направление, вызов): невалидное значение от модели пропускаем — поле останется пробелом.
+    const check = checkFieldValue(item.section_id, item.field_key, raw, deps.kb.tech_challenges);
+    if (!check.ok) {
+      deps.logger.info(`[extract] ${item.field_key}: ${check.reason}`);
+      continue;
+    }
+    const value = check.value;
 
+    const prev = await deps.store.getFieldValue(projectId, item.section_id, item.field_key);
+    noteFieldChange(prev, value, item.section_id, changed);
     const recordId = await deps.store.upsertField(projectId, item.section_id, item.field_key, value);
     await writeClaims(deps, recordId, value, item.claims, sourcesById, validSourceIds);
   }
+  // Зависимые считаем после всех записей: иначе перезапись claims сбросит пометку (триггер пересчёта статуса).
+  await invalidateDependents(deps.store, projectId, changed);
 }
 
 export type AnswerResult = { ok: true } | { ok: false; reason: string };
@@ -141,11 +161,13 @@ export async function answerField(
   if (!out.is_valid || !value) {
     return { ok: false, reason: out.rejection_reason ?? 'Ответ не закрывает требование поля' };
   }
+  const code = checkFieldValue(target.section_id, target.field_key, value, deps.kb.tech_challenges);
+  if (!code.ok) return { ok: false, reason: code.reason };
 
   // Claims из ответа клиента — без привязки к файлам.
   const claims: LlmClaim[] = out.claims.map((c) => ({ ...c, source_id: null, source_locator: null }));
-  const recordId = await deps.store.upsertField(projectId, target.section_id, target.field_key, value);
-  await writeClaims(deps, recordId, value, claims, {}, new Set());
+  const recordId = await deps.store.upsertField(projectId, target.section_id, target.field_key, code.value);
+  await writeClaims(deps, recordId, code.value, claims, {}, new Set());
   return { ok: true };
 }
 

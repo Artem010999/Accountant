@@ -1,17 +1,20 @@
 // Оркестратор пайплайна (аналог n8n-графа ТЗ, блоки 1–5). Stateless: контекст вопроса приходит в запросе.
 import type { PipelineRequest, PipelineResponse, TargetField } from '@passport/contracts';
 import { isValidPassportField } from '@passport/contracts';
+import type { DependencyNode } from '@passport/passport-core';
+import { noteFieldChange, invalidateDependents } from './invalidation';
 import { PipelineFailure } from '../errors';
 import { fieldKb } from '../kb/manifest';
-import { callLlm, anchorSchema } from '../llm/schemas';
 import { wrapUntrustedData } from '../promptGuard';
-import type { RecordRow, UserContext } from '../db/store';
+import type { UserContext } from '../db/store';
 import { ingestFiles } from './intake';
 import type { PipelineDeps } from './deps';
-import { answerField, extractPassport, findGaps } from './passport';
-import { noveltyAndFinalize } from './finalize';
+import { answerField, extractPassport } from './passport';
+import { createAnchor, GUARD_QUERY_MAX_CHARS } from './anchor';
+import { gateEligibility } from './eligibility';
+import { handleSubmitForm } from './form';
+import { nextStep } from './next';
 
-const GUARD_QUERY_MAX_CHARS = 5_000;
 const SHORT_ANSWER_CHARS = 150;
 
 /** Единая точка входа. Ожидаемые ошибки → ERROR с кодом; прочее логируется и отдаётся как INTERNAL. */
@@ -30,7 +33,7 @@ export async function handlePipeline(deps: PipelineDeps, req: PipelineRequest): 
 async function run(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineResponse> {
   const { store, kb } = deps;
 
-  // ШАГ 1: бан, квота, заморозка ФИО
+  // ШАГ 1: бан, программа, квота, ФИО
   const ctx = await store.loadContext(req.user_id);
   if (!ctx || ctx.isBanned) {
     throw new PipelineFailure('USER_BANNED', 'Профиль не найден или заблокирован');
@@ -48,13 +51,18 @@ async function run(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineRe
       throw new PipelineFailure('FILE_QUOTA_EXCEEDED', 'Превышен лимит загрузки файлов по тарифу');
     }
   }
-  // TODO(разработчик, S2): правило допуска ФСИ (узлы 4–5 схемы): «нет субъекта / есть ФЛП / открыто ООО» → отказ.
-  // Правила, поля анкеты допуска и источники этих полей пока не определены (docs/PLAN-v1.1.md Q3).
-  // TODO: в реестре секции 1 ключ ФИО называется full_name, а здесь проверяется founderData.name. Привести к одному ключу.
-  if (!ctx.founderData?.name) {
+  // ФИО хранится в ключе full_name (нормализация — в store.normalizeFounder).
+  if (!ctx.founderData.full_name) {
     throw new PipelineFailure('FOUNDER_REQUIRED', 'Укажите ФИО в профиле основателя');
   }
 
+  // ШАГ 0 (задача 1.1): анкета допуска. Отказ — финальный, пайплайн дальше не идёт.
+  const gate = await gateEligibility(deps, req, ctx);
+  if (gate) return gate;
+
+  if (req.action === 'submit_form') {
+    return handleSubmitForm(deps, req, ctx);
+  }
   if (ctx.project?.anchorReady) {
     return handleExistingProject(deps, req, ctx);
   }
@@ -63,7 +71,7 @@ async function run(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineRe
 
 /** Ветка «Новый» (G1): якорь ещё не создан (холодный старт, Баг №1). */
 async function handleNewProject(deps: PipelineDeps, req: PipelineRequest, ctx: UserContext): Promise<PipelineResponse> {
-  const { store, llm, kb } = deps;
+  const { store, kb } = deps;
   const projectId = ctx.project?.id ?? (await store.ensureProject(req.user_id));
 
   await ingestFiles(deps, projectId, req.files ?? []);
@@ -85,10 +93,7 @@ async function handleNewProject(deps: PipelineDeps, req: PipelineRequest, ctx: U
   }
 
   // S1_NEW: якорь = выжимка + эмбеддинг
-  const wrappedBrief = wrapUntrustedData('brief', brief.slice(0, 20_000));
-  const { anchor_summary } = await callLlm(llm, 'anchor', { brief: wrappedBrief }, anchorSchema);
-  const embedding = await llm.embed(brief.slice(0, GUARD_QUERY_MAX_CHARS));
-  await store.setAnchor(projectId, { briefText: brief, summary: anchor_summary, embedding, model: llm.model });
+  await createAnchor(deps, projectId, brief);
 
   // ШАГ 4–5: извлечение и аудит
   await extractPassport(deps, projectId, req.program, req.text_input ?? '', sources);
@@ -133,6 +138,7 @@ async function handleExistingProject(deps: PipelineDeps, req: PipelineRequest, c
     if (!text) {
       return { status: 'ANSWER_REJECTED', step: 'ANSWER_VALIDATION', target_field: target, question, example: kb.example, rejection_reason: 'Ответ пустой' };
     }
+    const prev = await store.getFieldValue(projectId, target.section_id, target.field_key);
     const result = await answerField(deps, projectId, target, question, text);
     if (!result.ok) {
       return {
@@ -144,6 +150,10 @@ async function handleExistingProject(deps: PipelineDeps, req: PipelineRequest, c
         rejection_reason: result.reason,
       };
     }
+    // Переписан уже заполненный блок — его зависимые на повторную проверку (задача 1.5)
+    const changed = new Set<DependencyNode>();
+    noteFieldChange(prev, text, target.section_id, changed);
+    await invalidateDependents(store, projectId, changed);
   } else if (newText) {
     // Новые данные (текст или файлы) — переизвлечение паспорта
     const sources = await store.listSources(projectId);
@@ -151,21 +161,4 @@ async function handleExistingProject(deps: PipelineDeps, req: PipelineRequest, c
   }
 
   return nextStep(deps, ctx, projectId, req.program);
-}
-
-/** После изменения паспорта: пробелы (ШАГ 6) → новизна (ШАГ 7) → выход (ШАГ 8). */
-async function nextStep(deps: PipelineDeps, ctx: UserContext, projectId: string, program: string): Promise<PipelineResponse> {
-  const records: RecordRow[] = await deps.store.getRecords(projectId);
-  const gap = findGaps(records)[0];
-  if (gap) {
-    const kb = fieldKb(deps.kb, gap.section_id, gap.field_key);
-    return {
-      status: 'NEED_USER_INPUT',
-      step: 'GAP_FILLING',
-      target_field: gap,
-      question: kb.question,
-      example: kb.example,
-    };
-  }
-  return noveltyAndFinalize(deps, ctx, projectId, records, program);
 }

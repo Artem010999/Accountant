@@ -17,18 +17,23 @@ export interface RuleEngineResult {
   warnings: string[];
 }
 
+/**
+ * extraStopFactors — проверки, которые считаются вне правил (смета, согласованность направления и вызова).
+ */
 export function evaluatePassportRules(
-  founderData: { name?: string; status?: string } | null,
+  founderData: { full_name?: string; status?: string } | null,
   records: RuleRecord[],
   allClaims: AuditableClaim[],
   program = 'Студенческий стартап',
+  extraStopFactors: readonly string[] = [],
 ): RuleEngineResult {
   const stopFactors: string[] = [];
   const warnings: string[] = [];
 
   if (program === 'Студенческий стартап') {
-    if (!founderData?.name) {
+    if (!founderData?.full_name) {
       stopFactors.push('Не заполнено ФИО заявителя в профиле основателя (Блок 1).');
+      // Ключ ФИО везде один — full_name (см. contracts FOUNDER_FIELD_KEYS).
     }
     if (!founderData?.status || !['student', 'postgraduate'].includes(founderData.status)) {
       warnings.push('Для программы «Студенческий стартап» необходимо подтвердить статус обучающегося вуза.');
@@ -39,6 +44,8 @@ export function evaluatePassportRules(
     const filled = records.some((r) => r.section_id === secId && (r.value ?? '').trim().length > 0);
     if (!filled) stopFactors.push(`Не заполнен обязательный блок паспорта №${secId}.`);
   }
+
+  stopFactors.push(...extraStopFactors);
 
   const bad = allClaims.filter((c) => c.verification_status === 'orphaned' || c.verification_status === 'rejected');
   if (bad.length > 0) {

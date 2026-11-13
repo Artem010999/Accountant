@@ -14,7 +14,11 @@ export type AnchorStatus = 'pending' | 'generating' | 'ready' | 'failed' | 'stal
 
 export type RecordReviewStatus = 'draft' | 'ai_generated' | 'needs_review' | 'reviewed' | 'approved';
 
-export type ProjectStatus = 'draft' | 'generating' | 'review' | 'completed' | 'archived';
+/** 'rejected' — финальный отказ на входе (анкета допуска, миграция 0007). */
+export type ProjectStatus = 'draft' | 'generating' | 'review' | 'completed' | 'archived' | 'rejected';
+
+/** Группы статей сметы (описание расходов 8-й очереди). Зеркало enum budget_category из миграции 0007. */
+export type BudgetCategory = 'salary' | 'equipment' | 'ip_and_premises' | 'contractor' | 'other';
 
 export type PaymentStatus = 'pending' | 'succeeded' | 'failed' | 'refunded';
 

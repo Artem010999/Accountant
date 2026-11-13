@@ -24,18 +24,44 @@ beforeAll(async () => {
 /** Ответ «по теме проекта»: содержит слова брифа, как реальный ответ по тому же проекту. */
 const onTopic = (s: string) => `${BRIEF} ${s}`;
 
+/** Анкета допуска, которую проходит студент (задача 1.1). */
+const PASSING = {
+  is_student_or_postgraduate: true,
+  has_open_fsi_contracts_or_applications: false,
+  has_prior_student_startup_grant: false,
+  ready_to_open_llc_after_win: true,
+};
+
 const req = (userId: string, extra: Partial<PipelineRequest> = {}): PipelineRequest => ({
   user_id: userId,
   action: 'init_or_upload',
   program: STUDENT_BASE,
+  eligibility: PASSING,
   ...extra,
 });
+
+/** Смета, которая проходит все лимиты 8-й очереди: 20 000 + 980 000 = 1 000 000 ₽ (задача 1.3). */
+const VALID_BUDGET = [
+  { stage: 1 as const, category: 'other' as const, title: 'Консультации', quantity: 1, unit_price: 20000, amount: 20000, justification: 'Консультации по проекту' },
+  { stage: 2 as const, category: 'contractor' as const, title: 'Разработка интерфейса', quantity: 1, unit_price: 250000, amount: 250000, justification: 'Подрядчик по интерфейсу' },
+  { stage: 2 as const, category: 'equipment' as const, title: 'Ноутбук', quantity: 2, unit_price: 100000, amount: 200000, justification: 'Рабочие станции команды' },
+  { stage: 2 as const, category: 'salary' as const, title: 'Зарплата разработчика', quantity: 10, unit_price: 50000, amount: 500000, justification: 'Разработка продукта' },
+  { stage: 2 as const, category: 'other' as const, title: 'Хостинг и сервисы', quantity: 1, unit_price: 30000, amount: 30000, justification: 'Инфраструктура' },
+];
+
+/** Смета отправляется до брифа: поля и смета сохраняются, а ответ — WAITING_FOR_INITIAL_BRIEF. */
+const seedBudget = async (deps: ReturnType<typeof makeDeps>, userId: string) => {
+  const res = await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: VALID_BUDGET }));
+  expect(res).toMatchObject({ status: 'WAITING_FOR_INITIAL_BRIEF' });
+};
 
 /** Ответ LLM: заполняет все поля паспорта, одно claim-«факт» без источника (даст предупреждение). */
 const fullExtraction = (input: any) => ({
   fields: PASSPORT_SECTIONS.flatMap((s) =>
     s.fields.map((f) => {
-      const value = `Значение поля ${f} для проекта: сервис помощи студентам с поиском попутчиков.`;
+      // Поля с допустимым набором получают допустимое значение (направление Н1, вызов № 1 — направление Н1).
+      const value =
+        f === 'direction' ? 'Н1' : f === 'tech_challenge' ? '1' : `Значение поля ${f} для проекта: сервис помощи студентам с поиском попутчиков.`;
       return {
         section_id: s.id,
         field_key: f,
@@ -217,6 +243,7 @@ describe('пайплайн v1.0', () => {
       }),
     });
     const deps = makeDeps(db, llm);
+    await seedBudget(deps, userId);
     const res = await handlePipeline(deps, req(userId, { text_input: BRIEF }));
 
     expect(res.status).toBe('COMPLETED');
@@ -250,6 +277,7 @@ describe('пайплайн v1.0', () => {
       'Аналог Госуслуги: поиск без расписания. Аналог Blablacar: без проверки вуза, сравнение по времени поиска.',
     );
 
+    await seedBudget(deps, userId);
     const first = await handlePipeline(deps, req(userId, { text_input: BRIEF }));
     expect(first).toMatchObject({ status: 'STOP_NOV', target_field: { section_id: 6, field_key: 'analogues_comparison' } });
 
@@ -273,6 +301,7 @@ describe('пайплайн v1.0', () => {
     const userId = await createUser(db.sql, { plan: 'free' });
     const llm = new FakeLlm({ extract: fullExtraction });
     const deps = makeDeps(db, llm);
+    await seedBudget(deps, userId);
     const res = await handlePipeline(deps, req(userId, { text_input: BRIEF }));
     expect(res.status).toBe('COMPLETED');
     if (res.status === 'COMPLETED') {

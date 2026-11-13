@@ -16,8 +16,16 @@ export interface PassportSectionDef {
 export const PASSPORT_SECTIONS: readonly PassportSectionDef[] = [
   { id: 2, title: 'Команда, роли, компетенции и опыт', fields: ['team_members', 'competencies_and_experience'] },
   { id: 3, title: 'Проблема и целевые пользователи', fields: ['problem_description', 'target_audience'] },
-  { id: 4, title: 'Продукт, функции и технология', fields: ['product_summary', 'core_features', 'tech_approach'] },
-  { id: 5, title: 'Стадия разработки и существующий задел', fields: ['current_stage', 'existing_backlog_and_mvp', 'first_stage_result'] },
+  {
+    id: 4,
+    title: 'Продукт, функции и технология',
+    fields: ['product_summary', 'core_features', 'tech_approach', 'direction', 'tech_challenge'],
+  },
+  {
+    id: 5,
+    title: 'Стадия разработки, задел и календарный план',
+    fields: ['current_stage', 'existing_backlog_and_mvp', 'first_stage_result', 'calendar_plan_stage_1', 'calendar_plan_stage_2'],
+  },
   { id: 6, title: 'Аналоги и предполагаемые отличия (Новизна)', fields: ['analogues_comparison', 'novelty_hypothesis', 'verification_protocol'] },
   { id: 7, title: 'Рынок, бизнес-модель, продажи и пилоты', fields: ['market_overview', 'business_model_and_pricing', 'traction_and_pilots'] },
   { id: 8, title: 'Юридические лица и их роли', fields: ['legal_entity_info', 'entity_roles'] },

@@ -1,9 +1,35 @@
 // Контракт единого Webhook / HTTP-входа пайплайна: POST /pipeline (ТЗ, раздел 3.5).
 // Вопрос 3 (вариант А): фронтенд передаёт target_field и previous_question — бэкенд stateless.
 
-import type { ClaimKind, ClaimType, ClaimVerificationStatus } from './enums';
+import type { BudgetCategory, ClaimKind, ClaimType, ClaimVerificationStatus } from './enums';
 
-export type PipelineAction = 'init_or_upload' | 'submit_answer';
+/**
+ * init_or_upload — бриф/файлы (шаги 1–5);
+ * submit_answer — ответ на один пробел (U_LOOP);
+ * submit_form — вся форма разом или точечные правки открытых блоков (шаги 3В и 7), без LLM-извлечения.
+ */
+export type PipelineAction = 'init_or_upload' | 'submit_answer' | 'submit_form';
+
+/** Ответы на анкету допуска: ключ вопроса → ответ «да/нет». Пункты и правила — в kb/programs/…/manifest.json. */
+export type EligibilityAnswers = Record<string, boolean>;
+
+/** Одно поле формы. Пустое значение пропускается (поле не очищается). */
+export interface FormFieldInput {
+  section_id: number;
+  field_key: string;
+  value: string;
+}
+
+/** Строка сметы (Блок «Смета»). Если передан массив budget_items — смета заменяется целиком. */
+export interface BudgetItemInput {
+  stage: 1 | 2;
+  category: BudgetCategory;
+  title: string;
+  quantity: number;
+  unit_price: number;
+  amount: number;
+  justification?: string;
+}
 
 export interface TargetField {
   section_id: number;
@@ -24,6 +50,9 @@ export interface PipelineRequest {
   target_field?: TargetField;      // обязателен для submit_answer в режиме дозаполнения
   previous_question?: string;      // текст вопроса, на который отвечает пользователь
   files?: PipelineFileInput[];
+  eligibility?: EligibilityAnswers; // анкета допуска; нужна, пока проект не прошёл проверку
+  form?: FormFieldInput[];          // для submit_form
+  budget_items?: BudgetItemInput[]; // для submit_form: смета целиком
 }
 
 export type PipelineErrorCode =
@@ -33,6 +62,7 @@ export type PipelineErrorCode =
   | 'FILE_HASH_MISMATCH'
   | 'FOUNDER_REQUIRED'
   | 'INVALID_TARGET'
+  | 'INVALID_FIELD_VALUE'
   | 'INTERNAL';
 
 export interface PipelineError {
@@ -85,8 +115,22 @@ export interface PipelineCompleted {
   passport: PipelinePassportField[];
 }
 
+/** Анкета допуска ещё не пройдена (или заполнена не полностью). */
+export interface PipelineEligibilityRequired {
+  status: 'ELIGIBILITY_REQUIRED';
+  questions: { key: string; question: string }[];
+}
+
+/** Финальный отказ на входе: проект переведён в статус rejected. Причины и способы исправления — для показа человеку. */
+export interface PipelineRejected {
+  status: 'REJECTED';
+  reasons: { key: string; reason: string; how_to_fix: string }[];
+}
+
 export type PipelineResponse =
   | PipelineQuestion
   | PipelineSwapBlocked
   | PipelineCompleted
+  | PipelineEligibilityRequired
+  | PipelineRejected
   | PipelineError;

@@ -58,8 +58,47 @@ describe('HTTP /pipeline', () => {
 
   it('холодный старт — 200 WAITING_FOR_INITIAL_BRIEF', async () => {
     const userId = await createUser(db.sql);
-    const res = await post({ user_id: userId, action: 'init_or_upload', program: 'Студенческий стартап' });
+    const res = await post({ user_id: userId, action: 'init_or_upload', program: 'Студенческий стартап', eligibility: PASSING_ELIGIBILITY });
     expect(res.status).toBe(200);
     expect(((await res.json()) as { status: string }).status).toBe('WAITING_FOR_INITIAL_BRIEF');
   });
+
+  it('без анкеты допуска — 200 ELIGIBILITY_REQUIRED со списком вопросов', async () => {
+    const userId = await createUser(db.sql);
+    const res = await post({ user_id: userId, action: 'init_or_upload', program: 'Студенческий стартап' });
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { status: string; questions: { key: string }[] };
+    expect(body.status).toBe('ELIGIBILITY_REQUIRED');
+    expect(body.questions.length).toBe(4);
+  });
+
+  it('схема принимает submit_form с полями, сметой и анкетой', async () => {
+    const res = await post({
+      user_id: randomUUID(),
+      action: 'submit_form',
+      program: 'Студенческий стартап',
+      eligibility: PASSING_ELIGIBILITY,
+      form: [{ section_id: 4, field_key: 'direction', value: 'Н1' }],
+      budget_items: [{ stage: 1, category: 'other', title: 'Консультации', quantity: 1, unit_price: 20000, amount: 20000 }],
+    });
+    // Схема пройдена: дальше запрос уходит в обработчик (здесь — пользователь не существует).
+    expect(res.status).not.toBe(400);
+  });
+
+  it('схема отклоняет неизвестную категорию сметы', async () => {
+    const res = await post({
+      user_id: randomUUID(),
+      action: 'submit_form',
+      program: 'Студенческий стартап',
+      budget_items: [{ stage: 1, category: 'bribe', title: 'x', quantity: 1, unit_price: 1, amount: 1 }],
+    });
+    expect(res.status).toBe(400);
+  });
 });
+
+const PASSING_ELIGIBILITY = {
+  is_student_or_postgraduate: true,
+  has_open_fsi_contracts_or_applications: false,
+  has_prior_student_startup_grant: false,
+  ready_to_open_llc_after_win: true,
+};

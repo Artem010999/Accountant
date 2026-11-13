@@ -1,11 +1,12 @@
 // Блок 4–5: проверка новизны (ШАГ 7 / G6 / STOP_NOV), Rule Engine (ШАГ 8.1), навигатор (ШАГ 8.2).
 import { PASSPORT_SECTIONS, type PipelineCompleted, type PipelineQuestion, type PipelinePassportField } from '@passport/contracts';
-import { evaluatePassportRules, type AuditableClaim } from '@passport/passport-core';
+import { checkBudget, evaluatePassportRules, type AuditableClaim } from '@passport/passport-core';
 import { fieldKb } from '../kb/manifest';
 import { callLlm, navigatorSchema, noveltySchema } from '../llm/schemas';
 import { wrapUntrustedData } from '../promptGuard';
 import type { RecordRow, UserContext } from '../db/store';
 import type { PipelineDeps } from './deps';
+import { challengeDirectionMismatch } from './fieldValidation';
 
 const NOVELTY_SECTION = 6;
 const NOVELTY_FIELD = 'analogues_comparison';
@@ -80,16 +81,29 @@ async function finalize(
 ): Promise<PipelineCompleted> {
   // TODO(разработчик, S3): фатальные стоп-факторы «тема не подходит ФСИ» (узлы 14–15 схемы) — новый терминальный статус.
   // Полный список причин и кто их решает (правило или модель) не определены (docs/PLAN-v1.1.md Q4).
-  // TODO(разработчик, S4): проверки сметы и цифр (узлы 13 и 16) — сходимость статей, лимиты программы.
-  // Правила не определены (docs/PLAN-v1.1.md Q5).
   const passportRecords = records.filter((r) => r.section_id >= 2);
   const allClaims: AuditableClaim[] = passportRecords.flatMap((r) => r.claims as unknown as AuditableClaim[]);
 
+  // Задача 1.3: смета — арифметика и лимиты (без ИИ). Задача 1.5: строки, помеченные на проверку.
+  const budgetItems = await deps.store.getBudgetItems(projectId);
+  const limits = await deps.store.getBudgetLimits(); // активная редакция из БД: меняется без деплоя
+  const budgetStopFactors = checkBudget(budgetItems, limits).map((v) => `Смета: ${v.message}`);
+  if (budgetItems.some((b) => b.review_status === 'needs_review')) {
+    budgetStopFactors.push('Смета: связанные блоки изменились. Подтвердите смету заново.');
+  }
+
+  // Согласованность направления и технологического вызова (задача 1.2).
+  const direction = valueOf(passportRecords, 4, 'direction');
+  const challenge = valueOf(passportRecords, 4, 'tech_challenge');
+  const mismatch = challengeDirectionMismatch(direction || null, challenge || null, deps.kb.tech_challenges);
+  if (mismatch) budgetStopFactors.push(`Направление и вызов: ${mismatch}`);
+
   const rules = evaluatePassportRules(
-    ctx.founderData as { name?: string; status?: string },
+    ctx.founderData,
     passportRecords.map((r) => ({ section_id: r.section_id, value: r.value })),
     allClaims,
     program,
+    budgetStopFactors,
   );
 
   const stats = {

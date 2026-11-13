@@ -60,14 +60,14 @@ describe('auditClaims (ШАГ 5)', () => {
 
 describe('evaluatePassportRules', () => {
   it('без обязательных блоков — NOT_ELIGIBLE', () => {
-    const r = evaluatePassportRules({ name: 'Иван', status: 'student' }, [], []);
+    const r = evaluatePassportRules({ full_name: 'Иван', status: 'student' }, [], []);
     expect(r.eligibility_status).toBe('NOT_ELIGIBLE');
     expect(r.stop_factors.length).toBeGreaterThan(0);
   });
 
   it('все блоки заполнены, студент — ELIGIBLE', () => {
     const records = [2, 3, 4, 5, 6, 7, 8, 9, 10].map((section_id) => ({ section_id, value: 'текст блока' }));
-    const r = evaluatePassportRules({ name: 'Иван', status: 'student' }, records, []);
+    const r = evaluatePassportRules({ full_name: 'Иван', status: 'student' }, records, []);
     expect(r.eligibility_status).toBe('ELIGIBLE');
   });
 });
