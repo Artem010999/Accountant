@@ -3,7 +3,6 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import PizZip from 'pizzip';
 import { PASSPORT_SECTIONS, type PipelineRequest, type PipelineCompleted } from '@passport/contracts';
 import { handlePipeline } from '../src/pipeline/handler';
-import { handleConsultant } from '../src/consultant/consultant';
 import { handleExport, type ExportSectionInput } from '../src/pipeline/export';
 import { FakeLlm } from '../src/llm/fake';
 import { createPipelineServer } from '../src/server';
@@ -151,68 +150,6 @@ describe('4.4 журнал обращений к нейросети', () => {
   });
 });
 
-// ---------- 4.1 ИИ-Консультант ----------
-
-const ragStub = async () => ({
-  cards: [{ card_id: 'card_limits_8', title: 'Лимиты 8-й очереди' }],
-  context: 'Фрагмент базы знаний про лимиты.',
-});
-
-describe('4.1 ИИ-Консультант', () => {
-  it('сообщение, решающее чужую задачу, блокируется: консультант не вызывается, диалог сохраняется', async () => {
-    const userId = await createUser(db.sql, { plan: 'premium' });
-    const llm = new FakeLlm({ chat_guard: () => ({ verdict: 'solve_task', reason: 'просят написать реферат' }) });
-    const deps: PipelineDeps = { ...makeDeps(db, llm), rag: ragStub };
-    const res = await handleConsultant(deps, { user_id: userId, message: 'Напиши мне реферат про экономику' });
-    expect(res.status).toBe('BLOCKED');
-    expect(llm.calls.some((c) => c.task === 'consultant')).toBe(false);
-    const { rows } = await db.sql.query('SELECT COUNT(*)::int AS n FROM consultant_messages WHERE user_id = $1::uuid', [userId]);
-    expect(rows[0].n).toBe(2);
-  });
-
-  it('обычный вопрос: ответ с предупреждением о лимите, источники из RAG и поля паспорта в запросе', async () => {
-    const userId = await createUser(db.sql, { plan: 'premium' });
-    const llm = new FakeLlm({
-      consultant: () => ({
-        reply: 'Лимит на подрядчиков в 8-й очереди пока не подтверждён положением. Сверьте с официальной публикацией.',
-        warnings: ['точный лимит ещё не подтверждён положением 8-й очереди'],
-      }),
-    });
-    const { deps } = await completeProject(userId);
-    const consultantDeps: PipelineDeps = { ...deps, llm, rag: ragStub };
-    const res = await handleConsultant(consultantDeps, { user_id: userId, message: 'Какой лимит на подрядчиков?' });
-    expect(res.status).toBe('ANSWER');
-    if (res.status !== 'ANSWER') return;
-    expect(res.warnings.join(' ')).toContain('не подтверждён положением');
-    expect(res.sources).toEqual([{ card_id: 'card_limits_8', title: 'Лимиты 8-й очереди' }]);
-
-    const call = llm.calls.find((c) => c.task === 'consultant')!;
-    expect(call.input.rag_context).toContain('лимиты');
-    expect(call.input.passport_context.length).toBeGreaterThan(10);
-  });
-
-  it('консультант только читает: поля паспорта не меняются', async () => {
-    const userId = await createUser(db.sql, { plan: 'premium' });
-    const { deps } = await completeProject(userId);
-    const sql = `SELECT r.field_key, r.value FROM project_passport_records r JOIN app_projects p ON p.id = r.project_id WHERE p.user_id = $1::uuid ORDER BY 1`;
-    const before = await db.sql.query(sql, [userId]);
-    await handleConsultant({ ...deps, rag: ragStub }, { user_id: userId, message: 'Что ещё нужно доработать в паспорте?' });
-    const after = await db.sql.query(sql, [userId]);
-    expect(after.rows).toEqual(before.rows);
-  });
-
-  it('в запрос к модели попадают не больше 8 последних сообщений диалога', async () => {
-    const userId = await createUser(db.sql, { plan: 'premium' });
-    for (let i = 0; i < 10; i++) {
-      await db.sql.query("INSERT INTO consultant_messages (user_id, role, content) VALUES ($1::uuid, 'user', $2)", [userId, `вопрос ${i}`]);
-    }
-    const llm = new FakeLlm();
-    await handleConsultant({ ...makeDeps(db, llm), rag: ragStub }, { user_id: userId, message: 'Ещё один вопрос' });
-    const call = llm.calls.find((c) => c.task === 'consultant')!;
-    expect(call.input.history).toHaveLength(8);
-  });
-});
-
 // ---------- 4.2 выгрузка DOCX: кнопка и 10 секций ----------
 
 describe('4.2 выгрузка паспорта в DOCX', () => {
@@ -295,26 +232,22 @@ describe('4.2 выгрузка паспорта в DOCX', () => {
   });
 });
 
-// ---------- HTTP-маршруты ----------
+// ---------- HTTP-маршруты выгрузки ----------
 
-describe('HTTP: /consultant, /export', () => {
-  it('без секрета — 401; с секретом — ответ консультанта, выгрузка и скачивание владельцем', async () => {
-    const userId = await createUser(db.sql, { plan: 'premium' });
+describe('HTTP: /export', () => {
+  it('без секрета — 401; с секретом — выгрузка и скачивание только владельцем', async () => {
+    const userId = await createUser(db.sql);
     const { deps } = await completeProject(userId);
 
-    const server = createPipelineServer({ ...deps, rag: ragStub }, { sharedSecret: SECRET });
+    const server = createPipelineServer(deps, { sharedSecret: SECRET });
     await new Promise<void>((r) => server.listen(0, r));
     const base = `http://127.0.0.1:${(server.address() as { port: number }).port}`;
     const auth = { 'x-pipeline-secret': SECRET, 'Content-Type': 'application/json' };
     try {
-      const noSecret = await fetch(`${base}/consultant`, { method: 'POST', body: JSON.stringify({ user_id: userId, message: 'Привет' }) });
+      const sections = await sectionsFromDb(userId);
+      const noSecret = await fetch(`${base}/export`, { method: 'POST', body: JSON.stringify({ user_id: userId, sections }) });
       expect(noSecret.status).toBe(401);
 
-      const chat = await fetch(`${base}/consultant`, { method: 'POST', headers: auth, body: JSON.stringify({ user_id: userId, message: 'Что проверить в смете?' }) });
-      expect(chat.status).toBe(200);
-      expect(((await chat.json()) as { status: string }).status).toBe('ANSWER');
-
-      const sections = await sectionsFromDb(userId);
       const exp = await fetch(`${base}/export`, { method: 'POST', headers: auth, body: JSON.stringify({ user_id: userId, sections }) });
       expect(exp.status).toBe(200);
       const exported = (await exp.json()) as { status: string; export_id: string };

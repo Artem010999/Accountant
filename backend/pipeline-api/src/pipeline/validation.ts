@@ -69,10 +69,3 @@ export const exportRequestSchema = z
   })
   .strict();
 
-// Вход ИИ-Консультанта (POST /consultant).
-export const consultantRequestSchema = z
-  .object({
-    user_id: z.string().uuid(),
-    message: z.string().trim().min(1).max(2_000),
-  })
-  .strict();

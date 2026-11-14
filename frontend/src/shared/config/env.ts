@@ -5,9 +5,8 @@ export const env = {
   pipelineUrl: import.meta.env.VITE_PIPELINE_URL,
   // POST обращений в поддержку (бэкенд pipeline-api, маршрут /support). По умолчанию — локальный бэкенд.
   supportEndpoint: import.meta.env.VITE_SUPPORT_ENDPOINT || 'http://localhost:8080/support',
-  // ИИ-консультант (POST) и выгрузка паспорта (POST /export, GET /export/:id). По умолчанию — через прокси nginx.
-  consultantEndpoint: import.meta.env.VITE_CONSULTANT_ENDPOINT || '/consultant',
+  chatEndpoint: import.meta.env.VITE_CHAT_ENDPOINT || 'http://localhost:8080/chat',
+  defaultUserId: import.meta.env.VITE_DEFAULT_USER_ID || '550e8400-e29b-41d4-a716-446655440000',
+  // Выгрузка паспорта (POST /export, GET /export/:id). По умолчанию — через прокси nginx.
   exportEndpoint: import.meta.env.VITE_EXPORT_ENDPOINT || '/export',
-  // Пользователь для вызовов консультанта и выгрузки. Пока нет входа (G5.2): задаётся в окружении.
-  userId: import.meta.env.VITE_USER_ID || '',
 } as const;

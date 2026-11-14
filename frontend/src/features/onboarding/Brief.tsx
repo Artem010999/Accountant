@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BrandMark } from '../../shared/ui/Logo/Logo';
 import { OnboardingHeader } from './OnboardingHeader';
+import { ConsultantWidget } from '../consultant/ConsultantWidget';
 import './common.css';
 import './Brief.css';
 
@@ -223,6 +224,7 @@ export function Brief() {
           </div>
         </form>
       </main>
+      <ConsultantWidget />
     </div>
   );
 }

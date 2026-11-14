@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCabinetShell } from '../../shared/layout/CabinetLayout';
+import { ConsultantWidget } from '../consultant/ConsultantWidget';
 import './Gaps.css';
 
 // Экран «Закроем пробелы» (дозаполнение пробелов F6 + проверка новизны F7).
@@ -318,6 +319,7 @@ export function Gaps() {
           )}
         </section>
       </div>
+      <ConsultantWidget />
     </div>
   );
 }

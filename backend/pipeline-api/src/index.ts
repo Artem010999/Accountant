@@ -62,3 +62,23 @@ export type {
   RetrieveRagResult,
 } from './rag/types';
 
+export {
+  CHAT_PATH,
+  handleChatRequest,
+  sendJson as sendChatJson,
+  type ChatOptions,
+} from './chat/http';
+export {
+  chatPostRequestSchema,
+  chatGetQuerySchema,
+} from './chat/schema';
+export {
+  getConsultantHistory,
+  handleConsultantChat,
+  toChatMessageOut,
+} from './chat/service';
+export {
+  consultantSchema,
+  type ConsultantOutput,
+} from './llm/schemas';
+

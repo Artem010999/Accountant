@@ -2,16 +2,15 @@
 // В проде user_id должен подтверждаться JWT Supabase на шлюзе — здесь он доверяется.
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { handlePipeline, withCallLogging } from './pipeline/handler';
-import { consultantRequestSchema, exportRequestSchema, pipelineRequestSchema } from './pipeline/validation';
+import { exportRequestSchema, pipelineRequestSchema } from './pipeline/validation';
 import type { PipelineDeps } from './pipeline/deps';
 import { handleSupportRequest, SUPPORT_PATH, type SupportOptions } from './support/http';
-import { handleConsultant } from './consultant/consultant';
+import { handleChatRequest, CHAT_PATH, type ChatOptions } from './chat/http';
 import { handleExport, type ExportReady, type ExportRequestBody } from './pipeline/export';
 import { PipelineFailure } from './errors';
-import type { ConsultantRequest, ConsultantResponse, PipelineError } from '@passport/contracts';
+import type { PipelineError } from '@passport/contracts';
 
 const MAX_BODY_BYTES = 1_000_000;
-const CONSULTANT_PATH = '/consultant';
 const EXPORT_PATH = '/export';
 const EXPORT_PREFIX = '/export/';
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -45,52 +44,43 @@ async function exportOrError(deps: PipelineDeps, body: ExportRequestBody): Promi
   }
 }
 
-/** Ожидаемая ошибка консультанта → ERROR с кодом; прочее → INTERNAL. */
-async function consultantOrError(deps: PipelineDeps, req: ConsultantRequest): Promise<ConsultantResponse | PipelineError> {
-  try {
-    return await handleConsultant(withCallLogging(deps, req.user_id), req);
-  } catch (err) {
-    if (err instanceof PipelineFailure) return { status: 'ERROR', code: err.code, message: err.message };
-    deps.logger.error('[consultant] unexpected error', err);
-    return { status: 'ERROR', code: 'INTERNAL', message: 'Внутренняя ошибка консультанта' };
-  }
+export interface PipelineServerOptions {
+  sharedSecret?: string;
+  support?: SupportOptions;
+  chat?: ChatOptions;
 }
 
-export function createPipelineServer(deps: PipelineDeps, opts: { sharedSecret?: string; support?: SupportOptions } = {}): Server {
+export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOptions = {}): Server {
   return createServer(async (req, res) => {
     try {
-      if (req.method === 'GET' && req.url === '/health') {
+      const pathname = req.url ? new URL(req.url, 'http://localhost').pathname : '';
+
+      if (req.method === 'GET' && pathname === '/health') {
         return send(res, 200, { status: 'ok' });
       }
 
       // Публичный эндпоинт поддержки: без x-pipeline-secret, CORS только для SUPPORT_ALLOWED_ORIGIN.
-      if (req.url === SUPPORT_PATH) {
+      if (pathname === SUPPORT_PATH) {
         if (!opts.support) return send(res, 404, { error: 'not found' });
         return await handleSupportRequest(req, res, opts.support);
       }
 
-      // Внутренние маршруты блока 4 (общий секрет): ИИ-Консультант, выгрузка DOCX и её скачивание.
-      const internal = req.url === CONSULTANT_PATH || req.url === EXPORT_PATH || (req.method === 'GET' && req.url?.startsWith(EXPORT_PREFIX));
-      if (internal && opts.sharedSecret && req.headers['x-pipeline-secret'] !== opts.sharedSecret) {
-        return send(res, 401, { error: 'unauthorized' });
+      // Публичный эндпоинт ИИ-Консультанта: без x-pipeline-secret
+      if (pathname === CHAT_PATH) {
+        const chatOpts = opts.chat ?? {
+          allowedOrigin: opts.support?.allowedOrigin,
+        };
+        return await handleChatRequest(req, res, deps, chatOpts);
       }
 
-      if (req.method === 'POST' && req.url === CONSULTANT_PATH) {
-        let body: unknown;
-        try {
-          body = await readJson(req);
-        } catch {
-          return send(res, 400, { error: 'invalid json' });
+      // Внутренние маршруты выгрузки (общий секрет): POST /export и скачивание GET /export/:id.
+      if (pathname === EXPORT_PATH || (req.method === 'GET' && pathname.startsWith(EXPORT_PREFIX))) {
+        if (opts.sharedSecret && req.headers['x-pipeline-secret'] !== opts.sharedSecret) {
+          return send(res, 401, { error: 'unauthorized' });
         }
-        const parsed = consultantRequestSchema.safeParse(body);
-        if (!parsed.success) {
-          return send(res, 400, { error: 'invalid request', details: parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`) });
-        }
-        const result = await consultantOrError(deps, parsed.data);
-        return send(res, result.status === 'ERROR' ? 422 : 200, result);
       }
 
-      if (req.method === 'POST' && req.url === EXPORT_PATH) {
+      if (req.method === 'POST' && pathname === EXPORT_PATH) {
         let body: unknown;
         try {
           body = await readJson(req);
@@ -105,8 +95,8 @@ export function createPipelineServer(deps: PipelineDeps, opts: { sharedSecret?: 
         return send(res, result.status === 'ERROR' ? 422 : 200, result);
       }
 
-      if (req.method === 'GET' && req.url?.startsWith(EXPORT_PREFIX)) {
-        const exportId = req.url.slice(EXPORT_PREFIX.length).split('?')[0] ?? '';
+      if (req.method === 'GET' && pathname.startsWith(EXPORT_PREFIX)) {
+        const exportId = pathname.slice(EXPORT_PREFIX.length);
         const userId = req.headers['x-user-id'];
         if (!UUID_RE.test(exportId) || typeof userId !== 'string' || !UUID_RE.test(userId)) {
           return send(res, 404, { error: 'not found' });
@@ -120,7 +110,7 @@ export function createPipelineServer(deps: PipelineDeps, opts: { sharedSecret?: 
         return res.end(file.content);
       }
 
-      if (req.method !== 'POST' || req.url !== '/pipeline') {
+      if (req.method !== 'POST' || pathname !== '/pipeline') {
         return send(res, 404, { error: 'not found' });
       }
 

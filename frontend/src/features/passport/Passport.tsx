@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StatusPill, type PillTone } from '../../shared/ui';
+import { ConsultantWidget } from '../consultant/ConsultantWidget';
 import './Passport.css';
 
 // Экран «Паспорт проекта» по design/project/Passport.dc.html. Логика — порт скрипта эталона (renderVals):
@@ -489,6 +490,7 @@ export function Passport({ exportReady = false }: { exportReady?: boolean } = {}
           )}
         </aside>
       </div>
+      <ConsultantWidget activeSectionId={st.sec} />
     </div>
   );
 }

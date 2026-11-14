@@ -152,14 +152,102 @@ export async function searchHybridCards(
   const exactCardId = extractExactCardId(queryText);
   const importantTokens = extractImportantTokens(queryText);
 
-  // Векторизация запроса
-  const queryEmbedding = await getEmbedding(queryText);
-  const queryVectorLiteral = toVectorLiteral(queryEmbedding);
+  // Векторизация запроса (с отказоустойчивым FTS-фоллбэком при сетевом сбое внешнего сервиса эмбеддингов)
+  let queryVectorLiteral: string | null = null;
+  try {
+    const queryEmbedding = await getEmbedding(queryText);
+    queryVectorLiteral = toVectorLiteral(queryEmbedding);
+  } catch (embErr) {
+    // Внешний сервис эмбеддингов недоступен или вернул ошибку — переключаемся на FTS
+  }
 
   // Определение режимов выборки:
   // Для chat — по обеим кучкам ('pinned', 'search')
   // Для assembly, audit, novelty — только 'search'
   const allowedModes = opts.step === 'chat' ? ['pinned', 'search'] : ['search'];
+
+  if (!queryVectorLiteral) {
+    const params: unknown[] = [
+      opts.step, // $1
+      queryText, // $2
+      allowedModes, // $3
+      exactCardId, // $4
+      importantTokens.length > 0 ? importantTokens : null, // $5
+    ];
+
+    let directionFilter = '';
+    if (opts.direction && opts.direction !== 'all') {
+      params.push(opts.direction);
+      directionFilter = ` AND direction IN ('all', $${params.length})`;
+    }
+
+    let blocksFilter = '';
+    if (opts.targetBlocks && opts.targetBlocks.length > 0) {
+      const stringBlocks = opts.targetBlocks.map(String);
+      if (!stringBlocks.includes('all')) {
+        params.push(stringBlocks);
+        blocksFilter = ` AND ('all' = ANY(target_blocks) OR target_blocks && $${params.length}::text[])`;
+      }
+    }
+
+    params.push(opts.topKSearch ?? 5);
+    const limitParam = `$${params.length}`;
+
+    const query = `
+      SELECT
+        card_id, source_doc, source_page, title, authority_status, retrieval_mode,
+        pipeline_steps, target_blocks, direction, content, content_hash, metadata,
+        0.0 AS semantic_score,
+        LEAST(COALESCE(ts_rank_cd(search_tsv, websearch_to_tsquery('russian', $2)), 0), 1.0) AS fts_score,
+        (
+          CASE WHEN $4::text IS NOT NULL AND card_id = $4 THEN 1.0 ELSE 0.0 END
+          +
+          CASE
+            WHEN $5::text[] IS NOT NULL AND cardinality($5::text[]) > 0 THEN
+              CASE WHEN EXISTS (
+                SELECT 1 FROM unnest($5::text[]) tok
+                WHERE content ILIKE ('%' || tok || '%') OR title ILIKE ('%' || tok || '%')
+              ) THEN 0.15 ELSE 0.0 END
+            ELSE 0.0
+          END
+        ) AS exact_bonus,
+        (
+          (0.85 * LEAST(COALESCE(ts_rank_cd(search_tsv, websearch_to_tsquery('russian', $2)), 0), 1.0))
+          +
+          (
+            CASE WHEN $4::text IS NOT NULL AND card_id = $4 THEN 1.0 ELSE 0.0 END
+            +
+            CASE
+              WHEN $5::text[] IS NOT NULL AND cardinality($5::text[]) > 0 THEN
+                CASE WHEN EXISTS (
+                  SELECT 1 FROM unnest($5::text[]) tok
+                  WHERE content ILIKE ('%' || tok || '%') OR title ILIKE ('%' || tok || '%')
+                ) THEN 0.15 ELSE 0.0 END
+              ELSE 0.0
+            END
+          )
+        ) AS hybrid_score
+      FROM rag_knowledge_cards
+      WHERE $1 = ANY(pipeline_steps)
+        AND retrieval_mode = ANY($3::text[])
+        ${directionFilter}
+        ${blocksFilter}
+      ORDER BY hybrid_score DESC
+      LIMIT ${limitParam}
+    `;
+
+    const { rows } = await sql.query(query, params);
+    return rows.map((r: any) => ({
+      ...r,
+      pipeline_steps: Array.isArray(r.pipeline_steps) ? r.pipeline_steps : [],
+      target_blocks: Array.isArray(r.target_blocks) ? r.target_blocks : [],
+      metadata: typeof r.metadata === 'object' && r.metadata !== null ? r.metadata : {},
+      semantic_score: Number(r.semantic_score ?? 0),
+      fts_score: Number(r.fts_score ?? 0),
+      exact_bonus: Number(r.exact_bonus ?? 0),
+      hybrid_score: Number(r.hybrid_score ?? 0),
+    }));
+  }
 
   const params: unknown[] = [
     opts.step, // $1
@@ -283,15 +371,20 @@ export async function retrieveRagContext(sql: SqlClient, opts: RetrieveRagOption
       })
     : [];
 
-  const searchCards = opts.queryText && opts.queryText.trim()
-    ? await searchHybridCards(sql, {
+  let searchCards: RagCard[] = [];
+  if (opts.queryText && opts.queryText.trim()) {
+    try {
+      searchCards = await searchHybridCards(sql, {
         step: opts.step,
         queryText: opts.queryText,
         direction: opts.direction,
         targetBlocks: opts.targetBlocks,
         topKSearch: opts.topKSearch ?? 5,
-      })
-    : [];
+      });
+    } catch (err) {
+      console.warn('[retriever] searchHybridCards failed, proceeding with pinned cards:', err);
+    }
+  }
 
   // Объединяем дедуплицируя карточки
   const cardMap = new Map<string, RagCard>();

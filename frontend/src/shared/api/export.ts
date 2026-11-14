@@ -29,7 +29,7 @@ export interface ExportErrorResponse {
  * Скачивание: передаём 10 секций, сервер проверяет одобрение и совпадение с сохранённым, собирает DOCX.
  * Возвращает ссылку на файл или ошибку (например, NOT_APPROVED / STALE_EXPORT).
  */
-export async function requestPassportExport(sections: ExportSectionInput[], userId = env.userId): Promise<ExportReadyResponse | ExportErrorResponse> {
+export async function requestPassportExport(sections: ExportSectionInput[], userId = env.defaultUserId): Promise<ExportReadyResponse | ExportErrorResponse> {
   const res = await fetch(env.exportEndpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

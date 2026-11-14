@@ -68,17 +68,6 @@ export const blockAuditItemSchema = z.object({
   failed_fields: z.array(z.string()).default([]),
 });
 
-export const chatGuardSchema = z.object({
-  verdict: z.enum(['ok', 'solve_task']),
-  reason: z.string().default(''),
-});
-
-// Ответ ИИ-Консультанта по промпту 'consultant': поле reply; предупреждения — опционально.
-export const consultantSchema = z.object({
-  reply: z.string().min(1),
-  warnings: z.array(z.string()).default([]),
-});
-
 export const auditOutputSchema = z.object({
   fatal_stop_factors: z.array(fatalStopFactorSchema).default([]),
   block_audits: z.array(blockAuditItemSchema).default([]),
@@ -118,6 +107,13 @@ export type NavigatorOutput = z.output<typeof navigatorSchema>;
 export type FatalStopFactor = z.output<typeof fatalStopFactorSchema>;
 export type BlockAuditItem = z.output<typeof blockAuditItemSchema>;
 export type AuditOutput = z.output<typeof auditOutputSchema>;
+
+export const consultantSchema = z.object({
+  reply: z.string().min(1),
+  referenced_cards: z.array(z.string()).nullish().transform((v) => v ?? []),
+});
+
+export type ConsultantOutput = z.output<typeof consultantSchema>;
 
 /** Вызов LLM + проверка формы ответа. */
 export async function callLlm<S extends z.ZodTypeAny>(
