@@ -538,6 +538,16 @@
   cursor: not-allowed;
 }
 
+/* Ошибка скачивания паспорта (нет в эталоне: оформлена токенами опасности). */
+.result__download-error {
+  margin: 0;
+  padding: var(--space-10) var(--space-14);
+  border-radius: var(--radius-input);
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  font-size: var(--fs-14);
+}
+
 .result__fine {
   margin: 0;
   font-size: var(--fs-13);

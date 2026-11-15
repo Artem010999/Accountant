@@ -2,7 +2,7 @@
 // В проде user_id должен подтверждаться JWT Supabase на шлюзе — здесь он доверяется.
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { handlePipeline, withCallLogging } from './pipeline/handler';
-import { exportRequestSchema, pipelineRequestSchema } from './pipeline/validation';
+import { exportRequestSchema, pipelineRequestSchema, profileRequestSchema } from './pipeline/validation';
 import type { PipelineDeps } from './pipeline/deps';
 import { handleSupportRequest, SUPPORT_PATH, type SupportOptions } from './support/http';
 import { handleChatRequest, CHAT_PATH, type ChatOptions } from './chat/http';
@@ -71,6 +71,34 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
           allowedOrigin: opts.support?.allowedOrigin,
         };
         return await handleChatRequest(req, res, deps, chatOpts);
+      }
+
+      // Справочник технологических вызовов (357) для выбора в паспорте. Публичный: это справочник, без персональных данных.
+      if (req.method === 'GET' && pathname === '/challenges') {
+        return send(res, 200, {
+          challenges: deps.kb.tech_challenges.map((c) => ({ number: c.number, direction: c.direction, partner: c.partner, topic: c.topic })),
+        });
+      }
+
+      // Данные основателя (блок 1): POST /profile (общий секрет).
+      if (req.method === 'POST' && pathname === '/profile') {
+        if (opts.sharedSecret && req.headers['x-pipeline-secret'] !== opts.sharedSecret) {
+          return send(res, 401, { error: 'unauthorized' });
+        }
+        let body: unknown;
+        try {
+          body = await readJson(req);
+        } catch {
+          return send(res, 400, { error: 'invalid json' });
+        }
+        const parsed = profileRequestSchema.safeParse(body);
+        if (!parsed.success) {
+          return send(res, 400, { error: 'invalid request', details: parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`) });
+        }
+        const ctx = await deps.store.loadContext(parsed.data.user_id);
+        if (!ctx || ctx.isBanned) return send(res, 422, { status: 'ERROR', code: 'USER_BANNED', message: 'Профиль не найден или заблокирован' });
+        await deps.store.updateFounderData(parsed.data.user_id, parsed.data.founder as Record<string, string>);
+        return send(res, 200, { status: 'OK' });
       }
 
       // Внутренние маршруты выгрузки (общий секрет): POST /export и скачивание GET /export/:id.

@@ -108,7 +108,18 @@ describe('пайплайн v1.0', () => {
       `SELECT anchor_status, anchor_embedding IS NOT NULL AS has_emb, status FROM app_projects WHERE user_id = $1::uuid`,
       [userId],
     );
-    expect(rows[0]).toMatchObject({ anchor_status: 'ready', has_emb: true, status: 'generating' });
+    // Якорь создаётся позже, когда заполнены блоки 3 и 4 (пункт 3). Здесь заполнен только один пункт блока 3.
+    expect(rows[0]).toMatchObject({ anchor_status: 'pending', has_emb: false, status: 'generating' });
+  });
+
+  it('якорь создаётся, когда заполнены блоки 3 и 4 (пункт 3)', async () => {
+    const userId = await createUser(db.sql);
+    await handlePipeline(makeDeps(db, new FakeLlm({ extract: fullExtraction })), req(userId, { text_input: BRIEF }));
+    const { rows } = await db.sql.query(
+      `SELECT anchor_status, anchor_embedding IS NOT NULL AS has_emb FROM app_projects WHERE user_id = $1::uuid`,
+      [userId],
+    );
+    expect(rows[0]).toMatchObject({ anchor_status: 'ready', has_emb: true });
   });
 
   it('ответ на пробел сохраняется с claims и переводит к следующему пробелу', async () => {
@@ -161,7 +172,7 @@ describe('пайплайн v1.0', () => {
 
   it('материалы другого проекта блокируются (PROJECT_SWAP)', async () => {
     const userId = await createUser(db.sql);
-    const deps = makeDeps(db);
+    const deps = makeDeps(db, new FakeLlm({ extract: fullExtraction })); // блоки 3 и 4 заполнены → якорь создан
     await handlePipeline(deps, req(userId, { text_input: BRIEF }));
     const res = await handlePipeline(deps, req(userId, { text_input: 'Кулинарный рецепт пирога с яблоками и корицей' }));
     expect(res).toMatchObject({ status: 'BLOCKED_PROJECT_SWAP' });
@@ -312,7 +323,7 @@ describe('пайплайн v1.0', () => {
 
   it('ошибка LLM не падает наружу: INTERNAL', async () => {
     const userId = await createUser(db.sql);
-    const llm = new FakeLlm({ anchor: () => ({ wrong: true }) });
+    const llm = new FakeLlm({ extract: () => ({ wrong: true }) }); // неверная форма ответа извлечения
     const res = await handlePipeline(makeDeps(db, llm), req(userId, { text_input: BRIEF }));
     expect(res).toMatchObject({ status: 'ERROR', code: 'INTERNAL' });
   });

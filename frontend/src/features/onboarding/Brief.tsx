@@ -1,6 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BrandMark } from '../../shared/ui/Logo/Logo';
+import { env } from '../../shared/config/env';
+import { callPassportPipeline } from '../../shared/api/pipeline';
+import { saveFlow } from '../../shared/state/flow';
 import { OnboardingHeader } from './OnboardingHeader';
 import { ConsultantWidget } from '../consultant/ConsultantWidget';
 import './common.css';
@@ -50,9 +53,30 @@ export function Brief() {
   const submitLabel = current === 'files' ? 'Собрать паспорт по файлам' : 'Собрать паспорт';
 
   // Валидация анкеты — нативная (required у вопросов): без ответов переход не происходит.
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const [briefError, setBriefError] = useState<string | null>(null);
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigate('/generating');
+    if (!env.liveApi) {
+      navigate('/generating');
+      return;
+    }
+    // Живой режим: текст брифа уходит в пайплайн; ответ сохраняем для экрана пробелов.
+    const text = Array.from(event.currentTarget.querySelectorAll('textarea'))
+      .map((t) => t.value.trim())
+      .filter(Boolean)
+      .join('\n\n');
+    setBriefError(null);
+    try {
+      const res = await callPassportPipeline({ action: 'init_or_upload', text_input: text });
+      if (res.status === 'ERROR') {
+        setBriefError(res.message);
+        return;
+      }
+      saveFlow({ last: res });
+      navigate('/generating');
+    } catch {
+      setBriefError('Не удалось отправить бриф. Попробуйте ещё раз.');
+    }
   };
 
   const removeFile = (id: string) => setFiles((list) => list.filter((f) => f.id !== id));
@@ -222,6 +246,11 @@ export function Brief() {
               )}
             </div>
           </div>
+          {briefError && (
+            <p role="alert" className="brief-error">
+              {briefError}
+            </p>
+          )}
         </form>
       </main>
       <ConsultantWidget />

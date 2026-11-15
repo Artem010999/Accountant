@@ -98,7 +98,8 @@ export interface FatalStopFactorOut {
 
 export interface PipelineQuestion {
   status: 'NEED_USER_INPUT' | 'WAITING_FOR_INITIAL_BRIEF' | 'STOP_NOV' | 'ANSWER_REJECTED';
-  step?: 'INITIAL_BRIEF' | 'GAP_FILLING' | 'NOVELTY' | 'ANSWER_VALIDATION';
+  /** BUDGET_REVIEW — смета не одобрена аудитом (не заполнена, нарушены лимиты или изменились связанные блоки). */
+  step?: 'INITIAL_BRIEF' | 'GAP_FILLING' | 'NOVELTY' | 'ANSWER_VALIDATION' | 'BUDGET_REVIEW';
   target_field?: TargetField;
   question?: string;
   example?: string;

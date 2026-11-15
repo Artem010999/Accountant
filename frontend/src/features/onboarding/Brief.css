@@ -435,6 +435,16 @@
   margin-top: 16px;
 }
 
+/* Ошибка отправки брифа (нет в эталоне: оформлена токенами опасности). */
+.brief-error {
+  margin: 0;
+  padding: var(--space-10) var(--space-14);
+  border-radius: var(--radius-input);
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  font-size: var(--fs-14);
+}
+
 /* «Назад» на ветке «есть файлы?» — ссылка: подчёркнута, цвета текста, как в эталоне. */
 .brief-back {
   font-size: var(--fs-17);

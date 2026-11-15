@@ -9,4 +9,9 @@ export const env = {
   defaultUserId: import.meta.env.VITE_DEFAULT_USER_ID || '550e8400-e29b-41d4-a716-446655440000',
   // Выгрузка паспорта (POST /export, GET /export/:id). По умолчанию — через прокси nginx.
   exportEndpoint: import.meta.env.VITE_EXPORT_ENDPOINT || '/export',
+  // Данные основателя и справочник вызовов (через прокси nginx).
+  profileEndpoint: import.meta.env.VITE_PROFILE_ENDPOINT || '/profile',
+  challengesEndpoint: import.meta.env.VITE_CHALLENGES_ENDPOINT || '/challenges',
+  /** Живой режим: экраны ходят в пайплайн. Без VITE_PIPELINE_URL экраны работают на демо-данных (как раньше). */
+  liveApi: Boolean(import.meta.env.VITE_PIPELINE_URL),
 } as const;

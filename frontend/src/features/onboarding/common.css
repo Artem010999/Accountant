@@ -29,6 +29,16 @@
   color: var(--color-gray-600);
 }
 
+/* Ошибка отправки формы онбординга (нет в эталоне: оформлена токенами опасности, как блоки ошибок в других экранах). */
+.onb-error {
+  margin: 0;
+  padding: var(--space-10) var(--space-14);
+  border-radius: var(--radius-input);
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  font-size: var(--fs-14);
+}
+
 .ob-required {
   color: var(--color-lost-text);
   font-weight: var(--font-bold);

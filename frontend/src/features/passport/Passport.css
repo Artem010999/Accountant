@@ -438,6 +438,16 @@ a.passport__btn-brand:hover {
   font: var(--font-semibold) var(--fs-15) var(--font-sans);
 }
 
+/* Ошибка скачивания паспорта (нет в эталоне: оформлена токенами опасности). */
+.passport__download-error {
+  margin: 0;
+  padding: var(--space-10) var(--space-14);
+  border-radius: var(--radius-input);
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  font-size: var(--fs-14);
+}
+
 /* Утверждение потеряло привязку */
 
 .passport__orphan {

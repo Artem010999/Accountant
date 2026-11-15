@@ -20,6 +20,7 @@ const HEADINGS: Record<string, string> = {
   '/profile': 'Профиль',
   '/states': 'Блокировки и лимиты',
   '/support': 'Написать в поддержку',
+  '/eligibility': 'Проверка допуска',
   '/admin/users': 'Пользователи',
   '/admin/billing': 'Платежи и тарифы',
   '/admin/guard': 'Страж проекта',
@@ -38,7 +39,7 @@ describe('маршруты приложения', () => {
     errorSpy.mockRestore();
   });
 
-  it('карта содержит все 19 маршрутов: user-flows §1, поддержка и дизайн-система', () => {
+  it('карта содержит все 20 маршрутов: user-flows §1, поддержка и дизайн-система', () => {
     expect(APP_ROUTES.map((r) => r.path).sort()).toEqual(Object.keys(HEADINGS).sort());
   });
 
@@ -70,6 +71,7 @@ const TITLES: Record<string, string> = {
   '/pricing': 'Буха — тарифы',
   '/auth': 'Буха — вход и регистрация',
   '/onboarding': 'Буха — профиль основателя',
+  '/eligibility': 'Буха — проверка допуска',
   '/brief': 'Буха — стартовый бриф',
   '/generating': 'Буха — сборка паспорта',
   '/gaps': 'Буха — пробелы и новизна',

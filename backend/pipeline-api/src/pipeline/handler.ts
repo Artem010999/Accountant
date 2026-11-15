@@ -10,7 +10,7 @@ import type { UserContext } from '../db/store';
 import { ingestFiles } from './intake';
 import type { PipelineDeps } from './deps';
 import { answerField, extractPassport } from './passport';
-import { createAnchor, GUARD_QUERY_MAX_CHARS } from './anchor';
+import { GUARD_QUERY_MAX_CHARS } from './anchor';
 import { gateEligibility } from './eligibility';
 import { handleSubmitForm } from './form';
 import { nextStep } from './next';
@@ -82,7 +82,8 @@ async function run(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineRe
   if (req.action === 'submit_form') {
     return handleSubmitForm(deps, req, ctx);
   }
-  if (ctx.project?.anchorReady) {
+  // Ветка по наличию полей паспорта: якорь может появиться позже (см. nextStep), а ответы на пробелы должны идти в «есть».
+  if (ctx.project?.anchorReady || ctx.project?.hasRecords) {
     return handleExistingProject(deps, req, ctx);
   }
   return handleNewProject(deps, req, ctx);
@@ -111,8 +112,7 @@ async function handleNewProject(deps: PipelineDeps, req: PipelineRequest, ctx: U
     };
   }
 
-  // S1_NEW: якорь = выжимка + эмбеддинг
-  await createAnchor(deps, projectId, brief);
+  // Якорь создаётся позже — когда заполнены блоки 3 и 4 (см. nextStep → anchorBriefFromRecords).
 
   // ШАГ 4–5: извлечение и аудит
   await extractPassport(deps, projectId, req.program, req.text_input ?? '', sources);
@@ -136,7 +136,7 @@ async function handleExistingProject(deps: PipelineDeps, req: PipelineRequest, c
   const newText = [text, ...added.map((s) => s.extracted_text ?? '')].filter(Boolean).join('\n\n');
 
   // ШАГ 2 [AI Guard]: сверка нового ввода с якорем
-  if (newText) {
+  if (newText && project.anchorReady) {
     const isShortAnswer = text.length > 0 && text.length < SHORT_ANSWER_CHARS && !!req.previous_question;
     const query = isShortAnswer ? `Вопрос по проекту: ${req.previous_question} Ответ: ${text}` : newText;
     const embedding = await llm.embed(query.slice(0, GUARD_QUERY_MAX_CHARS));

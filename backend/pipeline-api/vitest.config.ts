@@ -2,8 +2,8 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    testTimeout: 60000,
-    hookTimeout: 60000,
+    testTimeout: 120000, // аудит ходит в RAG по сети (эмбеддинги): в этой среде один вызов занимает до ~25 с
+    hookTimeout: 120000,
     fileParallelism: false,
     // Нейросеть в тестах — FakeLlm. Ключи и адреса чат-моделей (DeepSeek, Kimi) уводим на закрытый локальный порт,
     // чтобы тесты не ждали внешней сети. Эмбеддинги НЕ трогаем: тесты RAG-контекста работают на реальном сервисе.

@@ -100,7 +100,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 describe('4.3 блокировка от двойного запуска', () => {
   it('второй запуск, пока первый идёт, получает ALREADY_PROCESSING; после завершения блокировка снята', async () => {
     const userId = await createUser(db.sql);
-    const slow = makeDeps(db, new FakeLlm({ anchor: async () => { await sleep(300); return { anchor_summary: 'Выжимка брифа проекта.' }; } }));
+    const slow = makeDeps(db, new FakeLlm({ extract: async () => { await sleep(300); return { fields: [] }; } }));
     const first = handlePipeline(slow, req(userId, { text_input: BRIEF }));
     await sleep(60);
     const second = await handlePipeline(makeDeps(db), req(userId, { text_input: BRIEF }));
@@ -131,19 +131,18 @@ describe('4.4 журнал обращений к нейросети', () => {
       [userId],
     );
     const tasks = rows.map((r) => r.task);
-    expect(tasks).toContain('anchor');
     expect(tasks).toContain('extract');
     expect(rows.every((r) => r.status === 'ok' && r.duration_ms >= 0)).toBe(true);
-    expect(rows.find((r) => r.task === 'anchor').response_preview.length).toBeGreaterThan(0);
+    expect(rows.find((r) => r.task === 'extract').response_preview.length).toBeGreaterThan(0);
   });
 
   it('ошибка нейросети записана со статусом error и текстом ошибки; пайплайн отвечает INTERNAL', async () => {
     const userId = await createUser(db.sql);
-    const broken = makeDeps(db, new FakeLlm({ anchor: () => { throw new Error('таймаут провайдера'); } }));
+    const broken = makeDeps(db, new FakeLlm({ extract: () => { throw new Error('таймаут провайдера'); } }));
     const res = await handlePipeline(broken, req(userId, { text_input: BRIEF }));
     expect(res).toMatchObject({ status: 'ERROR', code: 'INTERNAL' });
     const { rows } = await db.sql.query(
-      `SELECT status, error_message FROM llm_call_log WHERE user_id = $1::uuid AND task = 'anchor'`,
+      `SELECT status, error_message FROM llm_call_log WHERE user_id = $1::uuid AND task = 'extract'`,
       [userId],
     );
     expect(rows[0]).toMatchObject({ status: 'error', error_message: 'таймаут провайдера' });

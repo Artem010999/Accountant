@@ -22,6 +22,8 @@ export interface ProjectInfo {
   briefText: string;
   /** anchor_status = 'ready' и есть эмбеддинг. Иначе проект считается «новым» (холодный старт). */
   anchorReady: boolean;
+  /** В паспорте уже есть хотя бы одна запись (поле извлечено или введено). Маршрутизация идёт по этому признаку, а не по якорю. */
+  hasRecords: boolean;
   status: string;
   /** Ответы на анкету допуска; null — анкета ещё не пройдена. */
   eligibilityAnswers: Record<string, boolean> | null;
@@ -104,6 +106,7 @@ SELECT p.founder_data, p.is_banned,
        pr.status                                     AS project_status,
        pr.eligibility_answers                        AS eligibility_answers,
        (pr.anchor_status = 'ready' AND pr.anchor_embedding IS NOT NULL) AS anchor_ready,
+       EXISTS (SELECT 1 FROM project_passport_records prr WHERE prr.project_id = pr.id) AS has_records,
        st.guard_threshold_block,
        st.guard_threshold_warn
 FROM app_profiles p
@@ -138,6 +141,7 @@ export class PassportStore {
             id: r.project_id,
             briefText: r.brief_text ?? '',
             anchorReady: Boolean(r.anchor_ready),
+            hasRecords: Boolean(r.has_records),
             status: r.project_status,
             eligibilityAnswers: r.eligibility_answers ?? null,
           }
@@ -356,6 +360,11 @@ export class PassportStore {
     if (rows.length > 0) return 'acquired';
     const exists = await this.sql.query('SELECT 1 FROM app_profiles WHERE id = $1::uuid', [userId]);
     return exists.rows.length > 0 ? 'busy' : 'no_user';
+  }
+
+  /** Сохранение данных основателя (блок 1 паспорта): поля сливаются с уже сохранёнными. */
+  async updateFounderData(userId: string, data: Record<string, string>): Promise<void> {
+    await this.sql.query('UPDATE app_profiles SET founder_data = founder_data || $2::jsonb WHERE id = $1::uuid', [userId, JSON.stringify(data)]);
   }
 
   async releaseProcessingLock(userId: string): Promise<void> {

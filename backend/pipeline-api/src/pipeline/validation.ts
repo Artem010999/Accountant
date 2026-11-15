@@ -54,6 +54,22 @@ export const pipelineRequestSchema = z
 
 export type ValidPipelineRequest = z.output<typeof pipelineRequestSchema>;
 
+// Данные основателя (блок 1): POST /profile. Поля совпадают с FOUNDER_FIELD_KEYS из contracts.
+export const profileRequestSchema = z
+  .object({
+    user_id: z.string().uuid(),
+    founder: z
+      .object({
+        full_name: z.string().trim().min(1).max(200),
+        contacts: z.string().trim().max(500).optional(),
+        education_status: z.enum(['student', 'postgraduate']).optional(),
+        university: z.string().trim().max(300).optional(),
+        region: z.string().trim().max(200).optional(),
+      })
+      .strict(),
+  })
+  .strict();
+
 // Вход выгрузки (POST /export): 10 секций паспорта с экрана. Сервер сверяет их с одобренными значениями.
 export const exportRequestSchema = z
   .object({

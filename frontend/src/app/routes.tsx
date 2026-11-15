@@ -21,6 +21,7 @@ import { AdminGuard } from '../features/admin/AdminGuard';
 import { AdminKB } from '../features/admin/AdminKB';
 import { DesignSystem } from '../features/design-system/DesignSystem';
 import { Support } from '../features/support/Support';
+import { Eligibility } from '../features/eligibility/Eligibility';
 
 // Оболочка маршрута: none — без бокового меню; cabinet — меню кабинета; admin — меню админки.
 export type RouteShell = 'none' | 'cabinet' | 'admin';
@@ -42,6 +43,7 @@ export const APP_ROUTES: AppRoute[] = [
   { path: '/pricing', shell: 'none', element: <Pricing />, title: 'Буха — тарифы' },
   { path: '/auth', shell: 'none', element: <Auth />, title: 'Буха — вход и регистрация' },
   { path: '/onboarding', shell: 'none', element: <Onboarding />, title: 'Буха — профиль основателя' },
+  { path: '/eligibility', shell: 'none', element: <Eligibility />, title: 'Буха — проверка допуска' },
   { path: '/brief', shell: 'none', element: <Brief />, title: 'Буха — стартовый бриф' },
   { path: '/generating', shell: 'none', element: <Generating />, title: 'Буха — сборка паспорта' },
   { path: '/gaps', shell: 'cabinet', element: <Gaps />, title: 'Буха — пробелы и новизна' },

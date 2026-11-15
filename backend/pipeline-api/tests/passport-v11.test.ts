@@ -217,7 +217,9 @@ describe('технологический вызов необязателен (р
         return { fields: out.fields.filter((f) => f.field_key !== 'tech_challenge') };
       },
     });
-    const res = await handlePipeline(makeDeps(db, llm), req(userId, { text_input: BRIEF }));
+    const deps = makeDeps(db, llm);
+    await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: VALID_BUDGET })); // смета нужна для COMPLETED
+    const res = await handlePipeline(deps, req(userId, { text_input: BRIEF }));
     expect(res.status).toBe('COMPLETED');
     if (res.status === 'COMPLETED') {
       expect(res.checklist.join(' ')).not.toContain('технологического вызова');
@@ -231,10 +233,10 @@ describe('1.3 смета в финализации', () => {
     const deps = await completeProject(userId);
     const broken = VALID_BUDGET.map((b, i) => (i === 2 ? { ...b, amount: 150000 } : b));
     const res = await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: broken }));
-    expect(res.status).toBe('COMPLETED');
-    if (res.status !== 'COMPLETED') return;
-    expect(res.eligibility_status).toBe('NOT_ELIGIBLE');
-    expect(res.checklist.join(' ')).toMatch(/Устранить: Смета: Статья «Ноутбук»: количество × цена/);
+    // Смета не одобрена → шаг доработки сметы с причиной (пункт 1: гейт сметы в nextStep)
+    expect(res).toMatchObject({ status: 'NEED_USER_INPUT', step: 'BUDGET_REVIEW' });
+    if (res.status !== 'NEED_USER_INPUT') return;
+    expect(res.rejection_reason ?? '').toMatch(/Статья «Ноутбук»: количество × цена/);
   });
 
   it('превышен лимит подрядчиков — стоп-фактор', async () => {
@@ -245,16 +247,16 @@ describe('1.3 смета в финализации', () => {
     );
     // сумма изменилась → не сходится 1 000 000 и лимит подрядчиков; проверяем лимит
     const res = await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: over }));
-    if (res.status !== 'COMPLETED') throw new Error('expected COMPLETED');
-    expect(res.checklist.join(' ')).toContain('Работы подрядчиков составляют');
+    expect(res).toMatchObject({ status: 'NEED_USER_INPUT', step: 'BUDGET_REVIEW' });
+    if (res.status !== 'NEED_USER_INPUT') throw new Error('expected BUDGET_REVIEW');
+    expect(res.rejection_reason ?? '').toContain('Работы подрядчиков составляют');
   });
 
   it('смета не заполнена — стоп-фактор «Смета не заполнена»', async () => {
     const userId = await createUser(db.sql);
     const deps = await completeProject(userId);
     const res = await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: [] }));
-    if (res.status !== 'COMPLETED') throw new Error('expected COMPLETED');
-    expect(res.checklist.join(' ')).toContain('Смета не заполнена');
+    expect(res).toMatchObject({ status: 'NEED_USER_INPUT', step: 'BUDGET_REVIEW' });
   });
 
   it('лимиты динамические: новая активная редакция в БД меняет проверку без изменения кода', async () => {
@@ -264,8 +266,9 @@ describe('1.3 смета в финализации', () => {
     await db.sql.query('UPDATE budget_limit_sets SET contractor_total_max = 100000 WHERE is_active');
     try {
       const res = await handlePipeline(deps, req(userId, { action: 'submit_form', budget_items: VALID_BUDGET }));
-      if (res.status !== 'COMPLETED') throw new Error('expected COMPLETED');
-      expect(res.checklist.join(' ')).toContain('Работы подрядчиков составляют 250 000 ₽, лимит — 100 000 ₽');
+      expect(res).toMatchObject({ status: 'NEED_USER_INPUT', step: 'BUDGET_REVIEW' });
+      if (res.status !== 'NEED_USER_INPUT') throw new Error('expected BUDGET_REVIEW');
+      expect(res.rejection_reason ?? '').toMatch(/Работы подрядчиков составляют 250\s000 ₽, лимит — 100\s000 ₽/);
     } finally {
       await db.sql.query('UPDATE budget_limit_sets SET contractor_total_max = 250000 WHERE is_active');
     }
@@ -355,10 +358,10 @@ describe('1.5 связанные блоки: «разморозка»', () => {
     const res = await handlePipeline(deps, req(userId, { action: 'submit_form', form: [{ section_id: 5, field_key: 'calendar_plan_stage_1', value: 'Месяц 1: интервью со студентами о поиске попутчиков и правка прототипа сервиса помощи студентам.' }] }));
     // Блок 5 изменён сам (не помечается). Его зависимые: смета (одобрена → на проверку) и блок 2 (не одобрен — без пометки).
     // Пробелов нет, значит проходим до финализации.
-    expect(res.status).toBe('COMPLETED');
-    if (res.status !== 'COMPLETED') return;
-    expect(res.checklist.join(' ')).toContain('связанные блоки изменились');
-    expect(res.eligibility_status).toBe('NOT_ELIGIBLE');
+    // Смета помечена на перепроверку → пайплайн не идёт к выходу, а возвращает шаг сметы (пункт 1).
+    expect(res).toMatchObject({ status: 'NEED_USER_INPUT', step: 'BUDGET_REVIEW' });
+    if (res.status !== 'NEED_USER_INPUT') return;
+    expect(res.rejection_reason ?? '').toContain('связанные блоки изменились');
   });
 });
 

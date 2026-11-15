@@ -6,7 +6,7 @@ import type { DependencyNode } from '@passport/passport-core';
 import { PipelineFailure } from '../errors';
 import type { UserContext } from '../db/store';
 import type { PipelineDeps } from './deps';
-import { createAnchor, GUARD_QUERY_MAX_CHARS } from './anchor';
+import { GUARD_QUERY_MAX_CHARS } from './anchor';
 import { checkFieldValue } from './fieldValidation';
 import { invalidateDependents } from './invalidation';
 import { extractPassport } from './passport';
@@ -59,15 +59,6 @@ export async function handleSubmitForm(deps: PipelineDeps, req: PipelineRequest,
     }
   }
 
-  // 3. Якорь нового проекта создаётся из текста формы. Без текста якоря ещё нет: поля и смета всё равно сохраняются.
-  let anchored = ctx.project?.anchorReady ?? false;
-  if (!anchored) {
-    const brief = textValues.map((v) => v.value).join('\n\n');
-    if (brief) {
-      await createAnchor(deps, projectId, brief);
-      anchored = true;
-    }
-  }
 
   // 4. Упаковка и запись полей через DeepSeek (extractPassport).
   const changed = new Set<DependencyNode>();
@@ -86,8 +77,10 @@ export async function handleSubmitForm(deps: PipelineDeps, req: PipelineRequest,
 
   await invalidateDependents(store, projectId, changed);
 
-  // Без якоря дальше не идём: нужен текст о проекте (стартовая анкета из КБ).
-  if (!anchored) {
+  // Пока в проекте нет ни одного поля, нужен текст о проекте: отдаём стартовую анкету из КБ.
+  // Якорь создаст nextStep, когда заполнены блоки 3 и 4.
+  const hasAnyFields = (await store.getRecords(projectId)).length > 0;
+  if (!hasAnyFields) {
     return {
       status: 'WAITING_FOR_INITIAL_BRIEF',
       step: 'INITIAL_BRIEF',

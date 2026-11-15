@@ -11,9 +11,20 @@ export interface LLMCallOptions {
   maxTokens?: number;
 }
 
+/** Таймаут одного HTTP-вызова модели и число повторов SDK на 429/5xx/сетевые сбои. */
+const LLM_TIMEOUT_MS = 60_000;
+const LLM_MAX_RETRIES = 2;
+/** Сколько раз пробовать, если модель вернула пустой или битый JSON (сеть — отдельно, см. maxRetries). */
+const JSON_ATTEMPTS = 3;
+
+/** Ответ модели не прошёл проверку формы: повторяем вызов. */
+class BadOutputError extends Error {}
+
 /** Канал 1: OpenCode Go (DeepSeek) */
 export const deepseekClient = new OpenAI({
   baseURL: config.deepseekBaseUrl,
+  timeout: LLM_TIMEOUT_MS,
+  maxRetries: LLM_MAX_RETRIES,
   apiKey: config.deepseekApiKey,
   defaultHeaders: {
     'User-Agent': 'opencode-pipeline-agent/1.0',
@@ -24,6 +35,8 @@ export const deepseekClient = new OpenAI({
 /** Канал 2: Kimi Code (Kimi k3) */
 export const kimiClient = new OpenAI({
   baseURL: config.kimiBaseUrl,
+  timeout: LLM_TIMEOUT_MS,
+  maxRetries: LLM_MAX_RETRIES,
   apiKey: config.kimiApiKey,
   defaultHeaders: {
     'User-Agent': 'kimi-code-agent/1.0',
@@ -42,6 +55,8 @@ function getDeepSeekClient(): OpenAI {
   }
   return new OpenAI({
     baseURL: config.deepseekBaseUrl,
+    timeout: LLM_TIMEOUT_MS,
+    maxRetries: LLM_MAX_RETRIES,
     apiKey: config.deepseekApiKey,
     defaultHeaders: {
       'User-Agent': 'opencode-pipeline-agent/1.0',
@@ -56,6 +71,8 @@ function getKimiClient(): OpenAI {
   }
   return new OpenAI({
     baseURL: config.kimiBaseUrl,
+    timeout: LLM_TIMEOUT_MS,
+    maxRetries: LLM_MAX_RETRIES,
     apiKey: config.kimiApiKey,
     defaultHeaders: {
       'User-Agent': 'kimi-code-agent/1.0',
@@ -111,7 +128,21 @@ export function cleanLLMJsonOutput(rawText: string): string {
 /**
  * Внутренний исполнитель вызова OpenAI-совместимого клиента.
  */
-async function invokeChannel(
+async function invokeChannel(client: OpenAI, model: string, options: LLMCallOptions, channelName: string): Promise<any> {
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= JSON_ATTEMPTS; attempt++) {
+    try {
+      return await invokeOnce(client, model, options, channelName);
+    } catch (err) {
+      if (!(err instanceof BadOutputError)) throw err; // сетевые и HTTP-ошибки уже повторил SDK (maxRetries)
+      lastErr = err;
+      console.warn(`[llm] ${channelName}: битый ответ, попытка ${attempt}/${JSON_ATTEMPTS}`);
+    }
+  }
+  throw lastErr;
+}
+
+async function invokeOnce(
   client: OpenAI,
   model: string,
   options: LLMCallOptions,
@@ -144,13 +175,13 @@ async function invokeChannel(
 
     const cleaned = cleanLLMJsonOutput(rawContent);
     if (!cleaned) {
-      throw new Error(`Пустой ответ от ${channelName} (модель ${model})`);
+      throw new BadOutputError(`Пустой ответ от ${channelName} (модель ${model})`);
     }
 
     try {
       return JSON.parse(cleaned);
     } catch (parseErr: any) {
-      throw new Error(
+      throw new BadOutputError(
         `Ответ от ${channelName} (${model}) не является валидным JSON: ${parseErr.message}\nТекст: ${rawContent}`
       );
     }

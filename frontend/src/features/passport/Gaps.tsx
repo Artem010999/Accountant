@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { env } from '../../shared/config/env';
+import { loadFlow } from '../../shared/state/flow';
+import { LiveGaps } from './LiveGaps';
 import { useCabinetShell } from '../../shared/layout/CabinetLayout';
 import { ConsultantWidget } from '../consultant/ConsultantWidget';
 import './Gaps.css';
@@ -94,7 +97,16 @@ const ATTEMPT_LIMIT = 2;
 
 type Phase = 'idle' | 'rejected' | 'done';
 
+/** Живой режим — ответы пайплайна (LiveGaps); без VITE_PIPELINE_URL — демо-сценарий эталона. */
 export function Gaps() {
+  const navigate = useNavigate();
+  if (env.liveApi) {
+    return <LiveGaps initial={loadFlow().last} onDone={() => navigate('/result')} />;
+  }
+  return <GapsDemo />;
+}
+
+function GapsDemo() {
   const [idx, setIdx] = useState(START_INDEX);
   const [closed, setClosed] = useState<boolean[]>([true, true, false, false, false]);
   const [phase, setPhase] = useState<Phase>('idle');

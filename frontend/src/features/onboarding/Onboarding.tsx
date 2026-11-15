@@ -1,5 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { env } from '../../shared/config/env';
+import { saveFounder } from '../../shared/api/profile';
+import { saveFlow } from '../../shared/state/flow';
 import { OnboardingHeader } from './OnboardingHeader';
 import './common.css';
 import './Onboarding.css';
@@ -36,9 +39,28 @@ export function Onboarding() {
   const [understood, setUnderstood] = useState(true);
 
   // Валидация — нативная (атрибуты required у полей): без заполненных обязательных полей переход не происходит.
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    navigate('/brief');
+    if (!env.liveApi) {
+      navigate('/brief');
+      return;
+    }
+    // Живой режим: сохраняем данные основателя, затем проверка допуска (до брифа).
+    const form = event.currentTarget;
+    const value = (id: string) => (form.querySelector<HTMLInputElement>(`#${id}`)?.value ?? '').trim();
+    const founder = {
+      full_name: [value('lastName'), value('firstName'), middleName.trim()].filter(Boolean).join(' '),
+      contacts: [value('phone'), value('tg')].filter(Boolean).join(', ') || undefined,
+      university: value('uni') || undefined,
+    };
+    const ok = await saveFounder(founder);
+    if (!ok) {
+      setSaveError('Не удалось сохранить данные. Попробуйте ещё раз.');
+      return;
+    }
+    saveFlow({ founder });
+    navigate('/eligibility');
   };
 
   return (
@@ -230,6 +252,11 @@ export function Onboarding() {
               </svg>
             </button>
           </div>
+          {saveError && (
+            <p role="alert" className="onb-error">
+              {saveError}
+            </p>
+          )}
         </form>
       </main>
     </div>
