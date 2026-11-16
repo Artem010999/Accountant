@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const pipelineRequestSchema = z
   .object({
     user_id: z.string().uuid(),
-    action: z.enum(['init_or_upload', 'submit_answer', 'submit_form']),
+    action: z.enum(['init_or_upload', 'submit_answer', 'submit_form', 'skip_gap']),
     program: z.string().min(1).default('Студенческий стартап'),
     text_input: z.string().max(50_000).optional(),
     target_field: z
@@ -14,6 +14,15 @@ export const pipelineRequestSchema = z
       })
       .optional(),
     previous_question: z.string().max(2_000).optional(),
+    skipped_fields: z
+      .array(
+        z.object({
+          section_id: z.number().int().min(2).max(10),
+          field_key: z.string().min(1).max(100),
+        }),
+      )
+      .max(200)
+      .optional(),
     files: z
       .array(
         z.object({

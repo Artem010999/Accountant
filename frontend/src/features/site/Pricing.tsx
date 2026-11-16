@@ -125,7 +125,7 @@ export function Pricing() {
           <ul className="pricing__list">
             <Item>Всё из Профессионального</Item>
             <Item>До 50 файлов</Item>
-            <Item>Консультант [ФОРМАТ КОНСУЛЬТАЦИИ]</Item>
+            <Item>Консультант</Item>
           </ul>
           <PillLink to="/auth" variant="outline" size="sm" className="pricing__cta">Выбрать Премиум</PillLink>
         </div>

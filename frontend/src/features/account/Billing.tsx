@@ -220,7 +220,7 @@ export function Billing({ currentPlan = DEFAULT_PLAN_ID }: BillingProps = {}) {
           </div>
           <div className="billing__plan">
             <h3 className="billing__plan-name">Премиум</h3>
-            <p className="billing__plan-desc">До 50 файлов и консультант. Остаток текущего периода [ПРАВИЛО ЗАЧЁТА ОСТАТКА].</p>
+            <p className="billing__plan-desc">До 50 файлов и консультант.</p>
             <p className="billing__plan-price">
               4 990 ₽ <span className="billing__plan-price-unit">за 30 дней</span>
             </p>

@@ -10,7 +10,7 @@ import { GUARD_QUERY_MAX_CHARS } from './anchor';
 import { checkFieldValue } from './fieldValidation';
 import { invalidateDependents } from './invalidation';
 import { extractPassport } from './passport';
-import { nextStep } from './next';
+import { nextStep, skippedKeys } from './next';
 
 /** Поля с кодами (направление, номер вызова) не участвуют в guard: это не текст о проекте. */
 const CODE_FIELDS = new Set(['direction', 'tech_challenge']);
@@ -88,5 +88,5 @@ export async function handleSubmitForm(deps: PipelineDeps, req: PipelineRequest,
       example: kb.initial_brief.example,
     };
   }
-  return nextStep(deps, ctx, projectId, req.program);
+  return nextStep(deps, ctx, projectId, req.program, skippedKeys(req.skipped_fields));
 }

@@ -18,6 +18,12 @@ describe('DirectionChallenge (направление и вызов)', () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
+  it('после выбора направления показывает его название', async () => {
+    render(<DirectionChallenge onSubmit={vi.fn()} loadChallenges={async () => CHALLENGES} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Н2' }));
+    expect(screen.getByText('Н2. Медицина и технологии здоровьесбережения')).toBeInTheDocument();
+  });
+
   it('вызовы фильтруются по выбранному направлению', async () => {
     render(<DirectionChallenge onSubmit={vi.fn()} loadChallenges={async () => CHALLENGES} />);
     await userEvent.click(screen.getByRole('button', { name: 'Н2' }));

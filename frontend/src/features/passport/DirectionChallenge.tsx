@@ -7,14 +7,15 @@ import './DirectionChallenge.css';
 // Выбор направления (Н1–Н7) и технологического вызова (1–357), блок 4. Вызов необязателен (решение владельца).
 // Новый элемент: макета в дизайне нет, оформлен классами онбординга и токенами.
 
+// Названия направлений — из базы знаний программы (direction_full) и промпта для Н7.
 export const DIRECTIONS = [
-  { id: 'Н1', label: 'Н1' },
-  { id: 'Н2', label: 'Н2' },
-  { id: 'Н3', label: 'Н3' },
-  { id: 'Н4', label: 'Н4' },
-  { id: 'Н5', label: 'Н5' },
-  { id: 'Н6', label: 'Н6' },
-  { id: 'Н7', label: 'Н7' },
+  { id: 'Н1', label: 'Н1', name: 'Цифровые технологии' },
+  { id: 'Н2', label: 'Н2', name: 'Медицина и технологии здоровьесбережения' },
+  { id: 'Н3', label: 'Н3', name: 'Новые материалы и химические технологии' },
+  { id: 'Н4', label: 'Н4', name: 'Новые приборы и интеллектуальные производственные технологии' },
+  { id: 'Н5', label: 'Н5', name: 'Биотехнологии' },
+  { id: 'Н6', label: 'Н6', name: 'Ресурсосберегающая энергетика' },
+  { id: 'Н7', label: 'Н7', name: 'Креативные индустрии' },
 ];
 
 export interface DirectionChallengeValue {
@@ -74,6 +75,9 @@ export function DirectionChallenge({ onSubmit, busy = false, loadChallenges = fe
           }}
           ariaLabel="Направление проекта"
         />
+        {DIRECTIONS.some((d) => d.id === direction) && (
+          <p className="dc-hint">{`${direction}. ${DIRECTIONS.find((d) => d.id === direction)?.name ?? ''}`}</p>
+        )}
       </fieldset>
       <div className="dc-field">
         <label htmlFor="dc-challenge" className="ob-label ob-label--strong">

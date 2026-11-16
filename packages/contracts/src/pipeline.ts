@@ -8,7 +8,7 @@ import type { BudgetCategory, ClaimKind, ClaimType, ClaimVerificationStatus } fr
  * submit_answer — ответ на один пробел (U_LOOP);
  * submit_form — вся форма разом или точечные правки открытых блоков (шаги 3В и 7), без LLM-извлечения.
  */
-export type PipelineAction = 'init_or_upload' | 'submit_answer' | 'submit_form';
+export type PipelineAction = 'init_or_upload' | 'submit_answer' | 'submit_form' | 'skip_gap';
 
 /** Ответы на анкету допуска: ключ вопроса → ответ «да/нет». Пункты и правила — в kb/programs/…/manifest.json. */
 export type EligibilityAnswers = Record<string, boolean>;
@@ -49,6 +49,8 @@ export interface PipelineRequest {
   text_input?: string;
   target_field?: TargetField;      // обязателен для submit_answer в режиме дозаполнения
   previous_question?: string;      // текст вопроса, на который отвечает пользователь
+  /** Пробелы, которые пользователь пропустил «вернуться позже»: пайплайн не предлагает их, пока пользователь не вернётся. */
+  skipped_fields?: TargetField[];
   files?: PipelineFileInput[];
   eligibility?: EligibilityAnswers; // анкета допуска; нужна, пока проект не прошёл проверку
   form?: FormFieldInput[];          // для submit_form
@@ -103,6 +105,8 @@ export interface PipelineQuestion {
   target_field?: TargetField;
   question?: string;
   example?: string;
+  /** Что проверяет фонд в этом поле (критерий из базы знаний). Только для GAP_FILLING. */
+  criteria?: string;
   rejection_reason?: string | null;
   block_audits?: BlockAuditOut[];
   budget_audit?: BudgetAuditOut;

@@ -18,7 +18,8 @@ describe('BudgetTable (смета)', () => {
     await userEvent.type(screen.getByLabelText('Статья'), 'Ноутбук');
     await userEvent.type(screen.getByLabelText('Количество'), '2');
     await userEvent.type(screen.getByLabelText('Цена за единицу, ₽'), '100000');
-    await userEvent.type(screen.getByLabelText('Сумма, ₽'), '200000');
+    // Сумма не вводится: считается как количество × цена (неразрывный пробел в тысячах — через \s).
+    expect(screen.getByText(/Сумма: 200\s000 ₽ \(количество × цена\)/)).toBeInTheDocument();
     await userEvent.selectOptions(screen.getByLabelText('Группа расходов'), 'equipment');
     await userEvent.click(screen.getByRole('button', { name: 'Сохранить смету' }));
     expect(onSubmit).toHaveBeenCalledWith([

@@ -102,6 +102,7 @@ describe('пайплайн v1.0', () => {
       status: 'NEED_USER_INPUT',
       step: 'GAP_FILLING',
       target_field: { section_id: 2, field_key: 'team_members' },
+      criteria: expect.any(String),
     });
 
     const { rows } = await db.sql.query(
@@ -110,6 +111,39 @@ describe('пайплайн v1.0', () => {
     );
     // Якорь создаётся позже, когда заполнены блоки 3 и 4 (пункт 3). Здесь заполнен только один пункт блока 3.
     expect(rows[0]).toMatchObject({ anchor_status: 'pending', has_emb: false, status: 'generating' });
+  });
+
+  it('пропуск пробела: пайплайн предлагает другой пробел, пропущенный не возвращается', async () => {
+    const userId = await createUser(db.sql);
+    const deps = makeDeps(db);
+    const first = await handlePipeline(deps, req(userId, { text_input: BRIEF }));
+    expect(first).toMatchObject({ target_field: { section_id: 2, field_key: 'team_members' } });
+
+    const skipped = await handlePipeline(
+      deps,
+      req(userId, { action: 'skip_gap', target_field: { section_id: 2, field_key: 'team_members' } }),
+    );
+    expect(skipped).toMatchObject({ status: 'NEED_USER_INPUT', step: 'GAP_FILLING' });
+    expect((skipped as { target_field?: { section_id: number; field_key: string } }).target_field).not.toMatchObject({
+      section_id: 2,
+      field_key: 'team_members',
+    });
+  });
+
+  it('когда остались только пропущенные пробелы, пайплайн отвечает «вернитесь позже» без вопроса', async () => {
+    const userId = await createUser(db.sql);
+    const deps = makeDeps(db);
+    await handlePipeline(deps, req(userId, { text_input: BRIEF }));
+    const allFields = PASSPORT_SECTIONS.filter((s) => s.id >= 2).flatMap((s) =>
+      s.fields.map((f) => ({ section_id: s.id, field_key: f })),
+    );
+    const res = await handlePipeline(
+      deps,
+      req(userId, { action: 'skip_gap', target_field: allFields[0], skipped_fields: allFields }),
+    );
+    expect(res).toMatchObject({ status: 'NEED_USER_INPUT', step: 'GAP_FILLING' });
+    expect(res).not.toHaveProperty('target_field');
+    expect((res as { question?: string }).question).toMatch(/Пропущено пробелов: \d+/);
   });
 
   it('якорь создаётся, когда заполнены блоки 3 и 4 (пункт 3)', async () => {

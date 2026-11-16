@@ -21,6 +21,12 @@
   color: var(--color-ink);
 }
 
+.bt-amount {
+  margin: 0;
+  font-size: var(--fs-14);
+  color: var(--color-gray-600);
+}
+
 .bt-error {
   margin: 0;
   padding: var(--space-10) var(--space-14);

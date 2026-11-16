@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BrandMark } from '../../shared/ui/Logo/Logo';
 import { env } from '../../shared/config/env';
-import { exportReadyFromFlow, loadFlow } from '../../shared/state/flow';
+import { exportHintFromItems, exportReadyFromFlow, loadFlow, notApprovedFromFlow } from '../../shared/state/flow';
 import { downloadPassport } from '../../shared/api/exportSections';
 import './Result.css';
 
@@ -76,6 +76,8 @@ const exportHint = 'Скачать можно, когда все 10 блоков
 export function Result({ exportReady = false }: { exportReady?: boolean } = {}) {
   // В живом режиме готовность берём из ответа пайплайна (export_ready), в демо — из пропса.
   const ready = env.liveApi ? exportReadyFromFlow() : exportReady;
+  // В живом режиме подсказка называет блоки, которые мешают скачать; в демо — общая фраза.
+  const hint = env.liveApi ? exportHintFromItems(notApprovedFromFlow(), exportHint) : exportHint;
   const [downloadError, setDownloadError] = useState<string | null>(null);
   async function onDownloadDocx() {
     const flow = loadFlow();
@@ -253,8 +255,8 @@ export function Result({ exportReady = false }: { exportReady?: boolean } = {}) 
             )}
             {downloadError && <p role="alert" className="result__download-error">{downloadError}</p>}
             <div className="result__downloads">
-              <button type="button" className="result__download" disabled={!ready} title={exportHint} onClick={() => void onDownloadDocx()}>Скачать DOCX</button>
-              <button type="button" className="result__download" disabled={!ready} title={exportHint}>Скачать PDF</button>
+              <button type="button" className="result__download" disabled={!ready} title={hint} onClick={() => void onDownloadDocx()}>Скачать DOCX</button>
+              <button type="button" className="result__download" disabled={!ready} title={hint}>Скачать PDF</button>
             </div>
             <p className="result__fine">Скачивание не означает подачу. Заявка подаётся в системе фонда.</p>
           </section>

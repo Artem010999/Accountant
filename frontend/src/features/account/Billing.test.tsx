@@ -94,9 +94,10 @@ describe('Billing: флаг HIDE_PAYMENT_GATEWAY = TRUE (по умолчанию
     expect(within(table).getAllByRole('row')).toHaveLength(2);
   });
 
-  it('текст правила зачёта остатка выводится дословно из эталона (открытый вопрос владельцу)', () => {
+  it('описание Премиума выводится без незакрытых заглушек из макета', () => {
     render(<Billing />);
-    expect(screen.getByText('До 50 файлов и консультант. Остаток текущего периода [ПРАВИЛО ЗАЧЁТА ОСТАТКА].')).toBeInTheDocument();
+    expect(screen.getByText('До 50 файлов и консультант.')).toBeInTheDocument();
+    expect(screen.queryByText(/\[.*\]/)).not.toBeInTheDocument();
   });
 
   it('кнопка «Тарифы» открывает окно тарифов, «Закрыть» его закрывает', async () => {

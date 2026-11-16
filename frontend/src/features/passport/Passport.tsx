@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StatusPill, type PillTone } from '../../shared/ui';
 import { env } from '../../shared/config/env';
-import { exportReadyFromFlow, loadFlow } from '../../shared/state/flow';
+import { exportHintFromItems, exportReadyFromFlow, loadFlow, notApprovedFromFlow } from '../../shared/state/flow';
 import { downloadPassport } from '../../shared/api/exportSections';
 import { ConsultantWidget } from '../consultant/ConsultantWidget';
 import './Passport.css';
@@ -276,6 +276,8 @@ const exportHint = 'Скачать можно, когда все 10 блоков
 export function Passport({ exportReady = false }: { exportReady?: boolean } = {}) {
   // В живом режиме готовность берём из ответа пайплайна (export_ready), в демо — из пропса.
   const ready = env.liveApi ? exportReadyFromFlow() : exportReady;
+  // В живом режиме подсказка называет блоки, которые мешают скачать; в демо — общая фраза.
+  const hint = env.liveApi ? exportHintFromItems(notApprovedFromFlow(), exportHint) : exportHint;
   const [downloadError, setDownloadError] = useState<string | null>(null);
   async function onDownloadDocx() {
     const flow = loadFlow();
@@ -329,8 +331,8 @@ export function Passport({ exportReady = false }: { exportReady?: boolean } = {}
           <span className="passport__saved">Сохранено 2 минуты назад</span>
         </div>
         <div className="passport__actions">
-          <button type="button" className="passport__btn" disabled={!ready} title={exportHint} onClick={() => void onDownloadDocx()}>DOCX</button>
-          <button type="button" className="passport__btn" disabled={!ready} title={exportHint}>PDF</button>
+          <button type="button" className="passport__btn" disabled={!ready} title={hint} onClick={() => void onDownloadDocx()}>DOCX</button>
+          <button type="button" className="passport__btn" disabled={!ready} title={hint}>PDF</button>
           <Link to="/result" className="passport__btn-brand">Итог проверки</Link>
           {downloadError && <span role="alert" className="passport__download-error">{downloadError}</span>}
         </div>

@@ -43,6 +43,12 @@ describe('LiveGaps (живые пробелы)', () => {
     expect(screen.getByText(/Студенты очных программ вузов Самары/)).toBeInTheDocument();
   });
 
+  it('показывает, что проверяет фонд, и пример под подписью «Как обычно пишут»', () => {
+    renderGaps({ ...GAP, criteria: 'Указан конкретный сегмент пользователей.' });
+    expect(screen.getByText('Что проверяет фонд: Указан конкретный сегмент пользователей.')).toBeInTheDocument();
+    expect(screen.getByText(/Как обычно пишут: Студенты очных программ вузов Самары/)).toBeInTheDocument();
+  });
+
   it('ответ уходит как submit_answer с целевым полем и вопросом', async () => {
     mockPipeline.mockResolvedValue({ ...GAP, question: 'Следующий вопрос' } as PipelineResponse);
     renderGaps(GAP);
@@ -55,6 +61,35 @@ describe('LiveGaps (живые пробелы)', () => {
       text_input: 'Студенты очных программ вузов Самары.',
     });
     expect(await screen.findByText('Следующий вопрос')).toBeInTheDocument();
+  });
+
+  it('«Пропустить и вернуться позже» отправляет skip_gap с пропущенным полем', async () => {
+    mockPipeline.mockResolvedValue({
+      status: 'NEED_USER_INPUT',
+      step: 'GAP_FILLING',
+      question: 'Пропущено пробелов: 1. Вернитесь к ним позже.',
+      rejection_reason: null,
+    } as PipelineResponse);
+    renderGaps(GAP);
+    await userEvent.click(screen.getByRole('button', { name: 'Пропустить и вернуться позже' }));
+    expect(mockPipeline).toHaveBeenCalledWith({
+      action: 'skip_gap',
+      target_field: { section_id: 3, field_key: 'target_audience' },
+      skipped_fields: [{ section_id: 3, field_key: 'target_audience' }],
+    });
+    expect(await screen.findByText('Закроем пробелы позже')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Перейти к паспорту' })).toBeInTheDocument();
+  });
+
+  it('«Не знаю — помогите» подсказывает спросить ИИ-Консультанта про этот вопрос', async () => {
+    renderGaps(GAP);
+    await userEvent.click(screen.getByRole('button', { name: 'Не знаю — помогите' }));
+    expect(screen.getByText('Спросите ИИ-Консультанта: «Кто целевые пользователи?»')).toBeInTheDocument();
+  });
+
+  it('на живом экране доступен ИИ-Консультант', () => {
+    renderGaps(GAP);
+    expect(screen.getByRole('button', { name: 'Открыть чат с ИИ-Консультантом' })).toBeInTheDocument();
   });
 
   it('пустой ответ не отправляется', async () => {

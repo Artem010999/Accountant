@@ -16,6 +16,7 @@ export async function nextStep(
   ctx: UserContext,
   projectId: string,
   program: string,
+  skipped: ReadonlySet<string> = new Set(),
 ): Promise<PipelineResponse> {
   let records: RecordRow[] = await deps.store.getRecords(projectId);
 
@@ -27,15 +28,18 @@ export async function nextStep(
 
   // Полностью пустая обязательная секция: сначала досбор в форме. Аудит Kimi по полупустому паспорту не запускаем.
   if (hasFullyEmptySection(records)) {
-    const gap = findGaps(records)[0];
+    const gap = findGaps(records).find((g) => !skipped.has(gapKey(g)));
     if (gap) return gapQuestion(deps, gap, records, undefined);
   }
 
   const auditReport = await auditPassport(deps, projectId);
   records = await deps.store.getRecords(projectId);
 
-  const gap = findGaps(records)[0];
+  const open = findGaps(records);
+  const gap = open.find((g) => !skipped.has(gapKey(g)));
   if (gap) return gapQuestion(deps, gap, records, auditReport);
+  // Остались только пропущенные пробелы: не идём дальше к смете и новизне, пока пользователь не вернётся.
+  if (open.length > 0) return deferredQuestion(open.length);
 
   // Смета — часть проверки «Все блоки, смета и 2 аналога ОК?»: не одобрена → назад на шаг 7 (доработка).
   if (auditReport.budget_audit.status !== 'approved') {
@@ -43,6 +47,27 @@ export async function nextStep(
   }
 
   return noveltyAndFinalize(deps, ctx, projectId, records, program, auditReport);
+}
+
+/** Ключ пробела для списка пропущенных: «секция/поле». */
+export function gapKey(gap: TargetField): string {
+  return `${gap.section_id}/${gap.field_key}`;
+}
+
+/** Набор ключей из списка пропущенных полей запроса. */
+export function skippedKeys(fields: readonly TargetField[] | undefined): Set<string> {
+  return new Set((fields ?? []).map(gapKey));
+}
+
+/** Пробелы пропущены «вернуться позже»: вопроса нет, поле target_field не задано, паспорт не завершается. */
+function deferredQuestion(openCount: number): PipelineQuestion {
+  return {
+    status: 'NEED_USER_INPUT',
+    step: 'GAP_FILLING',
+    question: `Пропущено пробелов: ${openCount}. Они останутся в паспорте, вернитесь к ним позже.`,
+    example: '',
+    rejection_reason: null,
+  };
 }
 
 /** Есть ли в секциях 2–10 секция, где все обязательные поля пустые. */
@@ -68,6 +93,7 @@ function gapQuestion(
     target_field: gap,
     question: kb.question,
     example: kb.example,
+    criteria: kb.criteria,
     rejection_reason: blockAudit?.remark ?? null,
     block_audits: auditReport?.block_audits,
     budget_audit: auditReport?.budget_audit,

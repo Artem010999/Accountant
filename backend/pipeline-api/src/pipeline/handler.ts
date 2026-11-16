@@ -13,7 +13,7 @@ import { answerField, extractPassport } from './passport';
 import { GUARD_QUERY_MAX_CHARS } from './anchor';
 import { gateEligibility } from './eligibility';
 import { handleSubmitForm } from './form';
-import { nextStep } from './next';
+import { nextStep, skippedKeys } from './next';
 import { LoggedLlm } from '../llm/logged';
 
 const SHORT_ANSWER_CHARS = 150;
@@ -47,6 +47,12 @@ export async function handlePipeline(baseDeps: PipelineDeps, req: PipelineReques
     deps.logger.error('[pipeline] unexpected error', err);
     return { status: 'ERROR', code: 'INTERNAL', message: 'Внутренняя ошибка пайплайна' };
   }
+}
+
+/** Пропущенные пробелы запроса; для skip_gap текущий пробел тоже считается пропущенным. */
+export function skipSet(req: PipelineRequest): Set<string> {
+  const current = req.action === 'skip_gap' && req.target_field ? [req.target_field] : [];
+  return skippedKeys([...(req.skipped_fields ?? []), ...current]);
 }
 
 async function run(deps: PipelineDeps, req: PipelineRequest): Promise<PipelineResponse> {
@@ -116,7 +122,7 @@ async function handleNewProject(deps: PipelineDeps, req: PipelineRequest, ctx: U
 
   // ШАГ 4–5: извлечение и аудит
   await extractPassport(deps, projectId, req.program, req.text_input ?? '', sources);
-  return nextStep(deps, ctx, projectId, req.program);
+  return nextStep(deps, ctx, projectId, req.program, skipSet(req));
 }
 
 /** Ветка «Есть» (G1 → S2): проект с якорем — guard, затем ответ или новые данные. */
@@ -179,5 +185,5 @@ async function handleExistingProject(deps: PipelineDeps, req: PipelineRequest, c
     await extractPassport(deps, projectId, req.program, text, sources);
   }
 
-  return nextStep(deps, ctx, projectId, req.program);
+  return nextStep(deps, ctx, projectId, req.program, skipSet(req));
 }

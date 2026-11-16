@@ -23,12 +23,16 @@ interface Row {
   title: string;
   quantity: string;
   unit_price: string;
-  amount: string;
   justification: string;
 }
 
 function emptyRow(): Row {
-  return { stage: '1', category: 'other', title: '', quantity: '', unit_price: '', amount: '', justification: '' };
+  return { stage: '1', category: 'other', title: '', quantity: '', unit_price: '', justification: '' };
+}
+
+/** Сумма статьи считается сама: количество × цена за единицу. */
+function rowAmount(r: Row): number {
+  return (Number(r.quantity) || 0) * (Number(r.unit_price) || 0);
 }
 
 export interface BudgetTableProps {
@@ -46,7 +50,7 @@ export function BudgetTable({ onSubmit, violations = [], busy = false }: BudgetT
     setRows((prev) => prev.map((r, i) => (i === index ? { ...r, ...patch } : r)));
   }
 
-  const total = rows.reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
+  const total = rows.reduce((sum, r) => sum + rowAmount(r), 0);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -54,11 +58,11 @@ export function BudgetTable({ onSubmit, violations = [], busy = false }: BudgetT
     for (const [i, r] of rows.entries()) {
       const quantity = Number(r.quantity);
       const unit_price = Number(r.unit_price);
-      const amount = Number(r.amount);
-      if (!r.title.trim() || !(quantity > 0) || !(unit_price >= 0) || !(amount >= 0)) {
-        setError(`Заполните статью ${i + 1}: название, количество (больше нуля), цена и сумма.`);
+      if (!r.title.trim() || !(quantity > 0) || !(unit_price >= 0)) {
+        setError(`Заполните статью ${i + 1}: название, количество (больше нуля) и цену.`);
         return;
       }
+      const amount = quantity * unit_price;
       items.push({
         stage: Number(r.stage) as 1 | 2,
         category: r.category,
@@ -112,10 +116,7 @@ export function BudgetTable({ onSubmit, violations = [], busy = false }: BudgetT
             Цена за единицу, ₽
             <input className="ob-input" type="number" min="0" step="any" value={r.unit_price} onChange={(e) => update(i, { unit_price: e.target.value })} />
           </label>
-          <label className="ob-label">
-            Сумма, ₽
-            <input className="ob-input" type="number" min="0" step="any" value={r.amount} onChange={(e) => update(i, { amount: e.target.value })} />
-          </label>
+          <p className="bt-amount">{`Сумма: ${rowAmount(r).toLocaleString('ru-RU')} ₽ (количество × цена)`}</p>
           <label className="ob-label">
             Обоснование
             <textarea className="ob-textarea" rows={2} value={r.justification} onChange={(e) => update(i, { justification: e.target.value })} />
