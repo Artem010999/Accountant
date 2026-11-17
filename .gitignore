@@ -9,7 +9,6 @@ build/
 # Env & secrets
 .env
 .env.*
-!.env.example
 
 # Python
 __pycache__/
