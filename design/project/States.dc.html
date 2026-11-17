@@ -32,7 +32,7 @@ a{color:#C2410C}a:hover{color:#9A3412}
         <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #52525B">Если это ошибка и файл про ваш проект — напишите в поддержку, мы проверим вручную.</p>
         <div style="display: flex; gap: 12px; flex-wrap: wrap">
           <a href="Files.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Загрузить другой файл</a>
-          <a href="#" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Написать в поддержку</a>
+          <a href="Support.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Написать в поддержку</a>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ a{color:#C2410C}a:hover{color:#9A3412}
         <h2 id="s2" style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Доступ к аккаунту ограничен</h2>
         <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Работа с проектом приостановлена администратором. Данные проекта сохранены.</p>
         <div style="display: flex; gap: 12px; flex-wrap: wrap">
-          <a href="#" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Связаться с поддержкой</a>
+          <a href="Support.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Связаться с поддержкой</a>
           <a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">На главную</a>
         </div>
       </div>
@@ -76,6 +76,45 @@ a{color:#C2410C}a:hover{color:#9A3412}
       </div>
     </div>
 
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">ALREADY_PROCESSING</code>
+      <div role="dialog" aria-label="Паспорт уже собирается" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #FFF1E8; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Паспорт уже собирается</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Буха ещё обрабатывает предыдущий запрос. Дождитесь результата — повторное нажатие ничего не ускорит. Если сборка зависла, через 10 минут её можно запустить заново.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap"><a href="Generating.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Вернуться к сборке</a></div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">NOT_APPROVED · кнопка «Скачать»</code>
+      <div role="dialog" aria-label="Скачать пока нельзя" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Скачать пока нельзя</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Паспорт выгружается, когда аудит одобрил все блоки и смету. Сейчас на доработке: блок 6 «Аналоги», блок 9 «Права и РИД» и смета.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap"><a href="Gaps.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 16px">Закрыть пробелы</a><a href="Result.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Итог проверки</a></div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">STALE_EXPORT</code>
+      <div role="dialog" aria-label="Паспорт изменился после проверки" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #FEF3C7; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"></path><path d="M18 3v4h-4M6 21v-4h4"></path></svg></span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Паспорт изменился после проверки</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Текст на экране отличается от одобренного аудитом. Документ не создан, чтобы в него не попали непроверенные данные. Запустите проверку заново и скачайте ещё раз.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap"><a href="Generating.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 16px">Проверить заново</a></div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <code style="font-size: 14px; color: #52525B">REJECTED · анкета допуска</code>
+      <div role="dialog" aria-label="Проект не проходит проверку допуска" style="background: #FFFFFF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">
+        <span style="width: 64px; height: 64px; border-radius: 20px; background: #FEE2E2; display: inline-flex; align-items: center; justify-content: center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 8l8 8M16 8l-8 8"></path></svg></span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Проект не проходит проверку допуска</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Отказ окончательный: проект закрыт для этого аккаунта. Причина и что с ней делать показаны на экране допуска.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap"><a href="Eligibility.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #17171C; border-radius: 999px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Открыть причины</a><a href="Support.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; font-weight: 600; font-size: 16px">Написать в поддержку</a></div>
+      </div>
+    </div>
     <div style="display: flex; flex-direction: column; gap: 10px; grid-column: 1 / -1">
       <code style="font-size: 14px; color: #52525B">Подписка закончилась · баннер в кабинете</code>
       <div role="status" style="background: #FFFFFF; border-radius: 22px; padding: 22px 28px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; box-shadow: 0 12px 40px rgba(23,23,28,0.08)">

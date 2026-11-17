@@ -24,11 +24,13 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
       <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #17171C">Буха</span>
     </a>
     <ol aria-label="Шаги" style="margin: 0 auto; padding: 0; list-style: none; display: flex; gap: 12px; align-items: center; font-size: 15px; font-weight: 600">
-      <li style="display: flex; align-items: center; gap: 8px; color: #17171C"><span style="width: 28px; height: 28px; border-radius: 999px; background: #FF6B1A; display: inline-flex; align-items: center; justify-content: center">1</span>Профиль</li>
-      <li aria-hidden="true" style="width: 40px; height: 2px; background: #E4E4E7"></li>
-      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center">2</span>О проекте</li>
-      <li aria-hidden="true" style="width: 40px; height: 2px; background: #E4E4E7"></li>
-      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center">3</span>Сборка паспорта</li>
+      <li aria-current="step" style="display: flex; align-items: center; gap: 8px; color: #17171C"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #FF6B1A">1</span>Профиль</li>
+      <li aria-hidden="true" style="width: 32px; height: 2px; background: #E4E4E7"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #F4F4F5">2</span>Допуск</li>
+      <li aria-hidden="true" style="width: 32px; height: 2px; background: #E4E4E7"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #F4F4F5">3</span>О проекте</li>
+      <li aria-hidden="true" style="width: 32px; height: 2px; background: #E4E4E7"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #F4F4F5">4</span>Сборка паспорта</li>
     </ol>
     <span style="font-size: 15px; color: #52525B">ivan@university.ru</span>
   </div>
@@ -98,7 +100,7 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
       <sc-if value="{{ notStudying }}" hint-placeholder-val="{{ false }}">
         <div role="status" style="display: flex; gap: 12px; padding: 14px 18px; background: #FEF3C7; border-radius: 14px; font-size: 15px; line-height: 1.5; color: #78350F">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>
-          <span>Для «Студенческого стартапа» нужно учиться в вузе: бакалавриат, специалитет, магистратура или аспирантура. Продолжить можно, но это попадёт в предупреждения итоговой проверки.</span>
+          <span>Участвовать в «Студенческом стартапе» могут только студенты и аспиранты. На следующем шаге это проверит анкета допуска.</span>
         </div>
       </sc-if>
     </fieldset>
@@ -144,7 +146,7 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
 
   <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
     <p style="margin: 0; font-size: 14px; color: #71717A"><span style="color: #B91C1C; font-weight: 700">*</span> — обязательные поля</p>
-    <a href="Brief.dc.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 60px; padding: 0 36px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Продолжить
+    <a href="Eligibility.dc.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 60px; padding: 0 36px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">Продолжить
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#17171C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
   </div>
 </main>

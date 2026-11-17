@@ -31,6 +31,7 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
     <a href="Passport.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg>Паспорт</a>
     <a href="Gaps.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #17171C; background: #FFF1E8; font-size: 16px; font-weight: 600"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"></path></svg>Пробелы<span style="margin-left: auto; font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FF6B1A; color: #17171C">{{ openCount }}</span></a>
     <a href="Result.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg>Итог</a>
+    <a href="Budget.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 7h8"></path><path d="M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"></path></svg>Смета</a>
     <a href="Files.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.4 11.1l-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"></path></svg>Материалы</a>
     <a href="Billing.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path></svg>Тариф</a>
     <a href="Profile.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 14px; border-radius: 12px; text-decoration: none; color: #3F3F46; font-size: 16px; font-weight: 500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Профиль</a>
@@ -55,7 +56,7 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
       <p style="margin: 0; font-size: 17px; color: #52525B">Без этих сведений паспорт не пройдёт проверку программы.</p>
     </div>
     <div style="display: flex; flex-direction: column; gap: 8px; min-width: 260px">
-      <span style="font-size: 15px; font-weight: 600">Закрыто {{ closedCount }} из 5</span>
+      <span style="font-size: 15px; font-weight: 600">Закрыто {{ closedCount }} из {{ total }}</span>
       <span aria-hidden="true" style="height: 10px; border-radius: 999px; background: #F4F4F5; overflow: hidden; display: block"><span style="display: block; height: 100%; background: #FF6B1A; width: {{ progressPct }}"></span></span>
     </div>
   </div>
@@ -79,6 +80,12 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
     <section style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
       <sc-if value="{{ isRegular }}" hint-placeholder-val="{{ true }}">
         <div style="border: 1px solid #E4E4E7; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 22px">
+          <sc-if value="{{ hasRemark }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; gap: 12px; padding: 16px 18px; background: #FEF3C7; border-radius: 16px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+              <span style="font-size: 15px; line-height: 1.5; color: #78350F"><b style="font-weight: 600">Замечание аудита.</b> {{ cur.remark }}</span>
+            </div>
+          </sc-if>
           <h2 style="margin: 0; font-size: 28px; line-height: 1.25; font-weight: 700">{{ cur.question }}</h2>
           <div style="display: flex; gap: 12px; padding: 16px 18px; background: #FAFAFA; border-radius: 16px">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
@@ -99,7 +106,7 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
           <sc-if value="{{ isRejected }}" hint-placeholder-val="{{ false }}">
             <div role="alert" style="display: flex; gap: 12px; padding: 16px 18px; background: #FEF3C7; border-radius: 16px">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>
-              <span style="font-size: 15px; line-height: 1.5; color: #78350F"><b style="font-weight: 600">Ответ пока не закрывает вопрос.</b> {{ cur.reject }} Мы подставили пример исправленного ответа.</span>
+              <span style="font-size: 15px; line-height: 1.5; color: #78350F"><b style="font-weight: 600">Ответ пока не закрывает вопрос.</b> {{ cur.reject }}</span>
             </div>
           </sc-if>
 
@@ -118,7 +125,62 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
             <sc-if value="{{ isAccepted }}" hint-placeholder-val="{{ false }}">
               <button type="button" onClick="{{ next }}" style="min-height: 56px; padding: 0 30px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 17px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Следующий вопрос</button>
             </sc-if>
-            <a href="Passport.dc.html" style="font-size: 16px; font-weight: 600; color: #17171C">Вернуться позже</a>
+            <sc-if value="{{ showInput }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ openConsult }}" style="min-height: 56px; padding: 0 24px; border: 2px solid #17171C; background: #FFFFFF; border-radius: 999px; font: 600 16px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Не знаю — помогите</button>
+              <button type="button" onClick="{{ skip }}" style="border: 0; background: none; padding: 0 8px; min-height: 44px; font: 600 16px Onest, system-ui, sans-serif; color: #17171C; text-decoration: underline; cursor: pointer">Вернуться позже</button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isDirection }}" hint-placeholder-val="{{ false }}">
+        <div style="border: 1px solid #E4E4E7; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 22px">
+          <h2 style="margin: 0; font-size: 28px; line-height: 1.25; font-weight: 700">К какому направлению конкурса относится проект?</h2>
+          <div style="display: flex; gap: 12px; padding: 16px 18px; background: #FAFAFA; border-radius: 16px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#52525B" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+            <span style="font-size: 15px; line-height: 1.5; color: #3F3F46"><b style="font-weight: 600">Что проверяет фонд:</b> выбрано одно направление из Н1–Н7; если указан технологический вызов, он относится к этому же направлению.</span>
+          </div>
+          <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px">
+            <legend style="font-size: 15px; font-weight: 600; margin-bottom: 12px; padding: 0">Направление<span aria-hidden="true" style="color: #B91C1C; font-weight: 700"> *</span></legend>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <sc-for list="{{ directions }}" as="d" hint-placeholder-count="7"><button type="button" aria-pressed="{{ d.pressed }}" onClick="{{ d.pick }}" style="{{ d.style }}">{{ d.id }}</button></sc-for>
+            </div>
+            <span style="font-size: 16px; font-weight: 600; color: #C2410C">{{ dirName }}</span>
+          </fieldset>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="challenge" style="font-size: 15px; font-weight: 600">Технологический вызов <span style="font-weight: 400; color: #71717A">— если проект отвечает на один из 357 вызовов перечня</span></label>
+            <select id="challenge" style="min-height: 56px; padding: 0 14px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 16px Onest, system-ui, sans-serif; background: #FFFFFF; max-width: 720px">
+              <option>Без вызова</option>
+              <option selected="">№ 96. Генеративное синтезирование данных с гарантированной приватностью · ПАО КБ «Центр-инвест»</option>
+              <option>№ 1. Разработка цифровых алгоритмов и программ · АО «Медицинские технологии Лтд»</option>
+              <option>№ 8. Система интеллектуального распознавания и анализа речи</option>
+              <option>№ 30. Программно-аппаратный комплекс хранения данных · ОАО «РЖД»</option>
+            </select>
+            <span style="font-size: 14px; color: #71717A">В списке — вызовы выбранного направления. Вызов не обязателен и не доказывает партнёрство с компанией.</span>
+          </div>
+          <sc-if value="{{ dirSaved }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin: 0; display: flex; gap: 10px; align-items: center; padding: 14px 16px; background: #F0FDF4; border-radius: 14px; font-size: 15px; font-weight: 600; color: #166534"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Записано в блок 4 паспорта</p></sc-if>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center">
+            <button type="button" onClick="{{ submit }}" style="min-height: 56px; padding: 0 30px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 17px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Сохранить направление</button>
+            <button type="button" onClick="{{ openConsult }}" style="min-height: 56px; padding: 0 24px; border: 2px solid #17171C; background: #FFFFFF; border-radius: 999px; font: 600 16px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Не знаю — помогите</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBudget }}" hint-placeholder-val="{{ false }}">
+        <div style="border: 2px solid #FDBA8C; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+            <span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #F4F4F5; color: #3F3F46">Смета</span>
+            <span style="font-size: 14px; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #FEF3C7; color: #92400E">На доработке</span>
+          </div>
+          <h2 style="margin: 0; font-size: 28px; line-height: 1.25; font-weight: 700">Смета не одобрена: исправьте статьи бюджета</h2>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3F3F46">Смету проверяет калькулятор: сумма каждой статьи, итог и лимиты 8-й очереди. Пока она не одобрена, паспорт нельзя скачать.</p>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+            <li style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: #FEF2F2; border-radius: 14px; font-size: 15px; line-height: 1.5; color: #7F1D1D"><span style="flex: none; margin-top: 7px; width: 8px; height: 8px; border-radius: 999px; background: #B91C1C"></span>Расходы 1-го этапа составляют 25 000 ₽, лимит — 20 000 ₽.</li>
+            <li style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: #FEF2F2; border-radius: 14px; font-size: 15px; line-height: 1.5; color: #7F1D1D"><span style="flex: none; margin-top: 7px; width: 8px; height: 8px; border-radius: 999px; background: #B91C1C"></span>Статья «Сервер для обучения моделей»: цена за единицу техники 180 000 ₽ превышает лимит 150 000 ₽.</li>
+          </ul>
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center">
+            <a href="Budget.dc.html" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 30px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 17px">Открыть смету</a>
+            <button type="button" onClick="{{ openConsult }}" style="min-height: 56px; padding: 0 24px; border: 2px solid #17171C; background: #FFFFFF; border-radius: 999px; font: 600 16px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Спросить про лимиты</button>
           </div>
         </div>
       </sc-if>
@@ -163,13 +225,13 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
           <sc-if value="{{ canSkip }}" hint-placeholder-val="{{ false }}">
             <div role="status" style="display: flex; gap: 12px; padding: 16px 18px; background: #FEF3C7; border-radius: 16px; font-size: 15px; line-height: 1.5; color: #78350F">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>
-              <span>Сравнение всё ещё неполное. Можно продолжить без него — тогда новизна попадёт в итоговый чек-лист, а блок 6 останется «на проверке».</span>
+              <span>Две попытки использованы. Дальше Буха проверит паспорт без сравнения: в итоге появится предупреждение о новизне, а блок 6 останется на доработке.</span>
             </div>
           </sc-if>
           <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center">
-            <button type="button" onClick="{{ tryNovelty }}" style="min-height: 56px; padding: 0 30px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 17px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Проверить сравнение</button>
+            <sc-if value="{{ canTry }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ tryNovelty }}" style="min-height: 56px; padding: 0 30px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 17px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Проверить сравнение</button></sc-if>
             <sc-if value="{{ canSkip }}" hint-placeholder-val="{{ false }}">
-              <a href="Result.dc.html" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 24px; border: 2px solid #17171C; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 600; font-size: 16px">Продолжить без сравнения</a>
+              <a href="Result.dc.html" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 24px; border: 2px solid #17171C; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 600; font-size: 16px">Перейти к итогу проверки</a>
             </sc-if>
           </div>
           <p style="margin: 0; font-size: 14px; color: #71717A">На тарифе «Базовый» этот шаг пропускается, а в чек-листе появляется пометка о непроверенной новизне.</p>
@@ -179,62 +241,133 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
   </div>
 </main>
 </div>
+<sc-if value="{{ consultClosed }}" hint-placeholder-val="{{ true }}">
+  <button type="button" onClick="{{ openConsult }}" aria-label="Открыть чат с ИИ-Консультантом" style="position: fixed; right: 28px; bottom: 28px; z-index: 20; display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 22px 0 18px; border: 0; border-radius: 999px; background: #17171C; color: #FFFFFF; font: 600 16px Onest, system-ui, sans-serif; box-shadow: 0 10px 30px rgba(23,23,28,0.25); cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path><path d="M8.5 10.5h7M8.5 13.5h4.5"></path></svg>ИИ-Консультант</button>
+</sc-if>
+<sc-if value="{{ consultOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeConsult }}" style="position: fixed; inset: 0; z-index: 30; background: rgba(23,23,28,0.35)"></div>
+  <aside role="dialog" aria-label="ИИ-Консультант" style="position: fixed; top: 0; right: 0; bottom: 0; z-index: 31; width: 440px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; box-shadow: -12px 0 40px rgba(23,23,28,0.15); display: flex; flex-direction: column; font-family: Onest, system-ui, sans-serif; color: #17171C">
+    <header style="padding: 22px 24px 18px; border-bottom: 1px solid #E4E4E7; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 700">ИИ-Консультант ФСИ</h2>
+        <button type="button" onClick="{{ closeConsult }}" aria-label="Закрыть консультант" style="width: 44px; height: 44px; border: 0; border-radius: 999px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#17171C" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      </div>
+      <span style="align-self: flex-start; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #F4F4F5; color: #3F3F46">Советует, но поля паспорта не меняет</span>
+    </header>
+    <div style="flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px">
+      <p style="margin: 0; align-self: flex-start; max-width: 92%; padding: 14px 16px; background: #FAFAFA; border-radius: 18px 18px 18px 6px; font-size: 15px; line-height: 1.55; color: #27272A">Здравствуйте! Спросите о правилах «Студенческого стартапа» или попросите черновик текста для блока. Я опираюсь на базу знаний ФСИ и ваш паспорт.</p>
+      <sc-if value="{{ consultNotSent }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <sc-for list="{{ consultPrompts }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" style="text-align: left; min-height: 44px; padding: 10px 14px; border: 1px solid #FDBA8C; border-radius: 14px; background: #FFFFFF; font: 500 15px Onest, system-ui, sans-serif; color: #C2410C; cursor: pointer">{{ p.t }}</button></sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ consultSent }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; align-self: flex-end; max-width: 85%; padding: 12px 16px; background: #FFF1E8; border-radius: 18px 18px 6px 18px; font-size: 15px; line-height: 1.5; color: #17171C">{{ consultQ }}</p>
+        <div style="align-self: flex-start; max-width: 92%; padding: 14px 16px; background: #FAFAFA; border-radius: 18px 18px 18px 6px; font-size: 15px; line-height: 1.55; color: #27272A; display: flex; flex-direction: column; gap: 12px">
+          <span>Назовите два конкретных аналога и сравните их с продуктом по одному измеримому параметру. Например: «Приложения учёта расходов — только ручной ввод; Monetrix — ручной ввод и данные из API брокеров». Затем опишите, как проверите отличие: на каком наборе данных и какой показатель посчитаете.</span>
+          <span style="display: flex; gap: 10px; padding: 10px 12px; background: #FEF3C7; border-radius: 12px; font-size: 14px; line-height: 1.45; color: #78350F"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex: none; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg>Правило о двух аналогах взято из материалов 7-й очереди. Сверьте его с Положением 8-й очереди перед подачей.</span>
+          <span style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: #52525B">Источники:<span style="padding: 3px 9px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E4E4E7">База знаний «Студенческий стартап» v2</span><span style="padding: 3px 9px; border-radius: 999px; background: #FFFFFF; border: 1px solid #E4E4E7">Сравнение 7 и 8 очереди</span></span>
+          <button type="button" style="align-self: flex-start; min-height: 36px; padding: 0 14px; border: 1px solid #D4D4D8; border-radius: 999px; background: #FFFFFF; font: 600 14px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Скопировать</button>
+        </div>
+      </sc-if>
+    </div>
+    <div style="padding: 16px 24px 22px; border-top: 1px solid #E4E4E7; display: flex; flex-direction: column; gap: 10px">
+      <label for="consult-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Вопрос ИИ-Консультанту</label>
+      <textarea id="consult-input" rows="3" placeholder="Спросите по правилам ФСИ или попросите черновик текста для блока…" style="padding: 12px 14px; border: 1px solid #D4D4D8; border-radius: 16px; font: 400 15px/1.5 Onest, system-ui, sans-serif; resize: none"></textarea>
+      <button type="button" onClick="{{ consultAsk }}" style="align-self: flex-end; min-height: 48px; padding: 0 24px; border: 0; border-radius: 999px; background: #FF6B1A; font: 700 15px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">Отправить</button>
+    </div>
+  </aside>
+</sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
+    // Вопросы, примеры и критерии — из manifest.json бэкенда; «Замечание аудита» — remark блока из аудита Kimi.
     this.data = [
-      { section: 'Блок 2 · Команда', title: 'Состав команды и роли', question: 'Кто в команде и за что отвечает каждый?', criterion: 'роли распределены, у ключевых участников есть релевантный опыт.', example: 'Иванов И. И. — руководитель проекта, отвечает за продукт и работу с пользователями; Петров П. П. — разработчик, отвечает за бэкенд и интеграции.', weak: '', good: '', reject: '', claimA: 'Иванов И. И. — руководитель проекта и продуктовая аналитика', claimB: 'Разработчика планируем привлечь на первом этапе гранта' },
-      { section: 'Блок 8 · Юрлица', title: 'Юридическое лицо', question: 'Есть ли у проекта ООО или ИП? Если нет — когда планируете регистрацию?', criterion: 'указано юрлицо с ИНН и ОГРН или отмечено, что оно будет создано при победе.', example: 'Юридическое лицо не зарегистрировано; ООО будет создано после победы в конкурсе.', weak: '', good: '', reject: '', claimA: 'Юридическое лицо пока не зарегистрировано', claimB: 'ООО будет создано после победы в конкурсе' },
-      { section: 'Блок 5 · Стадия и задел', title: 'Что работает в MVP', question: 'Какие функции демонстрируются в актуальном MVP и какая сейчас стадия разработки?', criterion: 'отделено то, что работает на реальных данных, от того, что в разработке.', example: 'На текущем этапе разработан рабочий прототип веб-сервиса (версия 0.2), протестированный на 2 фокус-группах…', weak: 'Ну MVP уже есть, всё работает.', good: 'В MVP версии 0.3 работают финансовый профиль и ручной ввод операций. Импорт выписок и сценарные расчёты планируются на первом этапе гранта.', reject: 'Уточните, какие именно функции работают сейчас и какая версия. Фраза «всё работает» не проверяема.', claimA: 'В MVP версии 0.3 работают финансовый профиль и ручной ввод операций', claimB: 'Импорт выписок и сценарные расчёты планируются на первом этапе гранта' },
-      { section: 'Блок 9 · Права и РИД', title: 'Правообладатель', question: 'Кто правообладатель программы «Монетрикс» (№ 2026618524) и совпадает ли он с заявителем?', criterion: 'правообладатель РИД совпадает с заявителем или указан порядок передачи прав.', example: 'Правообладатель свидетельства — Иванов И. И., он же заявитель. После регистрации ООО права будут переданы по договору отчуждения.', weak: 'Наши права.', good: 'Правообладатель свидетельства № 2026618524 — Иванов И. И., он же заявитель. Права будут переданы ООО после его регистрации.', reject: 'Укажите конкретного правообладателя из свидетельства: человека или организацию.', claimA: 'Правообладатель свидетельства № 2026618524 — Иванов И. И., он же заявитель', claimB: 'Права будут переданы ООО после его регистрации' },
-      { section: 'Блок 6 · Аналоги', title: 'Сравнение с аналогами', novelty: true }
+      { kind: 'direction', section: 'Блок 4 · Продукт', title: 'Направление и вызов' },
+      { kind: 'text', section: 'Блок 2 · Команда', title: 'Состав команды и роли', question: 'Кто входит в команду, какие роли выполняют участники?', criterion: 'Перечислены участники и их роли в проекте.', example: 'В команде 3 человека: Иван Иванов (разработка, backend), Мария Петрова (продукт и интервью), Олег Сидоров (дизайн).', remark: '', weak: '', good: '', reject: '', claimA: 'Иванов И. И. — руководитель проекта и продуктовая аналитика', claimB: 'Разработчика планируем привлечь на первом этапе гранта' },
+      { kind: 'text', section: 'Блок 8 · Юрлица', title: 'Юридическое лицо', question: 'Есть ли юридическое лицо (ООО, ИП)? Укажите ИНН/ОГРН или что юрлицо будет создано при победе.', criterion: 'Указан статус юрлица и реквизиты, если есть.', example: 'Юрлицо не создано; будет создано ООО при победе в конкурсе.', remark: '', weak: '', good: '', reject: '', claimA: 'Юридическое лицо пока не зарегистрировано', claimB: 'ООО будет создано после победы в конкурсе' },
+      { kind: 'text', section: 'Блок 5 · Стадия и задел', title: 'Что работает в MVP', question: 'Какие функции демонстрируются в актуальном MVP и какая сейчас стадия разработки?', criterion: 'Указаны конкретные функции, их статус и что работает на реальных данных.', example: 'На текущем этапе разработан рабочий прототип веб-сервиса (версия 0.2), протестированный на 2 фокус-группах.', remark: 'Не разделено, что работает на реальных данных, а что в разработке. Перечислите функции MVP и их статус.', weak: 'Ну MVP уже есть, всё работает.', good: 'В MVP версии 0.3 работают финансовый профиль и ручной ввод операций. Импорт выписок и сценарные расчёты планируются на первом этапе гранта.', reject: 'Уточните, какие именно функции работают сейчас и какая версия. Фраза «всё работает» не проверяема.', claimA: 'В MVP версии 0.3 работают финансовый профиль и ручной ввод операций', claimB: 'Импорт выписок и сценарные расчёты планируются на первом этапе гранта' },
+      { kind: 'text', section: 'Блок 9 · Права и РИД', title: 'Правообладатель', question: 'Кому принадлежат права на код и продукт? Кто авторы?', criterion: 'Указаны авторы и правообладатель.', example: 'Авторы — Иван Иванов и Мария Петрова; права на код принадлежат авторам до регистрации ООО.', remark: 'Изменился блок 2 «Команда»: проверьте, кто автор и правообладатель.', weak: 'Наши права.', good: 'Правообладатель свидетельства № 2026618524 — Иванов И. И., он же заявитель. Права будут переданы ООО после его регистрации.', reject: 'Укажите конкретного правообладателя из свидетельства: человека или организацию.', claimA: 'Правообладатель свидетельства № 2026618524 — Иванов И. И., он же заявитель', claimB: 'Права будут переданы ООО после его регистрации' },
+      { kind: 'novelty', section: 'Блок 6 · Аналоги', title: 'Сравнение с аналогами' },
+      { kind: 'budget', section: 'Смета', title: 'Лимиты и суммы' }
     ];
-    this.state = { idx: 2, closed: [true, true, false, false, false], phase: 'idle', answer: this.data[2].weak, attempts: 0 };
+    this.dirs = [['Н1', 'Цифровые технологии'], ['Н2', 'Медицина и технологии здоровьесбережения'], ['Н3', 'Новые материалы и химические технологии'], ['Н4', 'Новые приборы и интеллектуальные производственные технологии'], ['Н5', 'Биотехнологии'], ['Н6', 'Ресурсосберегающая энергетика'], ['Н7', 'Креативные индустрии']];
+    this.state = { idx: 3, closed: [false, true, true, false, false, false, false], skipped: [], phase: 'idle', answer: this.data[3].weak, attempts: 0, dir: 'Н1' };
   }
   pick(i) {
     const d = this.data[i];
     this.setState({ idx: i, phase: this.state.closed[i] ? 'done' : 'idle', answer: d.weak || '' });
   }
+  nextOpen(closed, skipped, from) {
+    const n = this.data.findIndex((x, i) => !closed[i] && !skipped.includes(i) && i !== from);
+    return n === -1 ? from : n;
+  }
+  consultVals() {
+    const st = this.state;
+    const open = !!st.consultOpen;
+    const sent = !!st.consultSent;
+    return {
+      consultOpen: open, consultClosed: !open,
+      openConsult: () => this.setState({ consultOpen: true }),
+      closeConsult: () => this.setState({ consultOpen: false }),
+      consultSent: sent, consultNotSent: !sent,
+      consultQ: st.consultQ || 'Как описать 2 аналога в блоке 6?',
+      consultAsk: () => this.setState({ consultSent: true }),
+      consultPrompts: ['Как описать 2 аналога в блоке 6?', 'Какие лимиты в смете 8-й очереди?', 'Помоги сформулировать текущий блок по правилам ФСИ'].map(t => ({ t, pick: () => this.setState({ consultSent: true, consultQ: t }) }))
+    };
+  }
   renderVals() {
-    const { idx, closed, phase, answer, attempts } = this.state;
+    const { idx, closed, skipped, phase, answer, attempts, dir } = this.state;
     const d = this.data[idx];
+    const total = this.data.length;
     const closedCount = closed.filter(Boolean).length;
     const btnBase = 'width: 100%; display: flex; gap: 14px; align-items: flex-start; padding: 16px; border-radius: 18px; font-family: inherit; cursor: pointer; ';
     const gaps = this.data.map((g, i) => {
       const isCur = i === idx;
       const isClosed = closed[i];
-      const dotColor = isClosed ? '#15803D' : (g.novelty ? '#B45309' : '#FF6B1A');
+      const isSkipped = !isClosed && skipped.includes(i);
+      const warn = g.kind === 'novelty' || g.kind === 'budget';
+      const dotColor = isClosed ? '#15803D' : (isSkipped ? '#A1A1AA' : (warn ? '#B45309' : '#FF6B1A'));
+      const open = g.kind === 'novelty' ? 'Нужно 2 аналога' : (g.kind === 'budget' ? 'Нарушены лимиты' : (g.remark ? 'Замечание аудита' : 'Ожидает ответа'));
       return {
         section: g.section, title: g.title,
-        statusText: isClosed ? 'Закрыт' : (g.novelty ? 'Нужно 2 аналога' : 'Ожидает ответа'),
+        statusText: isClosed ? 'Закрыт' : (isSkipped ? 'Отложен' : open),
         current: isCur ? 'step' : 'false',
         style: btnBase + (isCur ? 'border: 2px solid #FF6B1A; background: #FFFAF6' : 'border: 1px solid #E4E4E7; background: #FFFFFF'),
         dot: 'flex: none; margin-top: 6px; width: 10px; height: 10px; border-radius: 999px; background: ' + dotColor,
         pick: () => this.pick(i)
       };
     });
-    const isNovelty = !!d.novelty;
+    const isText = d.kind === 'text';
     const accepted = phase === 'done' || closed[idx];
-    return {
-      gaps, cur: d,
-      openCount: 5 - closedCount,
+    const close = () => { const c = closed.slice(); c[idx] = true; this.setState({ phase: 'done', closed: c }); };
+    const pOn = 'min-width: 56px; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 2px solid #17171C; background: #17171C; color: #FFFFFF; font: 700 16px Onest, system-ui, sans-serif; cursor: pointer';
+    const pOff = 'min-width: 56px; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 1px solid #D4D4D8; background: #FFFFFF; color: #17171C; font: 600 16px Onest, system-ui, sans-serif; cursor: pointer';
+    return { ...this.consultVals(),
+      gaps, cur: d, total,
+      openCount: total - closedCount,
       closedCount,
-      progressPct: (closedCount / 5 * 100) + '%',
-      isRegular: !isNovelty, isNovelty,
-      showInput: !isNovelty && !accepted,
+      progressPct: (closedCount / total * 100) + '%',
+      isRegular: isText, isNovelty: d.kind === 'novelty', isDirection: d.kind === 'direction', dirSaved: d.kind === 'direction' && closed[idx], isBudget: d.kind === 'budget',
+      hasRemark: isText && !!d.remark && !accepted,
+      showInput: isText && !accepted,
       isRejected: phase === 'rejected',
-      isAccepted: !isNovelty && accepted,
+      isAccepted: isText && accepted,
       answer,
       onAnswer: (e) => this.setState({ answer: e.target.value }),
       submit: () => {
-        if (phase === 'idle' && d.good) this.setState({ phase: 'rejected', answer: d.good });
-        else { const c = closed.slice(); c[idx] = true; this.setState({ phase: 'done', closed: c }); }
+        if (d.kind === 'direction') { const c = closed.slice(); c[idx] = true; this.setState({ closed: c, idx: this.nextOpen(c, skipped, idx), phase: 'idle', answer: '' }); return; }
+        if (phase === 'idle' && d.good) this.setState({ phase: 'rejected' });
+        else { if (phase === 'rejected' && d.good) this.setState({ answer: d.good }); close(); }
       },
-      next: () => { const n = closed.findIndex((x, i) => !x && i !== idx); this.pick(n === -1 ? 4 : n); },
+      skip: () => { const sk = skipped.includes(idx) ? skipped : skipped.concat([idx]); const n = this.nextOpen(closed, sk, idx); this.setState({ skipped: sk }); this.pick(n); },
+      next: () => this.pick(this.nextOpen(closed, skipped, idx)),
+      directions: this.dirs.map(([id]) => ({ id, pressed: dir === id ? 'true' : 'false', style: dir === id ? pOn : pOff, pick: () => this.setState({ dir: id }) })),
+      dirName: dir + '. ' + (this.dirs.find(x => x[0] === dir) || ['', ''])[1],
       attemptShown: Math.min(attempts + 1, 2),
-      canSkip: attempts >= 2,
+      canSkip: attempts >= 2, canTry: attempts < 2,
       tryNovelty: () => this.setState({ attempts: attempts + 1 })
     };
   }

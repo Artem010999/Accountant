@@ -124,17 +124,17 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.users = [
-      { id: 'u1', name: 'Иван Иванов', email: 'ivan@university.ru', project: 'Monetrix', status: 'review', plan: 'Профессиональный до 01.12', created: '06.11.2026', anchor: 'готов · gpt-4o-mini', files: '3 из 10', guard: '1 предупреждение', paid: true },
-      { id: 'u2', name: 'Анна Смирнова', email: 'anna@example.ru', project: 'Молодёжь рядом', status: 'generating', plan: 'Базовый', created: '07.11.2026', anchor: 'готов · gpt-4o-mini', files: '0 из 0', guard: 'нет событий', paid: false },
-      { id: 'u3', name: 'Мария Ли', email: 'maria@example.ru', project: '[Название проекта]', status: 'draft', plan: 'Премиум до 05.12', created: '05.11.2026', anchor: 'ожидает брифа', files: '0 из 50', guard: 'нет событий', paid: true },
+      { id: 'u1', name: 'Иван Иванов', email: 'ivan@university.ru', project: 'Monetrix', status: 'review', plan: 'Профессиональный до 01.12', created: '06.11.2026', anchor: 'готов · qwen3-embedding-8b', files: '3 из 10', guard: '1 предупреждение', paid: true },
+      { id: 'u2', name: 'Анна Смирнова', email: 'anna@example.ru', project: 'Молодёжь рядом', status: 'generating', plan: 'Базовый', created: '07.11.2026', anchor: 'готов · qwen3-embedding-8b', files: '0 из 0', guard: 'нет событий', paid: false },
+      { id: 'u3', name: 'Мария Ли', email: 'maria@example.ru', project: '[Название проекта]', status: 'rejected', plan: 'Премиум до 05.12', created: '05.11.2026', anchor: 'ожидает брифа', files: '0 из 50', guard: 'нет событий', paid: true },
       { id: 'u4', name: 'Пётр Котов', email: 'petr@example.ru', project: '—', status: 'none', plan: 'Базовый', created: '08.11.2026', anchor: '—', files: '—', guard: 'нет событий', paid: false },
-      { id: 'u5', name: 'Олег Носов', email: 'oleg@example.ru', project: '[Название проекта]', status: 'review', plan: 'Профессиональный до 20.11', created: '28.10.2026', anchor: 'готов · gpt-4o-mini', files: '10 из 10', guard: '2 блокировки', paid: true, banned: true }
+      { id: 'u5', name: 'Олег Носов', email: 'oleg@example.ru', project: '[Название проекта]', status: 'review', plan: 'Профессиональный до 20.11', created: '28.10.2026', anchor: 'готов · qwen3-embedding-8b', files: '10 из 10', guard: '2 блокировки', paid: true, banned: true }
     ];
     this.state = { sel: 'u1', filter: 'all', banned: { u5: true }, granted: false };
   }
   renderVals() {
     const st = this.state;
-    const statusMap = { review: ['На проверке', 'background: #FEF3C7; color: #92400E'], generating: ['Сборка', 'background: #DBEAFE; color: #1E40AF'], draft: ['Черновик', 'background: #F4F4F5; color: #3F3F46'], none: ['Нет проекта', 'background: #FFFFFF; color: #71717A; border: 1px solid #E4E4E7'] };
+    const statusMap = { rejected: ['Отказ по допуску', 'background: #FEE2E2; color: #991B1B'], review: ['На проверке', 'background: #FEF3C7; color: #92400E'], generating: ['Сборка', 'background: #DBEAFE; color: #1E40AF'], draft: ['Черновик', 'background: #F4F4F5; color: #3F3F46'], none: ['Нет проекта', 'background: #FFFFFF; color: #71717A; border: 1px solid #E4E4E7'] };
     const chip = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; ';
     const list = this.users.filter(u => st.filter === 'all' || (st.filter === 'paid' && u.paid) || (st.filter === 'banned' && st.banned[u.id]) || (st.filter === 'review' && u.status === 'review'));
     const fOn = 'min-height: 40px; padding: 0 16px; border-radius: 999px; border: 2px solid #17171C; background: #FFFFFF; font: 600 14px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer';

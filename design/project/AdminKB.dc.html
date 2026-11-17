@@ -38,7 +38,7 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
   <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
     <div style="display: flex; flex-direction: column; gap: 6px">
       <h1 style="margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -0.02em">База знаний</h1>
-      <p style="margin: 0; font-size: 16px; color: #52525B">Правила программ, анкеты, вопросы и эталонные примеры. Из них Буха берёт вопросы и стоп-факторы.</p>
+      <p style="margin: 0; font-size: 16px; color: #52525B">Анкета допуска, вопросы с примерами и критериями, перечень вызовов, карточки для поиска и лимиты сметы. Из них Буха берёт вопросы, правила аудита и ответы консультанта.</p>
     </div>
     <button type="button" onClick="{{ toggleForm }}" style="min-height: 48px; padding: 0 22px; border: 0; background: #FF6B1A; border-radius: 999px; font: 700 15px Onest, system-ui, sans-serif; color: #17171C; cursor: pointer">{{ formBtn }}</button>
   </div>
@@ -54,7 +54,7 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
       <h2 style="margin: 0; font-size: 20px; font-weight: 700">Новый документ</h2>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
         <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Тип
-          <select style="min-height: 48px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 15px Onest, system-ui, sans-serif; background: #FFFFFF"><option>Положение о программе</option><option>Анкета и вопросы</option><option>Эталонные примеры</option><option>Правила стоп-факторов</option><option>Критерии оценки</option></select>
+          <select style="min-height: 48px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 15px Onest, system-ui, sans-serif; background: #FFFFFF"><option>Положение о программе</option><option>Анкета и вопросы (manifest.json)</option><option>Перечень вызовов</option><option>Карточки для поиска</option><option>Учебные примеры</option></select>
         </label>
         <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600">Версия
           <input value="1.1" style="min-height: 48px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 14px; font: 400 15px Onest, system-ui, sans-serif">
@@ -64,7 +64,7 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
         </label>
       </div>
       <div style="border: 2px dashed #FDBA8C; background: #FFFFFF; border-radius: 18px; padding: 24px; text-align: center; font-size: 15px; color: #3F3F46">Перетащите PDF или JSON-файл сюда или <button type="button" style="border: 0; background: none; padding: 0; font: inherit; color: #C2410C; text-decoration: underline; cursor: pointer">выберите</button></div>
-      <p style="margin: 0; font-size: 14px; color: #52525B; line-height: 1.5">Формат анкет и правил (JSON рядом с PDF или отдельные поля в базе) выбирает разработчик — развилка №1 ТЗ.</p>
+      <p style="margin: 0; font-size: 14px; color: #52525B; line-height: 1.5">Анкета и вопросы хранятся в manifest.json, карточки для поиска — в базе знаний. Учебные примеры нельзя копировать в паспорт клиента.</p>
       <div style="display: flex; gap: 12px">
         <button type="button" onClick="{{ publish }}" style="min-height: 48px; padding: 0 24px; border: 0; background: #17171C; border-radius: 999px; font: 600 15px Onest, system-ui, sans-serif; color: #FFFFFF; cursor: pointer">Опубликовать</button>
       </div>
@@ -73,6 +73,21 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
   <sc-if value="{{ published }}" hint-placeholder-val="{{ false }}">
     <p role="status" style="margin: 0; padding: 14px 18px; background: #F0FDF4; border-radius: 14px; font-size: 15px; color: #166534">Документ опубликован. Паспорта, проверенные по прежней версии, не меняются — новая версия применится при следующей проверке.</p>
   </sc-if>
+
+  <section style="border: 1px solid #E4E4E7; border-radius: 24px; padding: 24px 28px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+      <h2 style="margin: 0; font-size: 20px; font-weight: 700">Лимиты сметы · 8-я очередь</h2>
+      <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #DCFCE7; color: #166534">Действующая редакция</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px">
+      <sc-for list="{{ limits }}" as="l" hint-placeholder-count="6"><label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #52525B">{{ l.label }}<input type="number" defaultValue="{{ l.v }}" style="min-height: 44px; padding: 0 12px; border: 1px solid #D4D4D8; border-radius: 12px; font: 400 15px Onest, system-ui, sans-serif; color: #17171C"></label></sc-for>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #52525B">Источник: презентация эксперта «Очередь 8», стр. 5 и 19–21. Это не Положение: сверьте с Pol_StS_8 и договором. Новые лимиты применяются при следующей проверке сметы.</p>
+    <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap">
+      <button type="button" onClick="{{ saveLimits }}" style="min-height: 48px; padding: 0 22px; border: 0; background: #17171C; border-radius: 999px; font: 600 15px Onest, system-ui, sans-serif; color: #FFFFFF; cursor: pointer">Сохранить как новую редакцию</button>
+      <span role="status" style="font-size: 14px; color: #52525B">{{ limitsNote }}</span>
+    </div>
+  </section>
 
   <div style="overflow-x: auto; border: 1px solid #E4E4E7; border-radius: 20px">
     <table style="width: 100%; border-collapse: collapse; font-size: 15px; min-width: 860px">
@@ -103,26 +118,30 @@ input:focus,select:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
 class Component extends DCLogic {
-  constructor(props) { super(props); this.state = { form: false, published: false }; }
+  constructor(props) { super(props); this.state = { form: false, published: false, limitsSaved: false }; }
   renderVals() {
-    const { form, published } = this.state;
+    const { form, published, limitsSaved } = this.state;
     const chip = 'font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; ';
     const on = chip + 'background: #DCFCE7; color: #166534';
     const off = chip + 'background: #F4F4F5; color: #52525B';
     const soon = chip + 'background: #DBEAFE; color: #1E40AF';
     const docs = [
-      ['Положение о программе', 'kb/fasie/studstartup/reg_v1.pdf', 'Положение', '1.0', '01.01.2026', 'xyz7…9hash', 'Действует', on],
-      ['Анкета и вопросы по полям', 'kb/fasie/studstartup/questions_v1.json', 'Анкета и вопросы', '1.0', '01.01.2026', 'a41c…02fe', 'Действует', on],
-      ['Эталонные примеры ответов', 'kb/fasie/studstartup/examples_v1.json', 'Примеры', '1.0', '01.01.2026', '9be0…77d1', 'Действует', on],
-      ['Правила стоп-факторов', 'kb/fasie/studstartup/rules_v1.json', 'Правила', '1.0', '01.01.2026', 'c3d2…1a90', 'Действует', on],
-      ['Положение о программе (прошлая очередь)', 'kb/fasie/studstartup/reg_v0.pdf', 'Положение', '0.9', '01.03.2025', '55aa…e310', 'Архив', off]
+      ['Анкета допуска, вопросы, примеры и критерии', 'kb/programs/student-startup/manifest.json', 'Анкета и вопросы', '1.0', '13.11.2026', 'a41c…02fe', 'Действует', on],
+      ['Перечень технологических вызовов (357)', 'kb/programs/student-startup/tech-challenges.json', 'Справочник', '8', '13.11.2026', '9be0…77d1', 'Действует', on],
+      ['База знаний «Студенческий стартап» v2', 'StudStartup_Knowledge_Base_v2', 'Карточки для поиска', '2.0', '13.11.2026', 'c3d2…1a90', 'Действует', on],
+      ['Сравнение 7 и 8 очереди', 'Студ_стартап_сравнение_7_и_8', 'Карточки для поиска', '1.0', '13.11.2026', '55aa…e310', 'Сверить с Положением', soon],
+      ['Примеры КП, новизны и стадии (7-я очередь)', 'Примеры_КП_нов_Стс_7', 'Учебные примеры', '1.0', '13.11.2026', 'f0e1…6b2c', 'Действует', on],
+      ['Положение о программе, 8-я очередь', 'Pol_StS_8.pdf', 'Положение', '—', '—', '—', 'Нет в базе', off]
     ];
-    if (published) docs.unshift(['Положение о программе', 'kb/fasie/studstartup/reg_v1.1.pdf', 'Положение', '1.1', '01.12.2026', 'f0e1…6b2c', 'С 1 декабря', soon]);
+    if (published) docs.unshift(['Положение о программе, 8-я очередь', 'Pol_StS_8.pdf', 'Положение', '1.0', '01.12.2026', '7c1e…a903', 'С 1 декабря', soon]);
     return {
       showForm: form && !published, published,
       formBtn: form && !published ? 'Отмена' : 'Добавить документ',
       toggleForm: () => this.setState({ form: !(form && !published), published: false }),
       publish: () => this.setState({ published: true }),
+      limits: [['Всего, ₽', 1000000], ['Этап 1, до ₽', 20000], ['Этап 2, до ₽', 980000], ['Подрядчики, до ₽', 250000], ['Техника за единицу, до ₽', 150000], ['Зарплата в месяц, до ₽', 100000]].map(([label, v]) => ({ label, v })),
+      saveLimits: () => this.setState({ limitsSaved: true }),
+      limitsNote: limitsSaved ? 'Сохранено. Сметы пересчитаются при следующей проверке.' : 'Одновременно действует одна редакция.',
       docs: docs.map(d => ({ title: d[0], key: d[1], type: d[2], version: d[3], from: d[4], hash: d[5], status: d[6], chip: d[7] }))
     };
   }

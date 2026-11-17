@@ -24,11 +24,13 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
       <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: #17171C">Буха</span>
     </a>
     <ol aria-label="Шаги" style="margin: 0 auto; padding: 0; list-style: none; display: flex; gap: 12px; align-items: center; font-size: 15px; font-weight: 600">
-      <li style="display: flex; align-items: center; gap: 8px; color: #15803D"><span style="width: 28px; height: 28px; border-radius: 999px; background: #DCFCE7; display: inline-flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span><a href="Onboarding.dc.html" style="color: #15803D; text-decoration: none">Профиль</a></li>
-      <li aria-hidden="true" style="width: 40px; height: 2px; background: #FF6B1A"></li>
-      <li style="display: flex; align-items: center; gap: 8px; color: #17171C"><span style="width: 28px; height: 28px; border-radius: 999px; background: #FF6B1A; display: inline-flex; align-items: center; justify-content: center">2</span>О проекте</li>
-      <li aria-hidden="true" style="width: 40px; height: 2px; background: #E4E4E7"></li>
-      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; background: #F4F4F5; display: inline-flex; align-items: center; justify-content: center">3</span>Сборка паспорта</li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #15803D"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #DCFCE7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>Профиль</li>
+      <li aria-hidden="true" style="width: 32px; height: 2px; background: #E4E4E7"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #15803D"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #DCFCE7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>Допуск</li>
+      <li aria-hidden="true" style="width: 32px; height: 2px; background: #E4E4E7"></li>
+      <li aria-current="step" style="display: flex; align-items: center; gap: 8px; color: #17171C"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #FF6B1A">3</span>О проекте</li>
+      <li aria-hidden="true" style="width: 32px; height: 2px; background: #E4E4E7"></li>
+      <li style="display: flex; align-items: center; gap: 8px; color: #71717A"><span style="width: 28px; height: 28px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: #F4F4F5">4</span>Сборка паспорта</li>
     </ol>
     <div role="group" aria-label="Тариф для прототипа" style="display: flex; align-items: center; gap: 6px; background: #F4F4F5; border-radius: 999px; padding: 4px; font-size: 13px">
       <span style="padding: 0 8px; color: #52525B">Прототип:</span>
@@ -129,7 +131,7 @@ textarea:focus,input:focus{outline: 3px solid #FFB38A; outline-offset: 1px}
   <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid #E4E4E7">
     <sc-if value="{{ isForm }}" hint-placeholder-val="{{ false }}"><p style="margin: 16px auto 0 0; font-size: 14px; color: #71717A"><span style="color: #B91C1C; font-weight: 700">*</span> — обязательные вопросы</p></sc-if>
     <div style="display: flex; gap: 16px; align-items: center; margin-top: 16px">
-      <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ true }}"><a href="Onboarding.dc.html" style="font-size: 17px; font-weight: 600; color: #17171C">Назад</a></sc-if>
+      <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ true }}"><a href="Eligibility.dc.html" style="font-size: 17px; font-weight: 600; color: #17171C">Назад</a></sc-if>
       <sc-if value="{{ canSubmit }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toAsk }}" style="border: 0; background: none; padding: 0; font: 600 17px Onest, system-ui, sans-serif; color: #17171C; text-decoration: underline; cursor: pointer">Назад</button></sc-if>
       <sc-if value="{{ canSubmit }}" hint-placeholder-val="{{ false }}">
         <a href="Generating.dc.html" style="display: inline-flex; align-items: center; min-height: 60px; padding: 0 36px; background: #FF6B1A; border-radius: 999px; color: #17171C; text-decoration: none; font-weight: 700; font-size: 18px">{{ submitLabel }}</a>

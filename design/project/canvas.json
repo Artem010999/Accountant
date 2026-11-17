@@ -51,18 +51,18 @@
       "expand": "fill",
       "h": 1180,
       "is_interactive": true,
-      "title": "7. Тариф и оплата",
+      "title": "9. Тариф и оплата",
       "w": 1440,
-      "x": 9120,
+      "x": 12160,
       "y": 5400
     },
     "Brief.dc.html": {
       "expand": "fill",
       "h": 1080,
       "is_interactive": true,
-      "title": "2. Стартовый бриф",
+      "title": "3. Стартовый бриф",
       "w": 1440,
-      "x": 1520,
+      "x": 3040,
       "y": 5400
     },
     "DesignSystem.dc.html": {
@@ -77,27 +77,27 @@
       "expand": "fill",
       "h": 1080,
       "is_interactive": true,
-      "title": "8. Материалы проекта",
+      "title": "10. Материалы проекта",
       "w": 1440,
-      "x": 10640,
+      "x": 13680,
       "y": 5400
     },
     "Gaps.dc.html": {
       "expand": "fill",
       "h": 1080,
       "is_interactive": true,
-      "title": "4. Пробелы и новизна",
+      "title": "5. Пробелы, направление и новизна",
       "w": 1440,
-      "x": 4560,
+      "x": 6080,
       "y": 5400
     },
     "Generating.dc.html": {
       "expand": "fill",
       "h": 1080,
       "is_interactive": true,
-      "title": "3. Сборка паспорта",
+      "title": "4. Сборка паспорта",
       "w": 1440,
-      "x": 3040,
+      "x": 4560,
       "y": 5400
     },
     "Main.dc.html": {
@@ -122,9 +122,9 @@
       "expand": "fill",
       "h": 1180,
       "is_interactive": true,
-      "title": "6. Паспорт",
+      "title": "7. Паспорт",
       "w": 1440,
-      "x": 7600,
+      "x": 9120,
       "y": 5400
     },
     "Pricing.dc.html": {
@@ -140,27 +140,54 @@
       "expand": "fill",
       "h": 1080,
       "is_interactive": true,
-      "title": "9. Профиль в кабинете",
+      "title": "11. Профиль в кабинете",
       "w": 1440,
-      "x": 13680,
+      "x": 15200,
       "y": 5400
     },
     "Result.dc.html": {
       "expand": "fill",
       "h": 1180,
       "is_interactive": true,
-      "title": "5. Итог и чек-лист",
+      "title": "6. Итог и чек-лист",
       "w": 1440,
-      "x": 6080,
+      "x": 7600,
       "y": 5400
     },
     "States.dc.html": {
       "expand": "fill",
-      "h": 1180,
-      "title": "10. Блокировки и лимиты",
+      "h": 1900,
+      "title": "12. Блокировки и лимиты",
       "w": 1440,
-      "x": 15200,
+      "x": 16720,
       "y": 5400
+    },
+    "Eligibility.dc.html": {
+      "expand": "fill",
+      "h": 1080,
+      "is_interactive": true,
+      "w": 1440,
+      "x": 1520,
+      "y": 5400,
+      "title": "2. Проверка допуска"
+    },
+    "Budget.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "is_interactive": true,
+      "w": 1440,
+      "x": 10640,
+      "y": 5400,
+      "title": "8. Смета"
+    },
+    "Support.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "Поддержка",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
     }
   },
   "createdOnFiles": {
@@ -181,9 +208,9 @@
   "notes": {
     "n_flow": {
       "fill": "orange",
-      "text": "Путь пользователя идёт слева направо. Материалы, Тариф и Профиль — из бокового меню. Нажмите Play на любом экране, чтобы пройти по ссылкам.",
+      "text": "Путь пользователя идёт слева направо. Смета, Материалы, Тариф и Профиль — из бокового меню. ИИ-Консультант открывается кнопкой внизу справа на пробелах, паспорте и смете. Нажмите Play на любом экране, чтобы пройти по ссылкам.",
       "w": 420,
-      "x": 16720,
+      "x": 18240,
       "y": 5400
     },
     "t_admin": {
@@ -196,8 +223,8 @@
     },
     "t_app1": {
       "kind": "title1",
-      "maxW": 8000,
-      "text": "Кабинет: профиль → бриф → сборка → пробелы → итог → паспорт",
+      "maxW": 12000,
+      "text": "Кабинет: профиль → допуск → бриф → сборка → пробелы → итог → паспорт → смета",
       "w": 240,
       "x": 0,
       "y": 5080
@@ -212,8 +239,8 @@
     },
     "t_site": {
       "kind": "title1",
-      "maxW": 4480,
-      "text": "Сайт: лендинг → тарифы → вход",
+      "maxW": 6000,
+      "text": "Сайт: лендинг → тарифы → вход · поддержка",
       "w": 240,
       "x": 0,
       "y": -320
@@ -223,12 +250,15 @@
     "Main.dc.html",
     "Pricing.dc.html",
     "Auth.dc.html",
+    "Support.dc.html",
     "Onboarding.dc.html",
+    "Eligibility.dc.html",
     "Brief.dc.html",
     "Generating.dc.html",
     "Gaps.dc.html",
     "Result.dc.html",
     "Passport.dc.html",
+    "Budget.dc.html",
     "Billing.dc.html",
     "Files.dc.html",
     "Profile.dc.html",
