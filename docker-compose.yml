@@ -1,49 +1,85 @@
 name: passport-constructor
 
-# Локальный стек (G5.1). Запуск:
-#   docker compose --profile stub up -d --build      # с заглушкой LLM (без ключей)
-#   docker compose up -d --build                     # с реальным API (OPENAI_BASE_URL из .env)
-# Открыть: сайт http://localhost:8081 · API http://localhost:8080/health · Postgres localhost:54322
+# Все настраиваемые значения берутся из .env (шаблон — .env.example). Здесь остаётся только устройство стека:
+# имена сервисов внутри сети, внутренние порты контейнеров и пути внутри образов — их менять не нужно.
 #
-# Миграции: сервис db-migrate выполняется один раз и пропускает уже созданную схему (см. migrate-cli.ts).
+# Запуск:
+#   docker compose up -d --build                    # локально, без Caddy
+#   docker compose --profile stub up -d --build     # локально, с заглушкой LLM (OPENAI_BASE_URL=http://stub-llm:8090/v1)
+#   docker compose --profile prod up -d --wait      # на сервере: Caddy с SSL и защитой админки (см. docker-compose.prod.yml)
+#
+# Миграции: db-migrate выполняется один раз и пропускает уже созданную схему (см. migrate-cli.ts).
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: ${LOG_MAX_SIZE:?}
+    max-file: ${LOG_MAX_FILE:?}
 
 services:
   postgres:
     image: pgvector/pgvector:pg16
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres        # только локально
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER:?}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+      POSTGRES_DB: ${POSTGRES_DB:?}
     ports:
-      - "54322:5432"                     # не 5432: на хосте может быть свой Postgres
+      - "${POSTGRES_HOST_PORT:?}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       # имитация Supabase (схема auth, роли anon/authenticated) — выполняется при первой инициализации
       - ./backend/supabase/local:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 3s
       timeout: 3s
       retries: 20
+    deploy:
+      resources:
+        limits:
+          cpus: ${CPU_POSTGRES:?}
+          memory: ${MEM_POSTGRES:?}
+    logging: *logging
 
   db-migrate:
-    build: ./backend/pipeline-api
+    # Контекст — корень репозитория: Dockerfile копирует workspace-манифесты и packages/.
+    build:
+      context: .
+      dockerfile: backend/pipeline-api/Dockerfile
     command: ["npx", "tsx", "src/db/migrate-cli.ts"]
     env_file: .env
     environment:
-      SUPABASE_DB_URL: postgres://postgres:postgres@postgres:5432/postgres
-      DEV_SEED: "1"                      # тестовые данные для локальной проверки
+      SUPABASE_DB_URL: postgres://${POSTGRES_USER:?}:${POSTGRES_PASSWORD:?}@postgres:5432/${POSTGRES_DB:?}
+      DEV_SEED: ${DEV_SEED:?}
     depends_on:
       postgres:
         condition: service_healthy
     restart: "no"
+    deploy:
+      resources:
+        limits:
+          cpus: ${CPU_DBMIGRATE:?}
+          memory: ${MEM_DBMIGRATE:?}
+    logging: *logging
 
   parser:
     build: ./backend/parser-service
     restart: unless-stopped
     ports:
-      - "8000:8000"                      # только для отладки; наружу в продакшене не публиковать
+      - "${PARSER_HOST_PORT:?}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: ${CPU_PARSER:?}
+          memory: ${MEM_PARSER:?}
+    logging: *logging
 
   stub-llm:
     image: node:22-slim
@@ -55,49 +91,104 @@ services:
     volumes:
       - ./backend/stub-llm:/srv:ro
     ports:
-      - "8090:8090"
+      - "${STUB_LLM_HOST_PORT:?}:8090"
+    logging: *logging
 
   pipeline:
-    build: ./backend/pipeline-api
+    build:
+      context: .
+      dockerfile: backend/pipeline-api/Dockerfile
     restart: unless-stopped
     env_file: .env
     environment:
-      SUPABASE_DB_URL: postgres://postgres:postgres@postgres:5432/postgres
+      SUPABASE_DB_URL: postgres://${POSTGRES_USER:?}:${POSTGRES_PASSWORD:?}@postgres:5432/${POSTGRES_DB:?}
       PARSER_URL: http://parser:8000
-      OPENAI_BASE_URL: http://stub-llm:8090/v1      # переопределяется в .env для реального API
       OUTBOX_DIR: /srv/backend/pipeline-api/outbox
-      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://opencode.ai/zen/go/v1}
-      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
-      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-v4.1-flash}
-      KIMI_BASE_URL: ${KIMI_BASE_URL:-https://api.kimi.ai/coding/v1}
-      KIMI_API_KEY: ${KIMI_API_KEY:-}
-      KIMI_MODEL: ${KIMI_MODEL:-kimi-k3}
-      EMBEDDING_BASE_URL: ${EMBEDDING_BASE_URL:-https://api.aitunnel.ru/v1/}
-      EMBEDDING_API_KEY: ${EMBEDDING_API_KEY:-}
-      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-qwen3-embedding-8b}
-      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-4096}
+      # Путь к манифесту внутри образа (COPY backend/kb).
+      KB_MANIFEST_PATH: /srv/backend/kb/programs/student-startup/manifest.json
+      # Кучу Node держим под лимит контейнера: иначе V8 раздувается до лимита и контейнер убивается OOM.
+      NODE_OPTIONS: --max-old-space-size=${NODE_HEAP_MB:?}
     ports:
-      - "8080:8080"
+      - "${PIPELINE_HOST_PORT:?}:8080"
     volumes:
       - ./backend/pipeline-api/outbox:/srv/backend/pipeline-api/outbox
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
     depends_on:
       db-migrate:
         condition: service_completed_successfully
       parser:
-        condition: service_started
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: ${CPU_PIPELINE:?}
+          memory: ${MEM_PIPELINE:?}
+    logging: *logging
 
   frontend:
     build:
       context: .
       dockerfile: frontend/Dockerfile
       args:
-        VITE_PIPELINE_URL: /pipeline
-        VITE_SUPPORT_ENDPOINT: /support
+        VITE_PIPELINE_URL: ${VITE_PIPELINE_URL:?}
+        VITE_SUPPORT_ENDPOINT: ${VITE_SUPPORT_ENDPOINT:?}
+        VITE_AUTH_ENDPOINT: ${VITE_AUTH_ENDPOINT:?}
+        VITE_CHAT_ENDPOINT: ${VITE_CHAT_ENDPOINT:?}
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
     restart: unless-stopped
     ports:
-      - "8081:80"
+      - "${FRONTEND_HOST_PORT:?}:80"
+    # nginx резолвит pipeline:8080 при старте, поэтому ждём, пока API ответит по healthcheck.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:80/"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
     depends_on:
-      - pipeline
+      pipeline:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: ${CPU_FRONTEND:?}
+          memory: ${MEM_FRONTEND:?}
+    logging: *logging
+
+  # Обратный прокси: SSL (Let's Encrypt) и basic auth на /admin-panel. Только в профиле prod.
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["prod"]
+    restart: unless-stopped
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN:?}
+      ACME_EMAIL: ${ACME_EMAIL:?}
+      ADMIN_BASIC_USER: ${ADMIN_BASIC_USER:?}
+      ADMIN_BASIC_PASSWORD_HASH: ${ADMIN_BASIC_PASSWORD_HASH:?}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      frontend:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: ${CPU_CADDY:?}
+          memory: ${MEM_CADDY:?}
+    logging: *logging
 
 volumes:
   pgdata:
+  caddy_data:
+  caddy_config:

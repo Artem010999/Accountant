@@ -7,6 +7,8 @@ import { OpenAiClient } from './llm/openai';
 import { HttpDocumentParser } from './parser/client';
 import { createPipelineServer } from './server';
 import { supportOptionsFromConfig } from './support/options';
+import { AuthService } from './auth/service';
+import { createMailFromConfig } from './mail';
 
 const { Pool } = pg;
 
@@ -16,9 +18,12 @@ async function main() {
   if (!cfg.openaiApiKey) throw new Error('Задайте OPENAI_API_KEY');
   if (!cfg.sharedSecret) console.warn('[warn] PIPELINE_SHARED_SECRET не задан: HTTP-вход без аутентификации');
 
+  if (!cfg.authSecret) throw new Error('Задайте AUTH_SECRET (секрет для кодов входа)');
+
   const pool = new Pool({ connectionString: cfg.databaseUrl });
+  const sql = fromPgPool(pool);
   const deps = {
-    store: new PassportStore(fromPgPool(pool)),
+    store: new PassportStore(sql),
     llm: new OpenAiClient({
       apiKey: cfg.openaiApiKey,
       baseUrl: cfg.openaiBaseUrl,
@@ -30,7 +35,11 @@ async function main() {
     logger: console,
   };
 
-  const server = createPipelineServer(deps, { sharedSecret: cfg.sharedSecret, support: supportOptionsFromConfig(cfg) });
+  const auth = {
+    service: new AuthService(sql, createMailFromConfig(cfg), cfg.authSecret),
+    cookieSecure: cfg.authCookieSecure,
+  };
+  const server = createPipelineServer(deps, { sharedSecret: cfg.sharedSecret, support: supportOptionsFromConfig(cfg), auth });
   server.listen(cfg.port, () => console.log(`pipeline-api listening on :${cfg.port}`));
 }
 

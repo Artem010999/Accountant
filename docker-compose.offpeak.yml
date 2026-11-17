@@ -1,0 +1,28 @@
+# Батч / off-peak профиль: поверх docker-compose.yml. Лимиты — из .env (OFFPEAK_*).
+#   docker compose -f docker-compose.yml -f docker-compose.offpeak.yml up -d
+# Не запускать в окна, которые задаёт сервер (например 09:40–09:55 и 00:00): расписание ставится на сервере, не в этом файле.
+# Смена лимитов пересоздаёт контейнеры: делать только в окно.
+
+services:
+  postgres:
+    deploy:
+      resources:
+        limits:
+          cpus: ${OFFPEAK_CPU_POSTGRES:?}
+          memory: ${OFFPEAK_MEM_POSTGRES:?}
+
+  parser:
+    deploy:
+      resources:
+        limits:
+          cpus: ${OFFPEAK_CPU_PARSER:?}
+          memory: ${OFFPEAK_MEM_PARSER:?}
+
+  pipeline:
+    environment:
+      NODE_OPTIONS: --max-old-space-size=${OFFPEAK_NODE_HEAP_MB:?}
+    deploy:
+      resources:
+        limits:
+          cpus: ${OFFPEAK_CPU_PIPELINE:?}
+          memory: ${OFFPEAK_MEM_PIPELINE:?}

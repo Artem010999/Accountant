@@ -15,7 +15,7 @@ import {
 } from '../../shared/data/adminKb';
 import './AdminKB.css';
 
-// Экран «База знаний» (/admin/kb). Эталон: design/project/AdminKB.dc.html.
+// Экран «База знаний» (/admin-panel/kb). Эталон: design/project/AdminKB.dc.html.
 // Тексты эталона — дословно. Форма загрузки, её валидация и сообщение о дубле хеша в эталоне не заданы
 // (новые элементы, перечислены в отчёте G4).
 

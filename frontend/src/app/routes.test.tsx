@@ -21,10 +21,10 @@ const HEADINGS: Record<string, string> = {
   '/states': 'Блокировки и лимиты',
   '/support': 'Написать в поддержку',
   '/eligibility': 'Проверка допуска',
-  '/admin/users': 'Пользователи',
-  '/admin/billing': 'Платежи и тарифы',
-  '/admin/guard': 'Страж проекта',
-  '/admin/kb': 'База знаний',
+  '/admin-panel/users': 'Пользователи',
+  '/admin-panel/billing': 'Платежи и тарифы',
+  '/admin-panel/guard': 'Страж проекта',
+  '/admin-panel/kb': 'База знаний',
   '/design-system': 'Дизайн-система',
 };
 
@@ -82,10 +82,10 @@ const TITLES: Record<string, string> = {
   '/profile': 'Буха — профиль',
   '/states': 'Буха — блокировки и лимиты',
   '/support': 'Буха — поддержка',
-  '/admin/users': 'Буха — админка, пользователи',
-  '/admin/billing': 'Буха — админка, платежи и тарифы',
-  '/admin/guard': 'Буха — админка, Страж',
-  '/admin/kb': 'Буха — админка, база знаний',
+  '/admin-panel/users': 'Буха — админка, пользователи',
+  '/admin-panel/billing': 'Буха — админка, платежи и тарифы',
+  '/admin-panel/guard': 'Буха — админка, Страж',
+  '/admin-panel/kb': 'Буха — админка, база знаний',
   '/design-system': 'Буха — дизайн-система',
 };
 

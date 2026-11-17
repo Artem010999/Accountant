@@ -1,0 +1,210 @@
+name: CI/CD
+
+# Тесты на каждый push и PR; сборка образов и деплой — только с main.
+# Секреты деплоя лежат в окружении production (Settings → Environments): HOST, SSH_PORT, SSH_USER, SSH_PRIVATE_KEY,
+# KNOWN_HOSTS, DEPLOY_PATH, SITE_URL, ENV_FILE (полный .env сервера), GHCR_READ_TOKEN, VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY.
+# KNOWN_HOSTS для нестандартного порта: строка вида «[93.100.198.182]:2222 ssh-ed25519 AAAA…» (получить: ssh-keyscan -p 2222 93.100.198.182).
+# На окружении production стоит включить Required reviewers — тогда деплой ждёт подтверждения.
+# Секрет EMBEDDING_API_KEY (репозиторий) нужен трём RAG-тестам; без него они краснеют.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  test-node:
+    name: "Тесты: контракты, пайплайн, фронтенд"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Типы (все воркспейсы)
+        run: npm run typecheck
+
+      - name: Тесты
+        env:
+          EMBEDDING_API_KEY: ${{ secrets.EMBEDDING_API_KEY }}
+        run: npx vitest run
+
+  test-parser:
+    name: Тесты парсера (Python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/parser-service/requirements.txt
+
+      - name: Зависимости
+        working-directory: backend/parser-service
+        run: pip install -r requirements.txt
+
+      - name: pytest
+        working-directory: backend/parser-service
+        run: python -m pytest -q
+
+  build-images:
+    name: Сборка и публикация образов (GHCR)
+    needs: [test-node, test-parser]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Префикс образов (GHCR требует нижний регистр)
+        run: echo "IMAGE_PREFIX=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/passport" >> "$GITHUB_ENV"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Образ pipeline (и db-migrate — тот же образ)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/pipeline-api/Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_PREFIX }}-pipeline:${{ github.sha }}
+          cache-from: type=gha,scope=pipeline
+          cache-to: type=gha,mode=max,scope=pipeline
+
+      - name: Образ parser
+        uses: docker/build-push-action@v6
+        with:
+          context: backend/parser-service
+          push: true
+          tags: ${{ env.IMAGE_PREFIX }}-parser:${{ github.sha }}
+          cache-from: type=gha,scope=parser
+          cache-to: type=gha,mode=max,scope=parser
+
+      - name: "Значения VITE_* из ENV_FILE (для сборки фронтенда)"
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          printf '%s\n' "$ENV_FILE" | grep -E '^VITE_[A-Z_]+=' >> "$GITHUB_ENV"
+          # Без адреса API фронтенд уйдёт в демо-режим: такую сборку не публикуем.
+          for key in VITE_PIPELINE_URL VITE_SUPPORT_ENDPOINT VITE_AUTH_ENDPOINT VITE_CHAT_ENDPOINT; do
+            value=$(printf '%s\n' "$ENV_FILE" | sed -n "s/^${key}=//p" | head -1)
+            if [ -z "$value" ]; then echo "В ENV_FILE не задан ${key}"; exit 1; fi
+          done
+
+      - name: Образ frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: frontend/Dockerfile
+          push: true
+          build-args: |
+            VITE_PIPELINE_URL=${{ env.VITE_PIPELINE_URL }}
+            VITE_SUPPORT_ENDPOINT=${{ env.VITE_SUPPORT_ENDPOINT }}
+            VITE_AUTH_ENDPOINT=${{ env.VITE_AUTH_ENDPOINT }}
+            VITE_CHAT_ENDPOINT=${{ env.VITE_CHAT_ENDPOINT }}
+            VITE_SUPABASE_URL=${{ env.VITE_SUPABASE_URL }}
+            VITE_SUPABASE_ANON_KEY=${{ env.VITE_SUPABASE_ANON_KEY }}
+          tags: ${{ env.IMAGE_PREFIX }}-frontend:${{ github.sha }}
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,mode=max,scope=frontend
+
+  deploy:
+    name: Деплой на сервер
+    needs: build-images
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Префикс образов
+        run: echo "IMAGE_PREFIX=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/passport" >> "$GITHUB_ENV"
+
+      - name: Подключение к серверу
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: "Файл окружения: секреты сервера и теги образов этого коммита"
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          {
+            printf '%s\n' "$ENV_FILE"
+            echo "IMAGE_PIPELINE=${IMAGE_PREFIX}-pipeline:${GITHUB_SHA}"
+            echo "IMAGE_PARSER=${IMAGE_PREFIX}-parser:${GITHUB_SHA}"
+            echo "IMAGE_FRONTEND=${IMAGE_PREFIX}-frontend:${GITHUB_SHA}"
+          } > deploy.env
+
+      - name: Копирование конфигурации на сервер
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          HOST: ${{ secrets.HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          # ssh — порт в -p, scp — в -P.
+          ssh -p "$SSH_PORT" "$SSH_USER@$HOST" "mkdir -p '$DEPLOY_PATH/backend/supabase/local' '$DEPLOY_PATH/backend/pipeline-api/outbox' '$DEPLOY_PATH/deploy'"
+          scp -P "$SSH_PORT" docker-compose.yml docker-compose.prod.yml deploy.env "$SSH_USER@$HOST:$DEPLOY_PATH/"
+          # Postgres монтирует эту папку при первом старте (схема auth и роли): без неё база поднимется без них.
+          scp -P "$SSH_PORT" -r backend/supabase/local/. "$SSH_USER@$HOST:$DEPLOY_PATH/backend/supabase/local/"
+          # Caddy: SSL и basic auth на /admin-panel.
+          scp -P "$SSH_PORT" deploy/Caddyfile "$SSH_USER@$HOST:$DEPLOY_PATH/deploy/"
+          ssh -p "$SSH_PORT" "$SSH_USER@$HOST" "mv '$DEPLOY_PATH/deploy.env' '$DEPLOY_PATH/.env' && chmod 600 '$DEPLOY_PATH/.env'"
+
+      - name: Обновление контейнеров (docker compose ждёт healthcheck)
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          HOST: ${{ secrets.HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          GHCR_READ_TOKEN: ${{ secrets.GHCR_READ_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+        run: |
+          ssh -p "$SSH_PORT" "$SSH_USER@$HOST" bash -s <<EOF
+            set -euo pipefail
+            cd "$DEPLOY_PATH"
+            echo "$GHCR_READ_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            COMPOSE="docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod"
+            \$COMPOSE pull
+            \$COMPOSE up -d --wait --wait-timeout 600 --remove-orphans
+            \$COMPOSE ps
+          EOF
+
+      - name: Проверка сайта
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: curl --fail --silent --show-error --max-time 30 "$SITE_URL/" > /dev/null

@@ -1,0 +1,20 @@
+# Caddy: SSL (Let's Encrypt) и basic auth на /admin-panel. Значения — из переменных окружения (.env).
+# Хеш пароля для ADMIN_BASIC_PASSWORD_HASH: docker run --rm caddy:2-alpine caddy hash-password
+# В .env знаки $ в хеше экранируются как $$ (иначе compose подставит переменную).
+
+{
+	email {$ACME_EMAIL}
+}
+
+{$SITE_DOMAIN} {
+	encode gzip
+
+	# Админка закрыта на уровне браузера: логин и пароль до самого приложения.
+	# Вход в админку дополнительно требует аккаунт с role = 'admin' и код из письма (см. фронтенд и auth API).
+	@admin path /admin-panel /admin-panel/*
+	basic_auth @admin {
+		{$ADMIN_BASIC_USER} {$ADMIN_BASIC_PASSWORD_HASH}
+	}
+
+	reverse_proxy frontend:80
+}

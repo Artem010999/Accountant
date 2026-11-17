@@ -58,6 +58,10 @@ export interface AppConfig {
   supportAllowedOrigin: string;
   /** Папка писем для адаптера OutboxMail (OUTBOX_DIR). */
   outboxDir: string;
+  /** Секрет для HMAC кодов входа (AUTH_SECRET). Обязателен для входа по коду. */
+  authSecret: string | undefined;
+  /** Cookie сессии только с Secure (по умолчанию да; false — только локальный http). */
+  authCookieSecure: boolean;
   /** SMTP: адаптер SmtpMail включается, если задан host; иначе письма пишутся в outbox. */
   smtp: {
     host: string | undefined;
@@ -99,6 +103,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     supportEmail: env.SUPPORT_EMAIL || 'test@test.com',
     supportAllowedOrigin: env.SUPPORT_ALLOWED_ORIGIN || 'http://localhost:5173',
     outboxDir: env.OUTBOX_DIR || DEFAULT_OUTBOX_DIR,
+    authSecret: env.AUTH_SECRET || undefined,
+    authCookieSecure: env.AUTH_COOKIE_SECURE !== 'false',
     smtp: {
       host: env.SMTP_HOST || undefined,
       port: Number(env.SMTP_PORT || 587),

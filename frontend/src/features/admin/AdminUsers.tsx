@@ -250,7 +250,7 @@ export function AdminUsers({ api = demoAdminUsersApi }: AdminUsersProps) {
               <dd>{selected.plan}</dd>
               <dt>Страж</dt>
               <dd>
-                <Link to="/admin/guard">{selected.guard}</Link>
+                <Link to="/admin-panel/guard">{selected.guard}</Link>
               </dd>
             </dl>
 

@@ -19,7 +19,7 @@ function renderAuth(path = '/auth') {
         <Route path="/auth" element={<Auth />} />
         <Route path="/onboarding" element={<div>Экран онбординга</div>} />
         <Route path="/passport" element={<div>Экран паспорта</div>} />
-        <Route path="/admin/users" element={<div>Экран админа</div>} />
+        <Route path="/admin-panel/users" element={<div>Экран админа</div>} />
         <Route path="/states" element={<div>Экран состояний</div>} />
       </Routes>
     </MemoryRouter>,
@@ -58,7 +58,8 @@ describe('Auth (вход и регистрация)', () => {
     expect(screen.getByRole('tab', { name: 'Вход' })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByRole('link', { name: 'Забыли пароль?' })).toBeInTheDocument();
     expect(screen.getByText('Для прототипа')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Войти как администратор' })).toHaveAttribute('href', '/admin/users');
+    // Ссылки на админку на публичной странице входа нет: доступ только через /admin-panel с защитой.
+    expect(screen.queryByRole('link', { name: 'Войти как администратор' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Аккаунт заблокирован (экран 403)' })).toHaveAttribute('href', '/states');
   });
 
@@ -67,13 +68,6 @@ describe('Auth (вход и регистрация)', () => {
     await userEvent.click(screen.getByRole('tab', { name: 'Вход' }));
     await userEvent.click(screen.getByRole('link', { name: 'Войти' }));
     expect(location()).toBe('/passport');
-  });
-
-  it('ссылки прототипа в форме входа ведут на экраны админки и 403', async () => {
-    renderAuth();
-    await userEvent.click(screen.getByRole('tab', { name: 'Вход' }));
-    await userEvent.click(screen.getByRole('link', { name: 'Войти как администратор' }));
-    expect(location()).toBe('/admin/users');
   });
 
   it('логотип на входе ведёт на главную', async () => {

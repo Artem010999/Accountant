@@ -1,0 +1,27 @@
+# Продакшен на сервере: поверх docker-compose.yml. Образы приходят из GHCR (их собирает CI), не из исходников.
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod pull
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d --wait
+# Все значения (IMAGE_*, пароли, домен, порты) — из .env рядом с файлами. Деплой пишет его из секрета ENV_FILE.
+
+services:
+  postgres:
+    ports: !reset []                     # наружу база не публикуется
+
+  db-migrate:
+    build: !reset null
+    image: ${IMAGE_PIPELINE:?}
+
+  parser:
+    build: !reset null
+    image: ${IMAGE_PARSER:?}
+    ports: !reset []                     # только внутри docker-сети
+
+  pipeline:
+    build: !reset null
+    image: ${IMAGE_PIPELINE:?}
+    ports: !reset []                     # API доступен через nginx фронтенда и Caddy
+
+  frontend:
+    build: !reset null
+    image: ${IMAGE_FRONTEND:?}
+    ports: !reset []                     # снаружи — только через Caddy (443)

@@ -136,10 +136,10 @@ describe('CabinetLayout', () => {
 
 describe('AdminLayout', () => {
   it('меню админки из четырёх пунктов', () => {
-    renderWithLayout('/admin/users', '/admin/users', <AdminLayout />);
+    renderWithLayout('/admin-panel/users', '/admin-panel/users', <AdminLayout />);
     const nav = screen.getByRole('navigation', { name: 'Разделы админки' });
     expect(Array.from(nav.querySelectorAll('a')).map((a) => a.getAttribute('href'))).toEqual([
-      '/admin/users', '/admin/billing', '/admin/guard', '/admin/kb',
+      '/admin-panel/users', '/admin-panel/billing', '/admin-panel/guard', '/admin-panel/kb',
     ]);
     expect(screen.getByRole('link', { name: 'Пользователи' })).toHaveAttribute('aria-current', 'page');
     expect(screen.getByText('админ')).toBeInTheDocument();
@@ -148,13 +148,13 @@ describe('AdminLayout', () => {
   it('пункты админки ведут на свои маршруты и подсвечивают текущий', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter initialEntries={['/admin/users']}>
+      <MemoryRouter initialEntries={['/admin-panel/users']}>
         <Routes>
           <Route element={<AdminLayout />}>
-            <Route path="/admin/users" element={<div>экран пользователей</div>} />
-            <Route path="/admin/billing" element={<div>экран платежей</div>} />
-            <Route path="/admin/guard" element={<div>экран стража</div>} />
-            <Route path="/admin/kb" element={<div>экран базы знаний</div>} />
+            <Route path="/admin-panel/users" element={<div>экран пользователей</div>} />
+            <Route path="/admin-panel/billing" element={<div>экран платежей</div>} />
+            <Route path="/admin-panel/guard" element={<div>экран стража</div>} />
+            <Route path="/admin-panel/kb" element={<div>экран базы знаний</div>} />
           </Route>
         </Routes>
       </MemoryRouter>,

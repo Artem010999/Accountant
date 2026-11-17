@@ -9,6 +9,11 @@ const MAX_BODY_BYTES = 64_000;
 
 export interface ChatOptions {
   allowedOrigin?: string;
+  /**
+   * Пользователь из сессии (cookie). Если задан — без сессии ответ 401,
+   * а user_id из query/тела заменяется пользователем сессии.
+   */
+  sessionUser?: (req: IncomingMessage) => Promise<string | null>;
 }
 
 export function sendJson(res: ServerResponse, status: number, body: unknown): void {
@@ -87,8 +92,18 @@ export async function handleChatRequest(
       return;
     }
 
+    let userId = parsed.data.user_id;
+    if (opts.sessionUser) {
+      const sessionUserId = await opts.sessionUser(req);
+      if (!sessionUserId) {
+        sendJson(res, 401, { status: 'UNAUTHORIZED' });
+        return;
+      }
+      userId = sessionUserId;
+    }
+
     try {
-      const result = await getConsultantHistory(deps, parsed.data.user_id, parsed.data.limit);
+      const result = await getConsultantHistory(deps, userId, parsed.data.limit);
       sendJson(res, 200, result);
       return;
     } catch (err: any) {
@@ -124,8 +139,18 @@ export async function handleChatRequest(
       return;
     }
 
+    let data = parsed.data;
+    if (opts.sessionUser) {
+      const sessionUserId = await opts.sessionUser(req);
+      if (!sessionUserId) {
+        sendJson(res, 401, { status: 'UNAUTHORIZED' });
+        return;
+      }
+      data = { ...data, user_id: sessionUserId };
+    }
+
     try {
-      const result = await handleConsultantChat(deps, parsed.data);
+      const result = await handleConsultantChat(deps, data);
       sendJson(res, 200, result);
       return;
     } catch (err: any) {

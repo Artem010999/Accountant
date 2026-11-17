@@ -92,7 +92,7 @@ describe('AdminUsers: рендер', () => {
     renderScreen();
     await waitForRows();
     expect(within(card()).getByText('ivan@university.ru')).toBeInTheDocument();
-    expect(within(card()).getByRole('link', { name: '1 предупреждение' })).toHaveAttribute('href', '/admin/guard');
+    expect(within(card()).getByRole('link', { name: '1 предупреждение' })).toHaveAttribute('href', '/admin-panel/guard');
     expect(within(card()).getByText('Журнал действий')).toBeInTheDocument();
     expect(within(card()).getByText('Регистрация')).toBeInTheDocument();
     expect(screen.queryByRole('status')).toBeNull();
@@ -208,10 +208,10 @@ describe('AdminUsers: карточка пользователя', () => {
     expect(within(card()).getByText('Журнал действий').parentElement).toHaveTextContent('Заблокирован');
   });
 
-  it('ссылка «Страж» ведёт на /admin/guard', async () => {
+  it('ссылка «Страж» ведёт на /admin-panel/guard', async () => {
     renderScreen();
     await waitForRows();
-    expect(within(card()).getByRole('link', { name: '1 предупреждение' })).toHaveAttribute('href', '/admin/guard');
+    expect(within(card()).getByRole('link', { name: '1 предупреждение' })).toHaveAttribute('href', '/admin-panel/guard');
   });
 });
 

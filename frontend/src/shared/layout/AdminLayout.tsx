@@ -5,10 +5,10 @@ import './AdminLayout.css';
 
 // Пункты админки из user-flows §1 и AdminUsers.dc.html.
 export const ADMIN_NAV: SideNavItem[] = [
-  { to: '/admin/users', label: 'Пользователи', icon: 'users' },
-  { to: '/admin/billing', label: 'Платежи и тарифы', icon: 'payments' },
-  { to: '/admin/guard', label: 'Страж', icon: 'guard' },
-  { to: '/admin/kb', label: 'База знаний', icon: 'kb' },
+  { to: '/admin-panel/users', label: 'Пользователи', icon: 'users' },
+  { to: '/admin-panel/billing', label: 'Платежи и тарифы', icon: 'payments' },
+  { to: '/admin-panel/guard', label: 'Страж', icon: 'guard' },
+  { to: '/admin-panel/kb', label: 'База знаний', icon: 'kb' },
 ];
 
 export function AdminLayout() {

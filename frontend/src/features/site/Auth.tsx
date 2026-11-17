@@ -1,8 +1,10 @@
 import { useState, type InputHTMLAttributes, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PillLink, SegmentedControl } from '../../shared/ui';
 import { SiteBrand } from '../../shared/layout/SiteLayout';
+import { env } from '../../shared/config/env';
 import { Mascot } from './SiteArt';
+import { CodeLogin } from './CodeLogin';
 import './Auth.css';
 
 // Вход и регистрация: design/project/Auth.dc.html. Тексты дословно из эталона.
@@ -85,7 +87,6 @@ function LoginForm() {
       <PillLink to="/passport" variant="brand" size="md">Войти</PillLink>
       <div className="auth__proto">
         <span className="auth__proto-title">Для прототипа</span>
-        <Link to="/admin/users" className="auth__proto-link">Войти как администратор</Link>
         <Link to="/states" className="auth__proto-link">Аккаунт заблокирован (экран 403)</Link>
       </div>
     </div>
@@ -94,6 +95,7 @@ function LoginForm() {
 
 export function Auth() {
   const [mode, setMode] = useState<Mode>('signup');
+  const navigate = useNavigate();
 
   return (
     <div className="auth">
@@ -109,7 +111,24 @@ export function Auth() {
             value={mode}
             onChange={(id) => setMode(id as Mode)}
           />
-          {mode === 'signup' ? <SignupForm /> : <LoginForm />}
+          {env.liveApi ? (
+            <div className="auth__stack" key={mode}>
+              <div className="auth__heading">
+                <h1 className="t-screen-title">{mode === 'signup' ? 'Создайте аккаунт' : 'С возвращением'}</h1>
+                {mode === 'signup' && <p className="auth__lead">Один аккаунт — один проект. Начать можно бесплатно.</p>}
+              </div>
+              <CodeLogin
+                purpose="user"
+                consent={mode === 'signup'}
+                submitLabel={mode === 'signup' ? 'Зарегистрироваться' : 'Войти'}
+                onSuccess={() => navigate(mode === 'signup' ? '/onboarding' : '/passport', { replace: true })}
+              />
+            </div>
+          ) : mode === 'signup' ? (
+            <SignupForm />
+          ) : (
+            <LoginForm />
+          )}
         </div>
       </div>
 

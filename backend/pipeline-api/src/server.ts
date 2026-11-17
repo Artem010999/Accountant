@@ -8,6 +8,7 @@ import { handleSupportRequest, SUPPORT_PATH, type SupportOptions } from './suppo
 import { handleChatRequest, CHAT_PATH, type ChatOptions } from './chat/http';
 import { handleExport, type ExportReady, type ExportRequestBody } from './pipeline/export';
 import { PipelineFailure } from './errors';
+import { handleAuthRequest, sessionUserFor, type AuthHttpOptions } from './auth/http';
 import type { PipelineError } from '@passport/contracts';
 
 const MAX_BODY_BYTES = 1_000_000;
@@ -31,6 +32,15 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
   return JSON.parse(Buffer.concat(chunks).toString('utf8'));
 }
 
+/**
+ * Когда вход включён (opts.auth), user_id в теле запроса заменяется пользователем из сессии:
+ * подставить чужой id через тело невозможно. Без входа (старый режим с общим секретом) тело не меняем.
+ */
+function bindUser(body: unknown, userId: string | null): unknown {
+  if (userId === null || !body || typeof body !== 'object') return body;
+  return { ...(body as Record<string, unknown>), user_id: userId };
+}
+
 /** Ожидаемая ошибка выгрузки → ERROR с кодом; прочее → INTERNAL. */
 async function exportOrError(deps: PipelineDeps, body: ExportRequestBody): Promise<PipelineError | ExportReady> {
   try {
@@ -48,6 +58,8 @@ export interface PipelineServerOptions {
   sharedSecret?: string;
   support?: SupportOptions;
   chat?: ChatOptions;
+  /** Вход по коду из письма (/auth/*). Без него маршруты входа не подключены. */
+  auth?: AuthHttpOptions;
 }
 
 export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOptions = {}): Server {
@@ -57,6 +69,11 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
 
       if (req.method === 'GET' && pathname === '/health') {
         return send(res, 200, { status: 'ok' });
+      }
+
+      // Вход по коду из письма: без общего секрета (это публичные маршруты).
+      if (opts.auth && pathname.startsWith('/auth/') && (await handleAuthRequest(req, res, pathname, opts.auth))) {
+        return;
       }
 
       // Публичный эндпоинт поддержки: без x-pipeline-secret, CORS только для SUPPORT_ALLOWED_ORIGIN.
@@ -70,7 +87,11 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
         const chatOpts = opts.chat ?? {
           allowedOrigin: opts.support?.allowedOrigin,
         };
-        return await handleChatRequest(req, res, deps, chatOpts);
+        const authOpts = opts.auth;
+        const sessionUser = authOpts
+          ? async (r: IncomingMessage) => (await sessionUserFor(r, authOpts))?.userId ?? null
+          : undefined;
+        return await handleChatRequest(req, res, deps, { ...chatOpts, sessionUser });
       }
 
       // Справочник технологических вызовов (357) для выбора в паспорте. Публичный: это справочник, без персональных данных.
@@ -85,9 +106,15 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
         if (opts.sharedSecret && req.headers['x-pipeline-secret'] !== opts.sharedSecret) {
           return send(res, 401, { error: 'unauthorized' });
         }
+        let sessionUserId: string | null = null;
+        if (opts.auth) {
+          const user = await sessionUserFor(req, opts.auth);
+          if (!user) return send(res, 401, { status: 'UNAUTHORIZED' });
+          sessionUserId = user.userId;
+        }
         let body: unknown;
         try {
-          body = await readJson(req);
+          body = bindUser(await readJson(req), sessionUserId);
         } catch {
           return send(res, 400, { error: 'invalid json' });
         }
@@ -109,9 +136,15 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
       }
 
       if (req.method === 'POST' && pathname === EXPORT_PATH) {
+        let sessionUserId: string | null = null;
+        if (opts.auth) {
+          const user = await sessionUserFor(req, opts.auth);
+          if (!user) return send(res, 401, { status: 'UNAUTHORIZED' });
+          sessionUserId = user.userId;
+        }
         let body: unknown;
         try {
-          body = await readJson(req);
+          body = bindUser(await readJson(req), sessionUserId);
         } catch {
           return send(res, 400, { error: 'invalid json' });
         }
@@ -125,7 +158,13 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
 
       if (req.method === 'GET' && pathname.startsWith(EXPORT_PREFIX)) {
         const exportId = pathname.slice(EXPORT_PREFIX.length);
-        const userId = req.headers['x-user-id'];
+        // С входом владелец — пользователь сессии; без входа (старый режим) — заголовок x-user-id.
+        let userId: unknown = req.headers['x-user-id'];
+        if (opts.auth) {
+          const user = await sessionUserFor(req, opts.auth);
+          if (!user) return send(res, 401, { status: 'UNAUTHORIZED' });
+          userId = user.userId;
+        }
         if (!UUID_RE.test(exportId) || typeof userId !== 'string' || !UUID_RE.test(userId)) {
           return send(res, 404, { error: 'not found' });
         }
@@ -146,9 +185,16 @@ export function createPipelineServer(deps: PipelineDeps, opts: PipelineServerOpt
         return send(res, 401, { error: 'unauthorized' });
       }
 
+      let sessionUserId: string | null = null;
+      if (opts.auth) {
+        const user = await sessionUserFor(req, opts.auth);
+        if (!user) return send(res, 401, { status: 'UNAUTHORIZED' });
+        sessionUserId = user.userId;
+      }
+
       let body: unknown;
       try {
-        body = await readJson(req);
+        body = bindUser(await readJson(req), sessionUserId);
       } catch {
         return send(res, 400, { error: 'invalid json' });
       }

@@ -19,6 +19,9 @@ import { AdminUsers } from '../features/admin/AdminUsers';
 import { AdminBilling } from '../features/admin/AdminBilling';
 import { AdminGuard } from '../features/admin/AdminGuard';
 import { AdminKB } from '../features/admin/AdminKB';
+import { AdminGate } from '../features/admin/AdminGate';
+import { RequireSession } from '../shared/auth/RequireSession';
+import { env } from '../shared/config/env';
 import { DesignSystem } from '../features/design-system/DesignSystem';
 import { Support } from '../features/support/Support';
 import { Eligibility } from '../features/eligibility/Eligibility';
@@ -54,10 +57,10 @@ export const APP_ROUTES: AppRoute[] = [
   { path: '/profile', shell: 'cabinet', element: <Profile />, title: 'Буха — профиль' },
   { path: '/states', shell: 'none', element: <States />, title: 'Буха — блокировки и лимиты' },
   { path: '/support', shell: 'none', element: <Support />, title: 'Буха — поддержка' },
-  { path: '/admin/users', shell: 'admin', element: <AdminUsers />, title: 'Буха — админка, пользователи' },
-  { path: '/admin/billing', shell: 'admin', element: <AdminBilling />, title: 'Буха — админка, платежи и тарифы' },
-  { path: '/admin/guard', shell: 'admin', element: <AdminGuard />, title: 'Буха — админка, Страж' },
-  { path: '/admin/kb', shell: 'admin', element: <AdminKB />, title: 'Буха — админка, база знаний' },
+  { path: '/admin-panel/users', shell: 'admin', element: <AdminUsers />, title: 'Буха — админка, пользователи' },
+  { path: '/admin-panel/billing', shell: 'admin', element: <AdminBilling />, title: 'Буха — админка, платежи и тарифы' },
+  { path: '/admin-panel/guard', shell: 'admin', element: <AdminGuard />, title: 'Буха — админка, Страж' },
+  { path: '/admin-panel/kb', shell: 'admin', element: <AdminKB />, title: 'Буха — админка, база знаний' },
   { path: '/design-system', shell: 'none', element: <DesignSystem />, title: 'Буха — дизайн-система' },
 ];
 
@@ -71,21 +74,27 @@ export function AppRoutes() {
     document.title = current?.title ?? DEFAULT_TITLE;
   }, [current]);
 
+  // Маршруты, где нужен вход (живой режим): кабинет и шаги регистрации после входа.
+  const SESSION_FLOW = new Set(['/onboarding', '/eligibility', '/brief', '/generating']);
+  const guardFlow = (r: AppRoute) => (env.liveApi && SESSION_FLOW.has(r.path) ? <RequireSession>{r.element}</RequireSession> : r.element);
+
   return (
     <Routes>
       {byShell('none').map((r) => (
-        <Route key={r.path} path={r.path} element={r.element} />
+        <Route key={r.path} path={r.path} element={guardFlow(r)} />
       ))}
-      <Route element={<CabinetLayout />}>
+      <Route element={env.liveApi ? <RequireSession><CabinetLayout /></RequireSession> : <CabinetLayout />}>
         {byShell('cabinet').map((r) => (
           <Route key={r.path} path={r.path} element={r.element} />
         ))}
       </Route>
-      <Route element={<AdminLayout />}>
+      {/* Админка: в живом режиме вход только для role = 'admin' (AdminGate). Публичных ссылок на неё нет. */}
+      <Route element={env.liveApi ? <AdminGate><AdminLayout /></AdminGate> : <AdminLayout />}>
         {byShell('admin').map((r) => (
           <Route key={r.path} path={r.path} element={r.element} />
         ))}
       </Route>
+      <Route path="/admin-panel" element={<Navigate to="/admin-panel/users" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

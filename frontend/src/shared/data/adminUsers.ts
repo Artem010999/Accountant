@@ -242,5 +242,5 @@ export function createDemoAdminUsersApi(options: DemoAdminUsersOptions = {}): Ad
   };
 }
 
-/** Реализация по умолчанию для маршрута /admin/users, пока нет API (G5). */
+/** Реализация по умолчанию для маршрута /admin-panel/users, пока нет API (G5). */
 export const demoAdminUsersApi: AdminUsersApi = createDemoAdminUsersApi();
